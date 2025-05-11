@@ -20,7 +20,7 @@ const roadmapItems = [
     title: "Platform Concept",
     description: "Initial idea development and market research for MoonForge platform",
     quarter: "Q4",
-    year: "2025",
+    year: "2024",
     status: "completed",
     icon: Rocket,
   },
