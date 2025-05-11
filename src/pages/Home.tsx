@@ -1,3 +1,5 @@
 import LandingPage from "../components/ui/landing-page"
 
-export default LandingPage 
+export default function Home() {
+  return <LandingPage />
+} 

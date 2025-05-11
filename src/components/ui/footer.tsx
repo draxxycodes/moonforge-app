@@ -50,7 +50,7 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
                     Referrals
                   </Link>
                 </li>
@@ -61,22 +61,22 @@ export function Footer() {
               <h3 className="mb-3 text-sm font-medium">Resources</h3>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
                     Documentation
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
                     Tokenomics
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
                     Whitepaper
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
                     FAQ
                   </Link>
                 </li>
@@ -87,22 +87,22 @@ export function Footer() {
               <h3 className="mb-3 text-sm font-medium">Company</h3>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
                     About
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
                     Blog
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
                     Careers
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
                     Contact
                   </Link>
                 </li>
@@ -114,13 +114,13 @@ export function Footer() {
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border/40 pt-8 text-sm text-muted-foreground md:flex-row">
           <p>&copy; {new Date().getFullYear()} MoonForge. All rights reserved.</p>
           <div className="flex gap-4">
-            <Link href="#" className="transition-colors hover:text-foreground">
+            <Link to="#" className="transition-colors hover:text-foreground">
               Terms of Service
             </Link>
-            <Link href="#" className="transition-colors hover:text-foreground">
+            <Link to="#" className="transition-colors hover:text-foreground">
               Privacy Policy
             </Link>
-            <Link href="#" className="transition-colors hover:text-foreground">
+            <Link to="#" className="transition-colors hover:text-foreground">
               Cookie Policy
             </Link>
           </div>

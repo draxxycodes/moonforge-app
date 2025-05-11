@@ -1,15 +1,13 @@
-"use client"
-
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { Trophy, Gift, Star, Sparkles } from "lucide-react"
+import { RewardClaimModal } from "../components/ui/reward-claim-modal"
 import { PageHeader } from "../components/ui/page-header"
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Button } from "../components/ui/button"
 import { Badge } from "../components/ui/badge"
 import { Progress } from "../components/ui/progress"
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
-import { Trophy, Gift, Star, Sparkles } from "lucide-react"
-import { RewardClaimModal } from "../components/ui/reward-claim-modal"
 
 // Mock data for leaderboard
 const mockLeaderboard = [
@@ -132,8 +130,6 @@ export default function Rewards() {
 
   return (
     <div className="min-h-screen bg-background">
-      <PageHeader title="Rewards" subtitle="Earn $MOON tokens through community engagement" />
-
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <motion.div

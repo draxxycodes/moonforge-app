@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react"
 import { motion } from "framer-motion"
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 
 interface AnimatedIconProps {
   children: ReactNode
@@ -56,7 +56,6 @@ export function AnimatedIcon({
     animate: {
       y: [0, -5, 0],
       transition: {
-        type: "tween",
         duration: 1.5,
         repeat: Number.POSITIVE_INFINITY,
         repeatType: "loop" as const,

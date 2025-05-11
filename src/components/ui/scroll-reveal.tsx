@@ -1,131 +1,101 @@
-import React from "react"
-import { useRef, useEffect, useState } from "react"
-import { motion, useInView } from "framer-motion"
-import { cn } from "../../lib/utils"
+"use client"
+
+import { useRef, useState, useEffect, type ReactNode } from "react"
+import { motion, useInView, useScroll, useMotionValueEvent } from "framer-motion"
 
 interface ScrollRevealProps {
-  children: React.ReactNode
-  className?: string
+  children: ReactNode
   delay?: number
   duration?: number
-  direction?: "up" | "down" | "left" | "right" | "none"
-  distance?: number
+  direction?: "up" | "down" | "left" | "right"
   threshold?: number
   once?: boolean
+  className?: string
 }
 
 export function ScrollReveal({
   children,
-  className,
   delay = 0,
   duration = 0.5,
   direction = "up",
-  distance = 30,
   threshold = 0.1,
-  once = true,
+  once = false,
+  className = "",
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once, amount: threshold })
-  const [isMounted, setIsMounted] = useState(false)
+  const [hasBeenVisible, setHasBeenVisible] = useState(false)
+  const [scrollingDirection, setScrollingDirection] = useState<"up" | "down">("down")
+  const [shouldAnimate, setShouldAnimate] = useState(false)
 
+  const { scrollY } = useScroll()
+
+  // Track scrolling direction
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() || 0
+    setScrollingDirection(latest > previous ? "down" : "up")
+  })
+
+  // Determine if animation should play
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
+    if (isInView) {
+      setHasBeenVisible(true)
+      setShouldAnimate(true)
+    } else if (!once && hasBeenVisible) {
+      // If we're scrolling up and the element is out of view, reset the animation
+      if (scrollingDirection === "up") {
+        setShouldAnimate(false)
+      }
+    }
+  }, [isInView, once, hasBeenVisible, scrollingDirection])
 
-  if (!isMounted) {
-    return <div className={className}>{children}</div>
-  }
+  // Set initial and animate values based on direction
+  const getInitialAndAnimate = () => {
+    const initialOffset = 50
 
-  // Set initial animation properties based on direction
-  const getInitialProps = () => {
     switch (direction) {
       case "up":
-        return { opacity: 0, y: distance }
+        return {
+          initial: { opacity: 0, y: initialOffset },
+          animate: shouldAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: initialOffset },
+        }
       case "down":
-        return { opacity: 0, y: -distance }
+        return {
+          initial: { opacity: 0, y: -initialOffset },
+          animate: shouldAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: -initialOffset },
+        }
       case "left":
-        return { opacity: 0, x: distance }
+        return {
+          initial: { opacity: 0, x: initialOffset },
+          animate: shouldAnimate ? { opacity: 1, x: 0 } : { opacity: 0, x: initialOffset },
+        }
       case "right":
-        return { opacity: 0, x: -distance }
-      case "none":
-        return { opacity: 0 }
+        return {
+          initial: { opacity: 0, x: -initialOffset },
+          animate: shouldAnimate ? { opacity: 1, x: 0 } : { opacity: 0, x: -initialOffset },
+        }
       default:
-        return { opacity: 0, y: distance }
+        return {
+          initial: { opacity: 0, y: initialOffset },
+          animate: shouldAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: initialOffset },
+        }
     }
   }
 
-  // Set animation properties when in view
-  const getAnimateProps = () => {
-    switch (direction) {
-      case "up":
-      case "down":
-        return { opacity: 1, y: 0 }
-      case "left":
-      case "right":
-        return { opacity: 1, x: 0 }
-      case "none":
-        return { opacity: 1 }
-      default:
-        return { opacity: 1, y: 0 }
-    }
-  }
+  const { initial, animate } = getInitialAndAnimate()
 
   return (
-    <div ref={ref} className={cn(className)}>
+    <div ref={ref} className={className}>
       <motion.div
-        initial={getInitialProps()}
-        animate={isInView ? getAnimateProps() : getInitialProps()}
+        initial={initial}
+        animate={animate}
         transition={{
           duration,
           delay,
-          type: "spring",
-          stiffness: 260,
-          damping: 20,
+          ease: [0.22, 1, 0.36, 1],
         }}
       >
         {children}
-      </motion.div>
-    </div>
-  )
-}
-
-export function ScrollRevealGroup({
-  children,
-  staggerDelay = 0.1,
-  ...props
-}: ScrollRevealProps & { staggerDelay?: number }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: props.once ?? true, amount: props.threshold ?? 0.1 })
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: staggerDelay,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: props.distance ?? 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 260,
-        damping: 20,
-      },
-    },
-  }
-
-  return (
-    <div ref={ref} className={cn(props.className)}>
-      <motion.div variants={containerVariants} initial="hidden" animate={isInView ? "visible" : "hidden"}>
-        {React.Children.map(children, (child) => (
-          <motion.div variants={itemVariants}>{child}</motion.div>
-        ))}
       </motion.div>
     </div>
   )

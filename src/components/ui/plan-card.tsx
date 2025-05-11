@@ -1,8 +1,8 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Button } from "./button"
+import { Card, CardContent, CardFooter, CardHeader } from "./card"
 import { Check, Rocket } from "lucide-react"
 
 interface PlanProps {
@@ -61,3 +61,4 @@ export function PlanCard({ plan }: { plan: PlanProps }) {
     </Card>
   )
 }
+

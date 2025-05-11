@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./dialog"
+import { Button } from "./button"
 import { Gift, Check, Sparkles } from "lucide-react"
 
 interface RewardClaimModalProps {
@@ -146,3 +146,4 @@ export function RewardClaimModal({ isOpen, onClose, reward }: RewardClaimModalPr
     </Dialog>
   )
 }
+

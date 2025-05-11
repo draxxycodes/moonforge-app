@@ -1,143 +1,127 @@
+"use client"
+
 import type React from "react"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, type ReactNode } from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { cn } from "../../lib/utils"
-import { useCursor } from "./cursor-provider"
 
 interface Card3DProps {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
-  glareColor?: string
-  rotationIntensity?: number
+  glowColor?: string
   hoverScale?: number
-  perspective?: number
-  damping?: number
-  stiffness?: number
+  rotationIntensity?: number
   floatingEffect?: boolean
 }
 
 export function Card3D({
   children,
   className,
-  glareColor = "rgba(176, 58, 249, 0.04)",
+  glowColor = "rgba(124, 58, 237, 0.5)",
+  hoverScale = 1.02,
   rotationIntensity = 10,
-  hoverScale = 1.05,
-  perspective = 1000,
-  damping = 20,
-  stiffness = 200,
-  floatingEffect = false,
+  floatingEffect = true,
 }: Card3DProps) {
   const cardRef = useRef<HTMLDivElement>(null)
   const [isHovered, setIsHovered] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
-  const { setHovered, setType } = useCursor()
 
   // Mouse position
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
 
-  // Spring animations for smoother movement
-  const springX = useSpring(mouseX, { damping, stiffness })
-  const springY = useSpring(mouseY, { damping, stiffness })
+  // Smooth spring physics for rotation
+  const rotateX = useSpring(0, { stiffness: 150, damping: 20 })
+  const rotateY = useSpring(0, { stiffness: 150, damping: 20 })
 
-  // Transform mouse position to rotation
-  const rotateX = useTransform(springY, [-0.5, 0.5], [rotationIntensity, -rotationIntensity])
-  const rotateY = useTransform(springX, [-0.5, 0.5], [-rotationIntensity, rotationIntensity])
+  // Transform mouse position to rotation values
+  const transformMouseX = useTransform(mouseX, [0, 1], [rotationIntensity * -1, rotationIntensity])
+  const transformMouseY = useTransform(mouseY, [0, 1], [rotationIntensity, rotationIntensity * -1])
 
-  // Glare position
-  const glareX = useTransform(mouseX, [-0.5, 0.5], ["0%", "100%"])
-  const glareY = useTransform(mouseY, [-0.5, 0.5], ["0%", "100%"])
+  // Floating animation variants
+  const floatingVariants = {
+    initial: {
+      y: 0,
+    },
+    floating: {
+      y: [0, -10, 0],
+      transition: {
+        duration: 4,
+        repeat: Number.POSITIVE_INFINITY,
+        repeatType: "reverse" as const,
+        ease: "easeInOut",
+      },
+    },
+  }
 
-  // Handle mouse move
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return
 
     const rect = cardRef.current.getBoundingClientRect()
-    const centerX = rect.left + rect.width / 2
-    const centerY = rect.top + rect.height / 2
+    const width = rect.width
+    const height = rect.height
+    const offsetX = e.clientX - rect.left
+    const offsetY = e.clientY - rect.top
 
-    // Calculate normalized mouse position (-0.5 to 0.5)
-    const normalizedX = (e.clientX - centerX) / rect.width
-    const normalizedY = (e.clientY - centerY) / rect.height
+    const mouseXPercent = offsetX / width
+    const mouseYPercent = offsetY / height
 
-    mouseX.set(normalizedX)
-    mouseY.set(normalizedY)
+    mouseX.set(mouseXPercent)
+    mouseY.set(mouseYPercent)
+    rotateX.set(transformMouseY.get())
+    rotateY.set(transformMouseX.get())
   }
 
-  // Reset on mouse leave
-  const handleMouseLeave = () => {
-    mouseX.set(0)
-    mouseY.set(0)
-    setIsHovered(false)
-    setHovered(false)
-    setType("default")
-  }
-
-  // Set cursor on mouse enter
   const handleMouseEnter = () => {
     setIsHovered(true)
-    setHovered(true)
-    setType("button")
   }
 
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  if (!isMounted) {
-    return (
-      <div className={cn("overflow-hidden rounded-xl border bg-card text-card-foreground shadow", className)}>
-        {children}
-      </div>
-    )
+  const handleMouseLeave = () => {
+    setIsHovered(false)
+    rotateX.set(0)
+    rotateY.set(0)
   }
 
   return (
     <motion.div
       ref={cardRef}
-      className={cn("relative overflow-hidden rounded-xl border bg-card text-card-foreground shadow", className)}
-      style={{
-        perspective,
-        transformStyle: "preserve-3d",
-      }}
-      whileHover={{ scale: hoverScale }}
-      animate={
-        floatingEffect
-          ? {
-              y: [0, -10, 0],
-              transition: {
-                duration: 4,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: "reverse",
-                ease: "easeInOut",
-              },
-            }
-          : {}
-      }
+      className={cn("relative overflow-hidden rounded-xl", className)}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+        perspective: 1000,
+      }}
+      variants={floatingEffect ? floatingVariants : undefined}
+      initial="initial"
+      animate={floatingEffect ? "floating" : undefined}
+      whileHover={{ scale: hoverScale, zIndex: 10 }}
+      transition={{ duration: 0.2 }}
     >
+      {/* Glow effect on hover */}
+      <motion.div
+        className="absolute inset-0 z-0 rounded-xl"
+        style={{
+          boxShadow: `0 0 30px ${glowColor}`,
+          opacity: 0,
+        }}
+        animate={{ opacity: isHovered ? 0.4 : 0 }}
+        transition={{ duration: 0.3 }}
+      />
+
+      {/* Card content with 3D effect */}
       <motion.div
         className="relative z-10 h-full w-full"
         style={{
-          rotateX,
-          rotateY,
+          transform: "translateZ(20px)",
           transformStyle: "preserve-3d",
         }}
       >
         {children}
       </motion.div>
-
-      {/* Glare effect */}
-      <motion.div
-        className="pointer-events-none absolute inset-0 z-20 h-full w-full opacity-0 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(circle at ${glareX} ${glareY}, ${glareColor} 0%, transparent 70%)`,
-          opacity: isHovered ? 1 : 0,
-        }}
-      />
     </motion.div>
   )
 }

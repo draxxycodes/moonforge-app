@@ -34,8 +34,8 @@ export function AnimatedBackground() {
       alphaSpeed: number
 
       constructor() {
-        this.x = Math.random() * canvas!.width
-        this.y = Math.random() * canvas!.height
+        this.x = Math.random() * canvas.width
+        this.y = Math.random() * canvas.height
         this.size = Math.random() * 2 + 0.5
         this.speedX = (Math.random() - 0.5) * 0.3
         this.speedY = (Math.random() - 0.5) * 0.3
@@ -49,10 +49,10 @@ export function AnimatedBackground() {
         this.y += this.speedY
 
         // Bounce off edges
-        if (this.x > canvas!.width || this.x < 0) {
+        if (this.x > canvas.width || this.x < 0) {
           this.speedX = -this.speedX
         }
-        if (this.y > canvas!.height || this.y < 0) {
+        if (this.y > canvas.height || this.y < 0) {
           this.speedY = -this.speedY
         }
 

@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+"use client"
+
+import { useEffect, useState, useRef } from "react"
+import { motion, useInView } from "framer-motion"
 import { PlanCard } from "../components/ui/plan-card"
-import { PageHeader } from "../components/ui/page-header"
 import { MarketplaceScene } from "../components/ui/marketplace-scene"
+import { AnimatedHeading } from "../components/ui/animated-heading"
+import { ScrollReveal } from "../components/ui/scroll-reveal"
 
 // Mock data for plans
 const weeklyPlans = [
@@ -88,6 +91,9 @@ const monthlyPlans = [
 export default function Marketplace() {
   const [activeTab, setActiveTab] = useState<"weekly" | "monthly">("weekly")
   const [mounted, setMounted] = useState(false)
+  const headerRef = useRef<HTMLDivElement>(null)
+  const sceneContainerRef = useRef<HTMLDivElement>(null)
+  const isHeaderInView = useInView(headerRef, { once: false, amount: 0.3 })
 
   useEffect(() => {
     setMounted(true)
@@ -97,56 +103,68 @@ export default function Marketplace() {
 
   return (
     <div className="min-h-screen bg-background">
-      <PageHeader title="Marketplace" subtitle="Deploy $MOON for reach. Select your visibility plan." />
+      <div className="relative">
+        {/* 3D Scene Background */}
+        <div ref={sceneContainerRef} className="relative h-[60vh] w-full overflow-hidden">
+          <div className="absolute inset-0">
+            <MarketplaceScene />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
 
-      <div className="relative h-[40vh] w-full overflow-hidden">
-        <MarketplaceScene />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background" />
+          {/* Header positioned over the 3D scene */}
+          <div ref={headerRef} className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="max-w-4xl"
+            >
+              <AnimatedHeading
+                title="Marketplace"
+                subtitle="Deploy $MOON for reach. Select your visibility plan."
+                className="text-white"
+                glowColor="rgba(124, 58, 237, 0.5)"
+              />
+            </motion.div>
+          </div>
+        </div>
       </div>
 
       <div className="container mx-auto px-4 py-12">
-        <div className="mb-8 flex justify-center">
-          <div className="inline-flex rounded-lg bg-background p-1 shadow-glow">
-            <button
-              onClick={() => setActiveTab("weekly")}
-              className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
-                activeTab === "weekly"
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-              }`}
-            >
-              Weekly Plans
-            </button>
-            <button
-              onClick={() => setActiveTab("monthly")}
-              className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
-                activeTab === "monthly"
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-              }`}
-            >
-              Monthly Plans
-            </button>
+        <ScrollReveal>
+          <div className="mb-8 flex justify-center">
+            <div className="inline-flex rounded-lg bg-background p-1 shadow-glow">
+              <button
+                onClick={() => setActiveTab("weekly")}
+                className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
+                  activeTab === "weekly"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                }`}
+              >
+                Weekly Plans
+              </button>
+              <button
+                onClick={() => setActiveTab("monthly")}
+                className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
+                  activeTab === "monthly"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                }`}
+              >
+                Monthly Plans
+              </button>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
-        >
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {(activeTab === "weekly" ? weeklyPlans : monthlyPlans).map((plan, index) => (
-            <motion.div
-              key={plan.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
+            <ScrollReveal key={plan.id} delay={index * 0.1}>
               <PlanCard plan={plan} />
-            </motion.div>
+            </ScrollReveal>
           ))}
-        </motion.div>
+        </div>
       </div>
     </div>
   )

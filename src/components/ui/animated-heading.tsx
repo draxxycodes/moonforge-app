@@ -1,157 +1,206 @@
-import { useState, useEffect } from "react"
+"use client"
+
+import { useRef, useEffect } from "react"
 import { motion } from "framer-motion"
-import { cn } from "../../lib/utils"
-import { useCursor } from "./cursor-provider"
 
 interface AnimatedHeadingProps {
   title: string
   subtitle?: string
-  animationType?: "glow" | "cosmic" | "particles" | "stars" | "none"
-  size?: "sm" | "md" | "lg" | "xl"
-  align?: "left" | "center" | "right"
   className?: string
+  glowColor?: string
+  delay?: number
 }
 
 export function AnimatedHeading({
   title,
   subtitle,
-  animationType = "none",
-  size = "lg",
-  align = "center",
-  className,
+  className = "",
+  glowColor = "rgba(124, 58, 237, 0.3)",
+  delay = 0,
 }: AnimatedHeadingProps) {
-  const [isMounted, setIsMounted] = useState(false)
-  const { setHovered, setType } = useCursor()
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setIsMounted(true)
+    const canvas = canvasRef.current
+    const container = containerRef.current
+    if (!canvas || !container) return
+
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
+
+    let animationFrameId: number
+    let particles: Particle[] = []
+    let mouseX = 0
+    let mouseY = 0
+
+    // Set canvas size to match container
+    const resizeCanvas = () => {
+      const { width, height } = container.getBoundingClientRect()
+      canvas.width = width
+      canvas.height = height
+      // Recreate particles when canvas is resized
+      createParticles()
+    }
+
+    // Create particles
+    class Particle {
+      x: number
+      y: number
+      size: number
+      speedX: number
+      speedY: number
+      color: string
+
+      constructor() {
+        this.x = Math.random() * canvas.width
+        this.y = Math.random() * canvas.height
+        this.size = Math.random() * 3 + 1
+        this.speedX = Math.random() * 1 - 0.5
+        this.speedY = Math.random() * 1 - 0.5
+        this.color = `rgba(124, 58, 237, ${Math.random() * 0.5 + 0.2})`
+      }
+
+      update() {
+        // Add mouse interaction
+        const dx = mouseX - this.x
+        const dy = mouseY - this.y
+        const distance = Math.sqrt(dx * dx + dy * dy)
+        const forceDirectionX = dx / distance
+        const forceDirectionY = dy / distance
+        const maxDistance = 100
+        const force = (maxDistance - distance) / maxDistance
+
+        if (distance < maxDistance && mouseX !== 0 && mouseY !== 0) {
+          this.speedX += forceDirectionX * force * 0.6
+          this.speedY += forceDirectionY * force * 0.6
+        }
+
+        // Apply speed
+        this.x += this.speedX
+        this.y += this.speedY
+
+        // Friction
+        this.speedX *= 0.95
+        this.speedY *= 0.95
+
+        // Boundary check
+        if (this.x < 0 || this.x > canvas.width) {
+          this.speedX = -this.speedX
+        }
+        if (this.y < 0 || this.y > canvas.height) {
+          this.speedY = -this.speedY
+        }
+      }
+
+      draw() {
+        if (!ctx) return
+        ctx.fillStyle = this.color
+        ctx.beginPath()
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
+        ctx.fill()
+      }
+    }
+
+    const createParticles = () => {
+      particles = []
+      const numberOfParticles = Math.min(Math.floor((canvas.width * canvas.height) / 8000), 100)
+      for (let i = 0; i < numberOfParticles; i++) {
+        particles.push(new Particle())
+      }
+    }
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update()
+        particles[i].draw()
+
+        // Connect particles with lines
+        for (let j = i; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x
+          const dy = particles[i].y - particles[j].y
+          const distance = Math.sqrt(dx * dx + dy * dy)
+
+          if (distance < 100) {
+            ctx.beginPath()
+            ctx.strokeStyle = `rgba(124, 58, 237, ${0.2 - distance / 500})`
+            ctx.lineWidth = 0.5
+            ctx.moveTo(particles[i].x, particles[i].y)
+            ctx.lineTo(particles[j].x, particles[j].y)
+            ctx.stroke()
+          }
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(animate)
+    }
+
+    // Track mouse movement
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect()
+      mouseX = e.clientX - rect.left
+      mouseY = e.clientY - rect.top
+    }
+
+    // Handle touch for mobile
+    const handleTouch = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const rect = canvas.getBoundingClientRect()
+        mouseX = e.touches[0].clientX - rect.left
+        mouseY = e.touches[0].clientY - rect.top
+      }
+    }
+
+    // Initialize
+    resizeCanvas()
+    window.addEventListener("resize", resizeCanvas)
+    container.addEventListener("mousemove", handleMouseMove)
+    container.addEventListener("touchmove", handleTouch)
+    container.addEventListener("touchstart", handleTouch)
+
+    animate()
+
+    return () => {
+      window.removeEventListener("resize", resizeCanvas)
+      container.removeEventListener("mousemove", handleMouseMove)
+      container.removeEventListener("touchmove", handleTouch)
+      container.removeEventListener("touchstart", handleTouch)
+      cancelAnimationFrame(animationFrameId)
+    }
   }, [])
-
-  const getSizeClasses = () => {
-    switch (size) {
-      case "sm":
-        return "text-xl md:text-2xl"
-      case "md":
-        return "text-2xl md:text-3xl"
-      case "lg":
-        return "text-3xl md:text-4xl"
-      case "xl":
-        return "text-4xl md:text-5xl"
-      default:
-        return "text-3xl md:text-4xl"
-    }
-  }
-
-  const getAlignClasses = () => {
-    switch (align) {
-      case "left":
-        return "text-left"
-      case "center":
-        return "text-center"
-      case "right":
-        return "text-right"
-      default:
-        return "text-center"
-    }
-  }
-
-  const getTitleClasses = () => {
-    switch (animationType) {
-      case "glow":
-        return "text-white drop-shadow-[0_0_10px_rgba(14,165,233,0.8)]"
-      case "cosmic":
-        return "bg-gradient-to-r from-sky-500 via-pink-500 to-sky-500 bg-clip-text text-transparent animate-gradient-x"
-      case "particles":
-        return "text-white"
-      case "stars":
-        return "bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent"
-      default:
-        return "text-foreground"
-    }
-  }
-
-  if (!isMounted) {
-    return (
-      <div className={cn("mb-12", getAlignClasses(), className)}>
-        <h2 className={cn("font-bold tracking-tight", getSizeClasses(), getTitleClasses())}>{title}</h2>
-        {subtitle && <p className="mt-4 text-muted-foreground">{subtitle}</p>}
-      </div>
-    )
-  }
 
   return (
     <div
-      className={cn("mb-12", getAlignClasses(), className)}
-      onMouseEnter={() => {
-        setHovered(true)
-        setType("text")
-      }}
-      onMouseLeave={() => {
-        setHovered(false)
-        setType("default")
+      ref={containerRef}
+      className={`relative overflow-hidden rounded-xl p-8 ${className}`}
+      style={{
+        background: `radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, rgba(0, 0, 0, 0) 70%)`,
+        boxShadow: `0 0 30px ${glowColor}`,
       }}
     >
-      <motion.h2
-        className={cn("font-bold tracking-tight", getSizeClasses(), getTitleClasses())}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, type: "spring" }}
-      >
-        {title}
-      </motion.h2>
-
-      {subtitle && (
-        <motion.p
-          className="mt-4 text-muted-foreground"
+      <canvas ref={canvasRef} className="absolute inset-0 z-0" />
+      <div className="relative z-10">
+        <motion.h1
+          className="mb-2 text-3xl font-bold tracking-tight sm:text-4xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2, type: "spring" }}
+          transition={{ duration: 0.5, delay: delay }}
         >
-          {subtitle}
-        </motion.p>
-      )}
-
-      {animationType === "cosmic" && (
-        <motion.div
-          className="absolute -z-10 h-8 w-full blur-xl"
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(14, 165, 233, 0.5) 0%, rgba(236, 72, 153, 0.5) 50%, rgba(14, 165, 233, 0.5) 100%)",
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-          animate={{
-            backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-        />
-      )}
-
-      {animationType === "particles" && (
-        <motion.div
-          className="absolute inset-0 -z-10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          {/* Particles would be rendered here */}
-        </motion.div>
-      )}
-
-      {animationType === "stars" && (
-        <motion.div
-          className="absolute inset-0 -z-10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          {/* Stars would be rendered here */}
-        </motion.div>
-      )}
+          {title}
+        </motion.h1>
+        {subtitle && (
+          <motion.p
+            className="text-lg text-muted-foreground"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: delay + 0.1 }}
+          >
+            {subtitle}
+          </motion.p>
+        )}
+      </div>
     </div>
   )
 }

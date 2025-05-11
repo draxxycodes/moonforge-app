@@ -5,6 +5,7 @@ import { Button } from "./button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./sheet"
 import { Rocket, Menu, Wallet } from "lucide-react"
 import { WalletConnectModal } from "./wallet-connect-modal"
+import { ThemeToggle } from "./theme-toggle"
 
 // Update the navItems array to include DEX
 const navItems = [
@@ -104,6 +105,8 @@ export function Navbar() {
                 Connect Wallet
               </Button>
             )}
+
+            <ThemeToggle />
 
             <Link to="/marketplace">
               <Button size="sm" className="hidden gap-2 md:flex">

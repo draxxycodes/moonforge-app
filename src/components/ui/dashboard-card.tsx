@@ -1,8 +1,8 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { Card3D } from "@/components/ui/3d-card"
-import { cn } from "@/lib/utils"
+import { Card3D } from "./3d-card"
+import { cn } from "../../lib/utils"
 
 interface DashboardCardProps {
   children: ReactNode
@@ -23,3 +23,4 @@ export function DashboardCard({ children, className, glowColor = "rgba(124, 58, 
     </Card3D>
   )
 }
+

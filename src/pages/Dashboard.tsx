@@ -1,25 +1,72 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
-import { PageHeader } from "../components/ui/page-header"
-import { CardContent, CardHeader, CardTitle } from "../components/ui/card"
+import { useEffect, useState, useRef } from "react"
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  AreaChart,
+  Area,
+} from "recharts"
+import {
+  Twitter,
+  MessageCircle,
+  Youtube,
+  Wallet,
+  RefreshCw,
+  Bell,
+  ChevronDown,
+  ArrowUpRight,
+  ArrowDownRight,
+  Info,
+  Check,
+  AlertTriangle,
+  X,
+  Zap,
+  Rocket,
+  BarChart3,
+  TrendingUp,
+  Users,
+  Award,
+  Sparkles,
+} from "lucide-react"
+
+// Import components
+import { AnimatedHeading } from "../components/ui/animated-heading"
+import { ScrollReveal } from "../components/ui/scroll-reveal"
+import { ScrollProgress } from "../components/ui/scroll-progress"
+import { SocialAccountCard } from "../components/ui/social-account-card"
+import { AnimatedIcon } from "../components/ui/animated-icon"
+import { Card3D } from "../components/ui/3d-card"
+import type { TwitterAccountData } from "../components/ui/twitter-auth-modal"
+
+// Import UI components
+import { Button } from "../components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card"
+import { Badge } from "../components/ui/badge"
 import { Progress } from "../components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
-import { Badge } from "../components/ui/badge"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts"
-import { Twitter, MessageCircle, Youtube } from "lucide-react"
-
-// Import the SocialAccountCard component
-import { SocialAccountCard } from "../components/ui/social-account-card"
-import type { TwitterAccountData } from "../components/ui/twitter-auth-modal"
-import { DashboardCard } from "../components/ui/dashboard-card"
-import { AnimatedIcon } from "../components/ui/animated-icon"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../components/ui/dropdown-menu"
+import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip"
 
 // Mock data
 const mockWallet = {
   address: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
   balance: 1250,
+  suiAddress: "0x5a0d2d6c0d91c0e4d7c3b0a9f9c0e4d7c3b0a9f9c0e4d7c3b0a9f9c0e4d7c3b0",
+  change: 12.5,
+  positive: true,
+  history: [1100, 1150, 1200, 1180, 1220, 1250],
 }
 
 const mockActivePlans = [
@@ -30,6 +77,12 @@ const mockActivePlans = [
     endDate: "2025-04-04",
     platforms: ["Twitter", "Telegram"],
     status: "active",
+    progress: 65,
+    metrics: {
+      impressions: 12500,
+      engagement: 8.2,
+      clicks: 450,
+    },
   },
   {
     id: 2,
@@ -38,26 +91,32 @@ const mockActivePlans = [
     endDate: "2025-04-01",
     platforms: ["Twitter", "Telegram", "YouTube"],
     status: "active",
+    progress: 42,
+    metrics: {
+      impressions: 28700,
+      engagement: 9.5,
+      clicks: 820,
+    },
   },
 ]
 
 const mockEngagementData = [
-  { name: "Mon", value: 400 },
-  { name: "Tue", value: 300 },
-  { name: "Wed", value: 500 },
-  { name: "Thu", value: 280 },
-  { name: "Fri", value: 590 },
-  { name: "Sat", value: 620 },
-  { name: "Sun", value: 700 },
+  { name: "Mon", value: 400, avg: 320 },
+  { name: "Tue", value: 300, avg: 310 },
+  { name: "Wed", value: 500, avg: 340 },
+  { name: "Thu", value: 280, avg: 290 },
+  { name: "Fri", value: 590, avg: 370 },
+  { name: "Sat", value: 620, avg: 400 },
+  { name: "Sun", value: 700, avg: 450 },
 ]
 
 const mockTokenData = [
-  { name: "Week 1", value: 1000 },
-  { name: "Week 2", value: 1200 },
-  { name: "Week 3", value: 900 },
-  { name: "Week 4", value: 1500 },
-  { name: "Week 5", value: 1250 },
-  { name: "Week 6", value: 1800 },
+  { name: "Week 1", value: 1000, avg: 950 },
+  { name: "Week 2", value: 1200, avg: 1000 },
+  { name: "Week 3", value: 900, avg: 1050 },
+  { name: "Week 4", value: 1500, avg: 1100 },
+  { name: "Week 5", value: 1250, avg: 1150 },
+  { name: "Week 6", value: 1800, avg: 1200 },
 ]
 
 const mockPlatformStats = [
@@ -87,11 +146,138 @@ const mockPlatformStats = [
   },
 ]
 
+const mockRewardsData = [
+  { name: "Engagement", value: 45 },
+  { name: "Referrals", value: 25 },
+  { name: "Staking", value: 20 },
+  { name: "Other", value: 10 },
+]
+
+const mockNotifications = [
+  {
+    id: 1,
+    title: "Plan Activated",
+    message: "Your Growth Engine plan is now active and running.",
+    time: "2 hours ago",
+    read: false,
+    type: "success",
+  },
+  {
+    id: 2,
+    title: "Reward Earned",
+    message: "You've earned 25 $MOON tokens from engagement rewards.",
+    time: "Yesterday",
+    read: false,
+    type: "reward",
+  },
+  {
+    id: 3,
+    title: "Low Balance Warning",
+    message: "Your $MOON balance is getting low for automatic renewals.",
+    time: "2 days ago",
+    read: true,
+    type: "warning",
+  },
+]
+
+// Custom tooltip component for charts
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="rounded-lg border border-border/50 bg-background/95 p-3 shadow-md backdrop-blur-sm">
+        <p className="mb-1 font-medium">{label}</p>
+        <div className="space-y-1">
+          <p className="flex items-center gap-2 text-sm">
+            <span className="h-2 w-2 rounded-full bg-primary"></span>
+            Current: <span className="font-medium text-primary">{payload[0].value}</span>
+          </p>
+          {payload[1] && (
+            <p className="flex items-center gap-2 text-sm">
+              <span className="h-2 w-2 rounded-full bg-muted-foreground/50"></span>
+              Average: <span className="font-medium text-muted-foreground">{payload[1].value}</span>
+            </p>
+          )}
+        </div>
+      </div>
+    )
+  }
+  return null
+}
+
+// Notification component
+function NotificationItem({
+  notification,
+  onDismiss,
+}: {
+  notification: (typeof mockNotifications)[0]
+  onDismiss: (id: number) => void
+}) {
+  const getIcon = () => {
+    switch (notification.type) {
+      case "success":
+        return <Check className="h-5 w-5 text-green-500" />
+      case "warning":
+        return <AlertTriangle className="h-5 w-5 text-amber-500" />
+      case "reward":
+        return <Award className="h-5 w-5 text-primary" />
+      default:
+        return <Info className="h-5 w-5 text-blue-500" />
+    }
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, x: -100 }}
+      className={`mb-2 rounded-lg border p-3 ${
+        notification.read ? "border-border/50 bg-card/50" : "border-primary/20 bg-primary/5"
+      }`}
+    >
+      <div className="flex items-start justify-between">
+        <div className="flex items-start gap-3">
+          <div
+            className={`mt-0.5 rounded-full p-1.5 ${
+              notification.type === "success"
+                ? "bg-green-500/10"
+                : notification.type === "warning"
+                  ? "bg-amber-500/10"
+                  : "bg-primary/10"
+            }`}
+          >
+            {getIcon()}
+          </div>
+          <div>
+            <h4 className="font-medium">{notification.title}</h4>
+            <p className="text-sm text-muted-foreground">{notification.message}</p>
+            <p className="mt-1 text-xs text-muted-foreground/70">{notification.time}</p>
+          </div>
+        </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-6 w-6 text-muted-foreground hover:text-foreground"
+          onClick={() => onDismiss(notification.id)}
+        >
+          <X className="h-4 w-4" />
+        </Button>
+      </div>
+    </motion.div>
+  )
+}
+
 export default function Dashboard() {
   const [mounted, setMounted] = useState(false)
-  // Add state for Twitter connection
   const [twitterConnected, setTwitterConnected] = useState(false)
   const [twitterAccount, setTwitterAccount] = useState<TwitterAccountData | undefined>(undefined)
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [showNotifications, setShowNotifications] = useState(false)
+  const [notifications, setNotifications] = useState(mockNotifications)
+  const [unreadCount, setUnreadCount] = useState(mockNotifications.filter((n) => !n.read).length)
+
+  // Refs for scroll animations
+  const statsRef = useRef<HTMLDivElement>(null)
+  const plansRef = useRef<HTMLDivElement>(null)
 
   // Scroll animations
   const { scrollYProgress } = useScroll()
@@ -100,7 +286,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     setMounted(true)
-  }, [])
+
+    // Update unread count when notifications change
+    setUnreadCount(notifications.filter((n) => !n.read).length)
+  }, [notifications])
 
   if (!mounted) return null
 
@@ -130,139 +319,382 @@ export default function Dashboard() {
     setTwitterAccount(undefined)
   }
 
-  return (
-    <div className="min-h-screen bg-background">
-      <PageHeader title="Dashboard" subtitle="Monitor your visibility and $MOON performance"/> 
+  // Handle refresh data
+  const handleRefresh = () => {
+    setIsRefreshing(true)
+    // Simulate data refresh
+    setTimeout(() => {
+      setIsRefreshing(false)
+    }, 1500)
+  }
 
-      <div className="container mx-auto px-4 py-8">
-        <motion.div className="mb-8 grid gap-6 md:grid-cols-3" style={{ opacity: cardsOpacity, y: cardsY }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-            <DashboardCard>
+  // Handle notification dismissal
+  const dismissNotification = (id: number) => {
+    setNotifications(notifications.filter((n) => n.id !== id))
+  }
+
+  // Handle mark all as read
+  const markAllAsRead = () => {
+    setNotifications(notifications.map((n) => ({ ...n, read: true })))
+  }
+
+  // COLORS for charts
+  const COLORS = ["#7c3aed", "#9333ea", "#c026d3", "#db2777"]
+
+  return (
+    <div className="min-h-screen bg-background pb-20">
+      {/* Scroll Progress Indicator */}
+      <ScrollProgress />
+
+      <AnimatedHeading
+        title="Dashboard"
+        subtitle="Monitor your visibility and $MOON performance on Sui blockchain"
+        className="container mx-auto mb-8 mt-20 px-4"
+      />
+
+      <div className="container mx-auto px-4">
+        {/* Top Action Bar */}
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <Badge variant="outline" className="border-primary/30 bg-primary/5 px-3 py-1.5">
+              <Wallet className="mr-1.5 h-3.5 w-3.5" />
+              Sui Network
+            </Badge>
+            <Badge variant="outline" className="border-green-500/30 bg-green-500/5 px-3 py-1.5 text-green-500">
+              <Check className="mr-1.5 h-3.5 w-3.5" />
+              Connected
+            </Badge>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="relative gap-2"
+              onClick={() => setShowNotifications(!showNotifications)}
+            >
+              <Bell className="h-4 w-4" />
+              Notifications
+              {unreadCount > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground">
+                  {unreadCount}
+                </span>
+              )}
+            </Button>
+
+            <Button variant="outline" size="sm" className="gap-2" onClick={handleRefresh} disabled={isRefreshing}>
+              <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`} />
+              {isRefreshing ? "Refreshing..." : "Refresh Data"}
+            </Button>
+          </div>
+        </div>
+
+        {/* Notifications Panel */}
+        <AnimatePresence>
+          {showNotifications && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mb-8 overflow-hidden"
+            >
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <div>
+                    <CardTitle>Notifications</CardTitle>
+                    <CardDescription>Stay updated with your account activity</CardDescription>
+                  </div>
+                  {unreadCount > 0 && (
+                    <Button variant="ghost" size="sm" onClick={markAllAsRead}>
+                      Mark all as read
+                    </Button>
+                  )}
+                </CardHeader>
+                <CardContent>
+                  <div className="max-h-[300px] overflow-y-auto pr-2">
+                    <AnimatePresence>
+                      {notifications.length > 0 ? (
+                        notifications.map((notification) => (
+                          <NotificationItem
+                            key={notification.id}
+                            notification={notification}
+                            onDismiss={dismissNotification}
+                          />
+                        ))
+                      ) : (
+                        <motion.p
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="py-8 text-center text-muted-foreground"
+                        >
+                          No notifications to display
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Wallet Overview Cards */}
+        <motion.div
+          className="mb-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4"
+          style={{ opacity: cardsOpacity, y: cardsY }}
+        >
+          <ScrollReveal>
+            <Card3D>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Wallet Address</CardTitle>
+                <CardTitle className="text-sm font-medium">Sui Wallet</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">{formatAddress(mockWallet.address)}</span>
-                  <Badge variant="outline" className="border-primary/50">
-                    Connected
-                  </Badge>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">Address</span>
+                    <TooltipProvider>
+                      <UITooltip>
+                        <TooltipTrigger asChild>
+                          <span className="cursor-pointer text-sm font-mono text-muted-foreground hover:text-foreground">
+                            {formatAddress(mockWallet.suiAddress)}
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Click to copy full address</p>
+                        </TooltipContent>
+                      </UITooltip>
+                    </TooltipProvider>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">Network</span>
+                    <Badge variant="outline" className="border-primary/50">
+                      Sui Mainnet
+                    </Badge>
+                  </div>
                 </div>
               </CardContent>
-            </DashboardCard>
-          </motion.div>
+            </Card3D>
+          </ScrollReveal>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
-          >
-            <DashboardCard glowColor="rgba(124, 58, 237, 0.7)">
+          <ScrollReveal delay={0.1}>
+            <Card3D glowColor="rgba(124, 58, 237, 0.7)">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium">$MOON Balance</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center justify-between">
-                  <motion.span
-                    className="text-2xl font-bold text-primary"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                  >
-                    {mockWallet.balance}
-                  </motion.span>
-                  <Badge variant="outline" className="border-primary/50 bg-primary/10">
-                    $MOON
-                  </Badge>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <motion.span
+                      className="text-2xl font-bold text-primary"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
+                    >
+                      {mockWallet.balance}
+                    </motion.span>
+                    <Badge variant="outline" className="border-primary/50 bg-primary/10">
+                      $MOON
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">24h Change</span>
+                    <span
+                      className={`flex items-center text-sm font-medium ${mockWallet.positive ? "text-green-500" : "text-red-500"}`}
+                    >
+                      {mockWallet.positive ? (
+                        <ArrowUpRight className="mr-1 h-3 w-3" />
+                      ) : (
+                        <ArrowDownRight className="mr-1 h-3 w-3" />
+                      )}
+                      {mockWallet.change}%
+                    </span>
+                  </div>
+                  <div className="mt-1 h-[40px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={mockWallet.history.map((value, index) => ({ name: index, value }))}>
+                        <defs>
+                          <linearGradient id="balanceGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="rgb(124, 58, 237)" stopOpacity={0.3} />
+                            <stop offset="100%" stopColor="rgb(124, 58, 237)" stopOpacity={0} />
+                          </linearGradient>
+                        </defs>
+                        <Area
+                          type="monotone"
+                          dataKey="value"
+                          stroke="#7c3aed"
+                          strokeWidth={2}
+                          fill="url(#balanceGradient)"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
                 </div>
               </CardContent>
-            </DashboardCard>
-          </motion.div>
+            </Card3D>
+          </ScrollReveal>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
-          >
-            <DashboardCard glowColor="rgba(34, 197, 94, 0.5)">
+          <ScrollReveal delay={0.2}>
+            <Card3D glowColor="rgba(34, 197, 94, 0.5)">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium">Active Plans</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center justify-between">
-                  <motion.span
-                    className="text-2xl font-bold text-primary"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                  >
-                    {mockActivePlans.length}
-                  </motion.span>
-                  <Badge variant="outline" className="border-green-500/50 bg-green-500/10 text-green-500">
-                    Running
-                  </Badge>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <motion.span
+                      className="text-2xl font-bold text-primary"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
+                    >
+                      {mockActivePlans.length}
+                    </motion.span>
+                    <Badge variant="outline" className="border-green-500/50 bg-green-500/10 text-green-500">
+                      Running
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">Total Reach</span>
+                    <span className="text-sm font-medium">
+                      {mockActivePlans.reduce((sum, plan) => sum + plan.metrics.impressions, 0).toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="mt-1 flex items-center gap-1">
+                    {mockActivePlans.map((plan, i) => (
+                      <div
+                        key={i}
+                        className="h-1.5 flex-1 rounded-full bg-primary/20"
+                        style={{
+                          background: `linear-gradient(90deg, #7c3aed ${plan.progress}%, rgba(124, 58, 237, 0.2) ${plan.progress}%)`,
+                        }}
+                      />
+                    ))}
+                  </div>
                 </div>
               </CardContent>
-            </DashboardCard>
-          </motion.div>
+            </Card3D>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.3}>
+            <Card3D glowColor="rgba(234, 88, 12, 0.5)">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Rewards Earned</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <motion.span
+                      className="text-2xl font-bold text-primary"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
+                    >
+                      325
+                    </motion.span>
+                    <Badge variant="outline" className="border-orange-500/50 bg-orange-500/10 text-orange-500">
+                      This Month
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">Distribution</span>
+                    <span className="text-sm font-medium">
+                      <Sparkles className="mr-1 inline-block h-3 w-3 text-amber-500" />4 Sources
+                    </span>
+                  </div>
+                  <div className="mt-1 h-[40px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={mockRewardsData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={15}
+                          outerRadius={20}
+                          paddingAngle={2}
+                          dataKey="value"
+                        >
+                          {mockRewardsData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Pie>
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </CardContent>
+            </Card3D>
+          </ScrollReveal>
         </motion.div>
 
         {/* Connected Social Accounts Section */}
-        <motion.div
-          className="mb-8"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          <div className="mb-4 flex items-center gap-2">
-            <AnimatedIcon pulse>
-              <Twitter className="h-5 w-5 text-[#1DA1F2]" />
-            </AnimatedIcon>
-            <h2 className="text-xl font-bold">Connected Social Accounts</h2>
+        <ScrollReveal>
+          <div className="mb-8">
+            <div className="mb-4 flex items-center gap-2">
+              <AnimatedIcon pulse>
+                <Twitter className="h-5 w-5 text-[#1DA1F2]" />
+              </AnimatedIcon>
+              <h2 className="text-xl font-bold">Connected Social Accounts</h2>
+            </div>
+            <div className="grid gap-6 md:grid-cols-3">
+              <SocialAccountCard
+                platform="twitter"
+                connected={twitterConnected}
+                accountData={twitterAccount}
+                onConnect={handleTwitterConnect}
+                onDisconnect={handleTwitterDisconnect}
+              />
+              {/* Add more social platforms here in the future */}
+            </div>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            <SocialAccountCard
-              platform="twitter"
-              connected={twitterConnected}
-              accountData={twitterAccount}
-              onConnect={handleTwitterConnect}
-              onDisconnect={handleTwitterDisconnect}
-            />
-            {/* Add more social platforms here in the future */}
-          </div>
-        </motion.div>
+        </ScrollReveal>
 
-        <div className="mb-8 grid gap-6 lg:grid-cols-3">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="lg:col-span-2"
-          >
-            <DashboardCard>
+        {/* Performance Overview */}
+        <div className="mb-8 grid gap-6 lg:grid-cols-3" ref={statsRef}>
+          <ScrollReveal className="lg:col-span-2">
+            <Card>
               <CardHeader>
-                <CardTitle>Performance Overview</CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center gap-2">
+                    <BarChart3 className="h-5 w-5 text-primary" />
+                    Performance Overview
+                  </CardTitle>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="sm" className="gap-1">
+                        Last 7 Days <ChevronDown className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem>Last 7 Days</DropdownMenuItem>
+                      <DropdownMenuItem>Last 30 Days</DropdownMenuItem>
+                      <DropdownMenuItem>Last 90 Days</DropdownMenuItem>
+                      <DropdownMenuItem>All Time</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+                <CardDescription>Track your engagement metrics and token performance</CardDescription>
               </CardHeader>
               <CardContent>
                 <Tabs defaultValue="engagement">
-                  <TabsList className="mb-4">
-                    <TabsTrigger value="engagement">Engagement</TabsTrigger>
-                    <TabsTrigger value="tokens">$MOON Value</TabsTrigger>
+                  <TabsList className="mb-4 w-full justify-start">
+                    <TabsTrigger value="engagement" className="flex items-center gap-1">
+                      <TrendingUp className="h-4 w-4" />
+                      Engagement
+                    </TabsTrigger>
+                    <TabsTrigger value="tokens" className="flex items-center gap-1">
+                      <Zap className="h-4 w-4" />
+                      $MOON Value
+                    </TabsTrigger>
                   </TabsList>
                   <TabsContent value="engagement" className="h-[300px]">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={mockEngagementData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#333" vertical={false} />
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
                         <XAxis dataKey="name" stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
                         <YAxis stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
-                        <Tooltip
-                          contentStyle={{
-                            backgroundColor: "#1a1a1a",
-                            borderColor: "#333",
-                            borderRadius: "8px",
-                          }}
-                        />
+                        <Tooltip content={<CustomTooltip />} />
                         <Bar dataKey="value" fill="url(#colorGradient)" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="avg" fill="rgba(255,255,255,0.1)" radius={[4, 4, 0, 0]} />
                         <defs>
                           <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="0%" stopColor="rgb(124, 58, 237)" stopOpacity={1} />
@@ -275,16 +707,10 @@ export default function Dashboard() {
                   <TabsContent value="tokens" className="h-[300px]">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart data={mockTokenData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#333" vertical={false} />
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
                         <XAxis dataKey="name" stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
                         <YAxis stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
-                        <Tooltip
-                          contentStyle={{
-                            backgroundColor: "#1a1a1a",
-                            borderColor: "#333",
-                            borderRadius: "8px",
-                          }}
-                        />
+                        <Tooltip content={<CustomTooltip />} />
                         <Line
                           type="monotone"
                           dataKey="value"
@@ -293,22 +719,42 @@ export default function Dashboard() {
                           dot={{ r: 4, strokeWidth: 2 }}
                           activeDot={{ r: 6, strokeWidth: 2 }}
                         />
+                        <Line
+                          type="monotone"
+                          dataKey="avg"
+                          stroke="rgba(255,255,255,0.3)"
+                          strokeWidth={1.5}
+                          strokeDasharray="5 5"
+                          dot={{ r: 3, strokeWidth: 1, fill: "#1f1f1f", stroke: "rgba(255,255,255,0.3)" }}
+                        />
                       </LineChart>
                     </ResponsiveContainer>
                   </TabsContent>
                 </Tabs>
               </CardContent>
-            </DashboardCard>
-          </motion.div>
+              <CardFooter className="border-t border-border/40 pt-4">
+                <div className="flex w-full items-center justify-between text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-primary"></span>
+                    Your Performance
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-muted-foreground/50"></span>
+                    Platform Average
+                  </div>
+                </div>
+              </CardFooter>
+            </Card>
+          </ScrollReveal>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-          >
-            <DashboardCard>
+          <ScrollReveal>
+            <Card>
               <CardHeader>
-                <CardTitle>Platform Growth</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Users className="h-5 w-5 text-primary" />
+                  Platform Growth
+                </CardTitle>
+                <CardDescription>Track your social media growth across platforms</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
@@ -339,38 +785,42 @@ export default function Dashboard() {
                         <Progress
                           value={platform.engagement * 8}
                           className="h-2"
-                          indicatorClassName="bg-gradient-to-r from-primary/50 to-primary"
+                          variant="default"
                         />
                       </motion.div>
                       <div className="flex items-center justify-between text-xs text-muted-foreground">
-                        <span>{platform.followers} followers</span>
+                        <span>{platform.followers.toLocaleString()} followers</span>
                         <span>{platform.engagement}% engagement</span>
                       </div>
                     </motion.div>
                   ))}
                 </div>
               </CardContent>
-            </DashboardCard>
-          </motion.div>
+              <CardFooter className="border-t border-border/40 pt-4">
+                <Button variant="outline" size="sm" className="w-full gap-2">
+                  <Rocket className="h-4 w-4" />
+                  Boost Growth
+                </Button>
+              </CardFooter>
+            </Card>
+          </ScrollReveal>
         </div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <DashboardCard>
-            <CardHeader>
-              <CardTitle>Active Promotion Plans</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-4 md:grid-cols-2">
-                {mockActivePlans.map((plan, index) => (
-                  <motion.div
-                    key={plan.id}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                    whileHover={{ scale: 1.03 }}
-                    className="overflow-hidden"
-                  >
-                    <DashboardCard glowColor="rgba(124, 58, 237, 0.4)">
+        {/* Active Promotion Plans */}
+        <div ref={plansRef}>
+          <ScrollReveal>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Rocket className="h-5 w-5 text-primary" />
+                  Active Promotion Plans
+                </CardTitle>
+                <CardDescription>Monitor your ongoing promotion campaigns and their performance</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-6 md:grid-cols-2">
+                  {mockActivePlans.map((plan, index) => (
+                    <Card3D key={plan.id} glowColor="rgba(124, 58, 237, 0.4)">
                       <CardHeader className="pb-2">
                         <div className="flex items-center justify-between">
                           <CardTitle className="text-lg">{plan.name}</CardTitle>
@@ -393,10 +843,26 @@ export default function Dashboard() {
                             <Progress
                               value={(getDaysRemaining(plan.endDate) / 7) * 100}
                               className="h-2"
-                              indicatorClassName="bg-gradient-to-r from-primary/50 to-primary"
+                              variant="default"
                             />
                           </motion.div>
                         </div>
+
+                        <div className="mb-4 grid grid-cols-3 gap-2 rounded-lg border border-border/50 bg-card/50 p-3">
+                          <div className="text-center">
+                            <p className="text-xs text-muted-foreground">Impressions</p>
+                            <p className="text-sm font-medium">{plan.metrics.impressions.toLocaleString()}</p>
+                          </div>
+                          <div className="text-center">
+                            <p className="text-xs text-muted-foreground">Engagement</p>
+                            <p className="text-sm font-medium">{plan.metrics.engagement}%</p>
+                          </div>
+                          <div className="text-center">
+                            <p className="text-xs text-muted-foreground">Clicks</p>
+                            <p className="text-sm font-medium">{plan.metrics.clicks}</p>
+                          </div>
+                        </div>
+
                         <div className="flex flex-wrap gap-2">
                           {plan.platforms.map((platform, platformIndex) => (
                             <motion.div
@@ -412,13 +878,19 @@ export default function Dashboard() {
                           ))}
                         </div>
                       </CardContent>
-                    </DashboardCard>
-                  </motion.div>
-                ))}
-              </div>
-            </CardContent>
-          </DashboardCard>
-        </motion.div>
+                    </Card3D>
+                  ))}
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-center border-t border-border/40 pt-4">
+                <Button className="gap-2">
+                  <Rocket className="h-4 w-4" />
+                  Create New Plan
+                </Button>
+              </CardFooter>
+            </Card>
+          </ScrollReveal>
+        </div>
       </div>
     </div>
   )

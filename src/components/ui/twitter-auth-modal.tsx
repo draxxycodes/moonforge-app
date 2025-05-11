@@ -1,52 +1,59 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Twitter, X, Check, Loader2 } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./dialog"
+import { Button } from "./button"
+import { Input } from "./input"
+import { Label } from "./label"
+import { Twitter, Loader2 } from "lucide-react"
+
+export interface TwitterAccountData {
+  name: string
+  username: string
+  profileImage?: string
+  followers: number
+  following: number
+  posts: number
+}
 
 interface TwitterAuthModalProps {
   isOpen: boolean
   onClose: () => void
-  onConnect: (twitterData: TwitterAccountData) => void
+  onAuth: (data: TwitterAccountData) => void
 }
 
-export interface TwitterAccountData {
-  id: string
-  username: string
-  displayName: string
-  profileImage: string
-  followers: number
-  following: number
-  verified: boolean
-}
+export function TwitterAuthModal({ isOpen, onClose, onAuth }: TwitterAuthModalProps) {
+  const [step, setStep] = useState<"initial" | "loading" | "success">("initial")
+  const [username, setUsername] = useState("")
 
-export function TwitterAuthModal({ isOpen, onClose, onConnect }: TwitterAuthModalProps) {
-  const [stage, setStage] = useState<"initial" | "connecting" | "success">("initial")
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!username) return
 
-  // Mock Twitter account data
-  const mockTwitterAccount: TwitterAccountData = {
-    id: "1234567890",
-    username: "moonforge_user",
-    displayName: "MoonForge User",
-    profileImage: "/placeholder.svg?height=48&width=48",
-    followers: 1250,
-    following: 450,
-    verified: false,
-  }
+    setStep("loading")
 
-  const handleConnect = () => {
-    setStage("connecting")
-
-    // Simulate connection delay
+    // Simulate API call
     setTimeout(() => {
-      setStage("success")
-      // Wait a bit to show success state before closing
+      // Mock data
+      const mockData: TwitterAccountData = {
+        name: "John Doe",
+        username: username.replace("@", ""),
+        profileImage: "/placeholder.svg?height=100&width=100",
+        followers: 2450,
+        following: 584,
+        posts: 327,
+      }
+
+      setStep("success")
+
+      // Simulate delay before closing
       setTimeout(() => {
-        onConnect(mockTwitterAccount)
-      }, 1000)
-    }, 1500)
+        onAuth(mockData)
+      }, 1500)
+    }, 2000)
   }
 
   return (
@@ -55,80 +62,88 @@ export function TwitterAuthModal({ isOpen, onClose, onConnect }: TwitterAuthModa
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
             <Twitter className="h-5 w-5 text-[#1DA1F2]" />
-            Connect Twitter
+            Connect Twitter Account
           </DialogTitle>
         </DialogHeader>
 
         <div className="py-4">
           <AnimatePresence mode="wait">
-            {stage === "initial" && (
+            {step === "initial" && (
               <motion.div
                 key="initial"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="flex flex-col items-center text-center"
               >
-                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#1DA1F2]/10">
-                  <Twitter className="h-8 w-8 text-[#1DA1F2]" />
-                </div>
-                <h3 className="mb-2 text-lg font-medium">Connect Your Twitter Account</h3>
                 <p className="mb-4 text-sm text-muted-foreground">
-                  Connect your Twitter account to verify your social media presence and track promotion performance.
+                  Connect your Twitter account to boost your social media presence and track your growth.
                 </p>
-                <div className="mt-2 flex w-full gap-2">
-                  <Button
-                    variant="outline"
-                    className="flex-1 border-primary/20 bg-primary/5 hover:bg-primary/10"
-                    onClick={onClose}
-                  >
-                    Cancel
-                  </Button>
-                  <Button className="flex-1 gap-2 bg-[#1DA1F2] hover:bg-[#1DA1F2]/90" onClick={handleConnect}>
-                    <Twitter className="h-4 w-4" />
-                    Connect Twitter
-                  </Button>
-                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="username">Twitter Username</Label>
+                    <Input
+                      id="username"
+                      placeholder="@username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      className="border-primary/20 bg-card"
+                    />
+                  </div>
+
+                  <div className="flex justify-end gap-2">
+                    <Button type="button" variant="outline" onClick={onClose}>
+                      Cancel
+                    </Button>
+                    <Button type="submit" disabled={!username}>
+                      <Twitter className="mr-2 h-4 w-4" />
+                      Connect
+                    </Button>
+                  </div>
+                </form>
               </motion.div>
             )}
 
-            {stage === "connecting" && (
+            {step === "loading" && (
               <motion.div
-                key="connecting"
+                key="loading"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="flex flex-col items-center text-center"
+                className="flex flex-col items-center justify-center py-8"
               >
-                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#1DA1F2]/10">
-                  <Loader2 className="h-8 w-8 animate-spin text-[#1DA1F2]" />
+                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                  >
+                    <Loader2 className="h-8 w-8 text-primary" />
+                  </motion.div>
                 </div>
                 <h3 className="mb-2 text-lg font-medium">Connecting to Twitter</h3>
-                <p className="mb-4 text-sm text-muted-foreground">
-                  Please authorize MoonForge in the Twitter popup window...
-                </p>
-                <Button variant="ghost" size="sm" className="mt-4" onClick={() => setStage("initial")}>
-                  <X className="mr-1 h-4 w-4" />
-                  Cancel
-                </Button>
+                <p className="text-sm text-muted-foreground">Please wait while we verify your account...</p>
               </motion.div>
             )}
 
-            {stage === "success" && (
+            {step === "success" && (
               <motion.div
                 key="success"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="flex flex-col items-center text-center"
+                className="flex flex-col items-center justify-center py-8"
               >
                 <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-500/10">
-                  <Check className="h-8 w-8 text-green-500" />
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 10 }}
+                  >
+                    <Check className="h-8 w-8 text-green-500" />
+                  </motion.div>
                 </div>
-                <h3 className="mb-2 text-lg font-medium">Twitter Connected!</h3>
-                <p className="mb-4 text-sm text-muted-foreground">
-                  Your Twitter account has been successfully connected to MoonForge.
-                </p>
+                <h3 className="mb-2 text-lg font-medium">Successfully Connected!</h3>
+                <p className="text-sm text-muted-foreground">Your Twitter account has been connected.</p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -137,3 +152,5 @@ export function TwitterAuthModal({ isOpen, onClose, onConnect }: TwitterAuthModa
     </Dialog>
   )
 }
+
+import { Check } from "lucide-react"

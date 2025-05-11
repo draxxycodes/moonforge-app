@@ -1,5 +1,3 @@
-"use client"
-
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { PageHeader } from "../components/ui/page-header"

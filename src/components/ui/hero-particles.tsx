@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 
-export function HeroParticles({ opacity = 0.15 }: { opacity?: number }) {
+export function HeroParticles({ opacity = 0.12 }: { opacity?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -32,27 +32,45 @@ export function HeroParticles({ opacity = 0.15 }: { opacity?: number }) {
       color: string
       alpha: number
       alphaSpeed: number
+      trail: { x: number; y: number; alpha: number }[]
+      hasTrail: boolean
 
       constructor() {
-        this.x = Math.random() * canvas!.width
-        this.y = Math.random() * canvas!.height
+        this.x = Math.random() * canvas.width
+        this.y = Math.random() * canvas.height
         this.size = Math.random() * 3 + 0.5
         this.speedX = (Math.random() - 0.5) * 0.5
         this.speedY = (Math.random() - 0.5) * 0.5
         this.color = "#7c3aed" // Primary color
         this.alpha = Math.random() * 0.5 + 0.1
         this.alphaSpeed = Math.random() * 0.01
+        this.trail = []
+        this.hasTrail = Math.random() > 0.7 // 30% of particles have trails
       }
 
       update() {
+        if (this.hasTrail) {
+          // Add current position to trail
+          this.trail.push({
+            x: this.x,
+            y: this.y,
+            alpha: this.alpha * 0.5,
+          })
+
+          // Limit trail length
+          if (this.trail.length > 5) {
+            this.trail.shift()
+          }
+        }
+
         this.x += this.speedX
         this.y += this.speedY
 
         // Bounce off edges
-        if (this.x > canvas!.width || this.x < 0) {
+        if (this.x > canvas.width || this.x < 0) {
           this.speedX = -this.speedX
         }
-        if (this.y > canvas!.height || this.y < 0) {
+        if (this.y > canvas.height || this.y < 0) {
           this.speedY = -this.speedY
         }
 
@@ -65,6 +83,22 @@ export function HeroParticles({ opacity = 0.15 }: { opacity?: number }) {
 
       draw() {
         if (!ctx) return
+
+        // Draw trail
+        if (this.hasTrail) {
+          for (let i = 0; i < this.trail.length; i++) {
+            const point = this.trail[i]
+            const trailAlpha = point.alpha * (i / this.trail.length)
+
+            ctx.beginPath()
+            ctx.arc(point.x, point.y, this.size * 0.8 * (i / this.trail.length), 0, Math.PI * 2)
+            ctx.fillStyle = this.color
+            ctx.globalAlpha = trailAlpha
+            ctx.fill()
+          }
+        }
+
+        // Draw main particle
         ctx.beginPath()
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
         ctx.fillStyle = this.color
@@ -76,7 +110,7 @@ export function HeroParticles({ opacity = 0.15 }: { opacity?: number }) {
 
     // Create particles
     const particles: Particle[] = []
-    const particleCount = Math.min(100, Math.floor((canvas.width * canvas.height) / 10000))
+    const particleCount = Math.min(180, Math.floor((canvas.width * canvas.height) / 8000)) // Increased from 100 to 180
 
     for (let i = 0; i < particleCount; i++) {
       particles.push(new Particle())
@@ -130,7 +164,7 @@ export function HeroParticles({ opacity = 0.15 }: { opacity?: number }) {
       className="absolute inset-0 z-0 pointer-events-none"
       style={{ opacity }}
       initial={{ opacity: 0 }}
-      animate={{ opacity: opacity }}
+      animate={{ opacity }}
       transition={{ duration: 1 }}
     />
   )
