@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "../../lib/utils"
 
 const progressVariants = cva(
-  "h-full w-full flex-1 bg-primary transition-all",
+  "h-full w-full flex-1 transition-all",
   {
     variants: {
       variant: {
@@ -24,10 +24,11 @@ export interface ProgressProps
     VariantProps<typeof progressVariants> {
   value?: number
   className?: string
+  indicatorClassName?: string
 }
 
 const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
-  ({ className, value = 0, variant, ...props }, ref) => (
+  ({ className, value = 0, variant, indicatorClassName, ...props }, ref) => (
     <div
       ref={ref}
       className={cn(
@@ -37,7 +38,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
       {...props}
     >
       <div
-        className={cn(progressVariants({ variant }))}
+        className={cn(progressVariants({ variant }), indicatorClassName)}
         style={{ width: `${value}%` }}
       />
     </div>

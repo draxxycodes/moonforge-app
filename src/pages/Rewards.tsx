@@ -129,7 +129,7 @@ export default function Rewards() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pt-20">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <motion.div
