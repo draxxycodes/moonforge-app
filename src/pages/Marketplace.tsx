@@ -123,7 +123,7 @@ export default function Marketplace() {
                 title="Marketplace"
                 subtitle="Deploy $MOON for reach. Select your visibility plan."
                 className="text-white"
-                glowColor="rgba(124, 58, 237, 0.5)"
+                glowColor="rgba(20, 184, 166, 0.5)"
               />
             </motion.div>
           </div>
@@ -133,13 +133,13 @@ export default function Marketplace() {
       <div className="container mx-auto px-4 py-12">
         <ScrollReveal>
           <div className="mb-8 flex justify-center">
-            <div className="inline-flex rounded-lg bg-background p-1 shadow-glow">
+            <div className="inline-flex rounded-lg bg-teal-500/5 p-1 shadow-teal">
               <button
                 onClick={() => setActiveTab("weekly")}
                 className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
                   activeTab === "weekly"
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                    ? "bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-sm"
+                    : "bg-transparent text-muted-foreground hover:bg-teal-500/10 hover:text-teal-500"
                 }`}
               >
                 Weekly Plans
@@ -148,8 +148,8 @@ export default function Marketplace() {
                 onClick={() => setActiveTab("monthly")}
                 className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
                   activeTab === "monthly"
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                    ? "bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-sm"
+                    : "bg-transparent text-muted-foreground hover:bg-teal-500/10 hover:text-teal-500"
                 }`}
               >
                 Monthly Plans

@@ -1,5 +1,3 @@
-
-
 import { Component, type ErrorInfo, type ReactNode } from "react"
 
 interface Props {
@@ -37,7 +35,7 @@ export class ErrorBoundary extends Component<Props, State> {
           <h3 className="mb-2 text-lg font-bold text-red-500">Something went wrong</h3>
           <p className="text-sm text-muted-foreground">{this.state.error?.message || "Failed to load 3D chart"}</p>
           <button
-            className="mt-4 rounded-md bg-purple-500 px-3 py-1 text-sm text-white"
+            className="mt-4 rounded-md bg-teal-500 px-3 py-1 text-sm text-white"
             onClick={() => this.setState({ hasError: false, error: null })}
           >
             Try again

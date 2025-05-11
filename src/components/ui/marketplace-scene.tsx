@@ -37,6 +37,10 @@ export function MarketplaceScene() {
     controls.enableZoom = false
     controls.autoRotate = true
     controls.autoRotateSpeed = 0.5
+    
+    // Completely disable any control buttons
+    controls.enablePan = false
+    controls.enableRotate = false
 
     // Handle resize
     const handleResize = () => {
@@ -65,10 +69,10 @@ export function MarketplaceScene() {
       posArray[i + 1] = radius * Math.sin(phi) * Math.sin(theta)
       posArray[i + 2] = radius * Math.cos(phi)
 
-      // Color - purple to pink gradient
-      colorArray[i] = 0.5 + Math.random() * 0.3 // R
-      colorArray[i + 1] = 0.2 + Math.random() * 0.2 // G
-      colorArray[i + 2] = 0.8 + Math.random() * 0.2 // B
+      // Color - teal to cyan gradient
+      colorArray[i] = 0.2 + Math.random() * 0.2 // R
+      colorArray[i + 1] = 0.6 + Math.random() * 0.3 // G
+      colorArray[i + 2] = 0.7 + Math.random() * 0.3 // B
     }
 
     particlesGeometry.setAttribute("position", new THREE.BufferAttribute(posArray, 3))
@@ -103,11 +107,11 @@ export function MarketplaceScene() {
     }
 
     const cards = [
-      createCard(-2, 0.5, -1, 0x7c3aed), // Primary color
-      createCard(0, -0.8, -2, 0x9333ea), // Lighter purple
-      createCard(2, 0.2, -3, 0xc026d3), // Pink
-      createCard(-1.5, 1.2, -2, 0x8b5cf6), // Another purple
-      createCard(1.5, 0.7, -1.5, 0xd946ef), // Another pink
+      createCard(-2, 0.5, -1, 0x14b8a6), // Teal 500
+      createCard(0, -0.8, -2, 0x0d9488), // Teal 600
+      createCard(2, 0.2, -3, 0x0891b2), // Cyan 600
+      createCard(-1.5, 1.2, -2, 0x06b6d4), // Cyan 500
+      createCard(1.5, 0.7, -1.5, 0x22d3ee), // Cyan 400
     ]
 
     // Add ambient light

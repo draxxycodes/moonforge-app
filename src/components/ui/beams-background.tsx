@@ -10,7 +10,7 @@ interface AnimatedGradientBackgroundProps {
   className?: string
   children?: React.ReactNode
   intensity?: "subtle" | "medium" | "strong"
-  colorScheme?: "purple" | "blue" | "cyan"
+  colorScheme?: "purple" | "blue" | "cyan" | "teal"
 }
 
 interface Beam {
@@ -33,6 +33,7 @@ function createBeam(width: number, height: number, colorScheme: string): Beam {
   let hueRange = [240, 280] // Purple default
   if (colorScheme === "blue") hueRange = [210, 240]
   if (colorScheme === "cyan") hueRange = [170, 210]
+  if (colorScheme === "teal") hueRange = [160, 190]
 
   return {
     x: Math.random() * width * 1.5 - width * 0.25,
@@ -51,7 +52,7 @@ function createBeam(width: number, height: number, colorScheme: string): Beam {
 export function BeamsBackground({
   className,
   intensity = "strong",
-  colorScheme = "purple",
+  colorScheme = "teal",
   children,
 }: AnimatedGradientBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -102,6 +103,7 @@ export function BeamsBackground({
       let hueRange = [240, 280] // Purple default
       if (colorScheme === "blue") hueRange = [210, 240]
       if (colorScheme === "cyan") hueRange = [170, 210]
+      if (colorScheme === "teal") hueRange = [160, 190]
 
       beam.hue = hueRange[0] + (index * (hueRange[1] - hueRange[0])) / totalBeams
       beam.opacity = 0.2 + Math.random() * 0.1
@@ -124,6 +126,12 @@ export function BeamsBackground({
       if (colorScheme === "purple") {
         saturation = "90%"
         lightness = "60%"
+      } else if (colorScheme === "cyan") {
+        saturation = "70%"
+        lightness = "70%"
+      } else if (colorScheme === "teal") {
+        saturation = "75%"
+        lightness = "65%"
       }
 
       gradient.addColorStop(0, `hsla(${beam.hue}, ${saturation}, ${lightness}, 0)`)

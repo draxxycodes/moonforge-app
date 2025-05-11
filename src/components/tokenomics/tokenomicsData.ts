@@ -19,7 +19,7 @@ export const tokenomicsData: TokenDistribution[] = [
     percentage: 25,
     tokenAmount: "250,000,000",
     description: "Private and seed round investors who provided early funding",
-    color: "#8b5cf6", // Purple
+    color: "#14b8a6", // Teal
     vesting: "1-year cliff, then 25% quarterly",
   },
   {

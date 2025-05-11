@@ -17,7 +17,7 @@ export function LoadingScreen({
   isLoading: externalIsLoading,
   children,
   type = "fade",
-  color = "#7c3aed", // Purple default
+  color = "#14b8a6", // Teal default (was purple)
 }: LoadingScreenProps) {
   const [internalIsLoading, setInternalIsLoading] = useState(true)
 

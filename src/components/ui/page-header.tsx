@@ -9,8 +9,8 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, subtitle }: PageHeaderProps) {
   return (
-    <div className="relative bg-background pt-16">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background" />
+    <div className="relative bg-background pt-0">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-500/20 via-cyan-500/10 to-background" />
       <div className="container relative z-10 mx-auto px-4 py-16 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}

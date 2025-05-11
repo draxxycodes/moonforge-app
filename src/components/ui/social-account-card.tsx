@@ -38,11 +38,11 @@ export function SocialAccountCard({
 
   return (
     <>
-      <Card className="overflow-hidden border-primary/10 transition-all duration-300 hover:border-primary/30 hover:shadow-glow">
+      <Card className="overflow-hidden border-teal-500/10 transition-all duration-300 hover:border-teal-500/30 hover:shadow-glow">
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2 text-lg">
-              {platform === "twitter" && <Twitter className="h-5 w-5 text-[#1DA1F2]" />}
+              {platform === "twitter" && <Twitter className="h-5 w-5 text-teal-500" />}
               {platform === "twitter" ? "Twitter" : platform}
             </CardTitle>
             {connected ? (
@@ -73,7 +73,7 @@ export function SocialAccountCard({
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 rounded-lg border border-border/50 bg-card/50 p-3">
+              <div className="grid grid-cols-3 gap-2 rounded-lg border border-teal-500/10 bg-teal-500/5 p-3">
                 <div className="text-center">
                   <p className="text-xs text-muted-foreground">Followers</p>
                   <p className="text-sm font-medium">{accountData.followers.toLocaleString()}</p>
@@ -104,7 +104,10 @@ export function SocialAccountCard({
                 Connect your {platform === "twitter" ? "Twitter" : platform} account to boost your social media presence
               </p>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button onClick={handleConnect} className="gap-2">
+                <Button 
+                  onClick={handleConnect} 
+                  className="gap-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:opacity-90"
+                >
                   <Twitter className="h-4 w-4" />
                   Connect {platform === "twitter" ? "Twitter" : platform}
                 </Button>

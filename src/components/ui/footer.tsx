@@ -9,48 +9,37 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-4">
           <div className="md:col-span-1">
             <Link to="/" className="mb-4 flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                <Rocket className="h-4 w-4" />
+              <div className="flex h-9 w-9 items-center justify-center overflow-hidden">
+                <img src="/logo.png" alt="MoonForge Logo" className="w-full h-full object-contain" />
               </div>
-              <span className="text-xl font-bold">MoonForge</span>
+              <span className="text-xl font-bold heading-font">MoonForge</span>
             </Link>
             <p className="mb-4 text-sm text-muted-foreground">
               The on-chain social growth protocol that's revolutionizing how creators promote their content.
             </p>
-            <div className="flex gap-2">
-              <Button variant="ghost" size="icon" aria-label="Twitter">
-                <Twitter className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" aria-label="GitHub">
-                <Github className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" aria-label="Telegram">
-                <MessageCircle className="h-4 w-4" />
-              </Button>
-            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-8 md:col-span-3 md:grid-cols-3">
             <div>
-              <h3 className="mb-3 text-sm font-medium">Platform</h3>
+              <h3 className="mb-3 text-sm font-medium heading-font">Platform</h3>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link to="/marketplace" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="/marketplace" className="text-muted-foreground transition-colors hover:text-teal-500">
                     Marketplace
                   </Link>
                 </li>
                 <li>
-                  <Link to="/dashboard" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="/dashboard" className="text-muted-foreground transition-colors hover:text-teal-500">
                     Dashboard
                   </Link>
                 </li>
                 <li>
-                  <Link to="/rewards" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="/rewards" className="text-muted-foreground transition-colors hover:text-teal-500">
                     Rewards
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="/referrals" className="text-muted-foreground transition-colors hover:text-teal-500">
                     Referrals
                   </Link>
                 </li>
@@ -58,25 +47,25 @@ export function Footer() {
             </div>
 
             <div>
-              <h3 className="mb-3 text-sm font-medium">Resources</h3>
+              <h3 className="mb-3 text-sm font-medium heading-font">Resources</h3>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="/documentation" className="text-muted-foreground transition-colors hover:text-teal-500">
                     Documentation
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="/tokenomics" className="text-muted-foreground transition-colors hover:text-teal-500">
                     Tokenomics
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="/whitepaper" className="text-muted-foreground transition-colors hover:text-teal-500">
                     Whitepaper
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="/faq" className="text-muted-foreground transition-colors hover:text-teal-500">
                     FAQ
                   </Link>
                 </li>
@@ -84,25 +73,25 @@ export function Footer() {
             </div>
 
             <div>
-              <h3 className="mb-3 text-sm font-medium">Company</h3>
+              <h3 className="mb-3 text-sm font-medium heading-font">Company</h3>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="/about" className="text-muted-foreground transition-colors hover:text-teal-500">
                     About
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="/blog" className="text-muted-foreground transition-colors hover:text-teal-500">
                     Blog
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="/careers" className="text-muted-foreground transition-colors hover:text-teal-500">
                     Careers
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to="/contact" className="text-muted-foreground transition-colors hover:text-teal-500">
                     Contact
                   </Link>
                 </li>
@@ -112,15 +101,15 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border/40 pt-8 text-sm text-muted-foreground md:flex-row">
-          <p>&copy; {new Date().getFullYear()} MoonForge. All rights reserved.</p>
+          <p className="heading-font">&copy; {new Date().getFullYear()} MoonForge. All rights reserved.</p>
           <div className="flex gap-4">
-            <Link to="#" className="transition-colors hover:text-foreground">
+            <Link to="/terms" className="transition-colors hover:text-teal-500">
               Terms of Service
             </Link>
-            <Link to="#" className="transition-colors hover:text-foreground">
+            <Link to="/privacy" className="transition-colors hover:text-teal-500">
               Privacy Policy
             </Link>
-            <Link to="#" className="transition-colors hover:text-foreground">
+            <Link to="/cookie" className="transition-colors hover:text-teal-500">
               Cookie Policy
             </Link>
           </div>

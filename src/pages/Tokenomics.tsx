@@ -19,17 +19,19 @@ import {
   Zap,
   RefreshCw,
   TrendingUp,
+  Wallet,
+  Image,
 } from "lucide-react"
 import { TokenDistributionChart } from "../components/ui/token-distribution-chart"
 
 // Mock data for token distribution
 const tokenDistribution = [
-  { name: "Community Rewards", value: 30, color: "#7c3aed" },
-  { name: "Team & Advisors", value: 20, color: "#8b5cf6" },
-  { name: "Ecosystem Growth", value: 15, color: "#a78bfa" },
-  { name: "Liquidity", value: 15, color: "#c4b5fd" },
-  { name: "Marketing", value: 10, color: "#ddd6fe" },
-  { name: "Reserve", value: 10, color: "#ede9fe" },
+  { name: "Community Rewards", value: 30, color: "#14b8a6" },
+  { name: "Team & Advisors", value: 20, color: "#06b6d4" },
+  { name: "Ecosystem Growth", value: 15, color: "#0ea5e9" },
+  { name: "Liquidity", value: 15, color: "#22d3ee" },
+  { name: "Marketing", value: 10, color: "#67e8f9" },
+  { name: "Reserve", value: 10, color: "#a5f3fc" },
 ]
 
 // Mock data for token utility
@@ -38,25 +40,25 @@ const tokenUtility = [
     title: "Promotion Plans",
     description: "Purchase social media promotion plans to increase your visibility and reach.",
     icon: Rocket,
-    color: "from-purple-500 to-pink-500",
+    color: "from-teal-500 to-cyan-500",
   },
   {
     title: "Governance",
     description: "Vote on platform proposals and help shape the future of MoonForge.",
     icon: Users,
-    color: "from-blue-500 to-purple-500",
+    color: "from-cyan-500 to-emerald-500",
   },
   {
     title: "Staking Rewards",
     description: "Stake $MOON tokens to earn passive income and platform benefits.",
     icon: Coins,
-    color: "from-pink-500 to-orange-500",
+    color: "from-emerald-500 to-teal-500",
   },
   {
     title: "Fee Discounts",
     description: "Get discounts on platform fees by holding $MOON tokens.",
     icon: Zap,
-    color: "from-green-500 to-emerald-500",
+    color: "from-teal-500 to-cyan-500",
   },
 ]
 
@@ -167,7 +169,7 @@ export default function Tokenomics() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="gap-1 border-primary/20 bg-primary/5 hover:bg-primary/10"
+                        className="gap-1 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
                       >
                         <Download className="h-4 w-4" />
                         Whitepaper
@@ -175,7 +177,7 @@ export default function Tokenomics() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="gap-1 border-primary/20 bg-primary/5 hover:bg-primary/10"
+                        className="gap-1 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
                       >
                         <ExternalLink className="h-4 w-4" />
                         View on Basescan
@@ -184,24 +186,24 @@ export default function Tokenomics() {
                   </div>
                   <div className="grid gap-4 md:grid-cols-2">
                     {Object.entries(tokenMetrics).map(([key, value], index) => (
-                      <Card key={key} className="border-primary/10 bg-card/30 backdrop-blur-sm">
+                      <Card key={key} className="border-teal-500/10 bg-card/30 backdrop-blur-sm">
                         <CardContent className="p-4">
                           <h4 className="mb-1 text-sm text-muted-foreground">
                             {key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
                           </h4>
-                          <p className="text-xl font-bold text-primary">{value}</p>
+                          <p className="text-xl font-bold text-teal-500">{value}</p>
                         </CardContent>
                       </Card>
                     ))}
                   </div>
                 </div>
 
-                <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
+                <div className="rounded-lg border border-teal-500/20 bg-teal-500/5 p-4">
                   <h3 className="mb-3 text-lg font-medium">Token Mechanics</h3>
                   <div className="grid gap-4 md:grid-cols-3">
                     <div className="flex items-start gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                        <Flame className="h-5 w-5 text-primary" />
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-500/10">
+                        <Flame className="h-5 w-5 text-teal-500" />
                       </div>
                       <div>
                         <h4 className="font-medium">Burn Mechanism</h4>
@@ -211,8 +213,8 @@ export default function Tokenomics() {
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                        <RefreshCw className="h-5 w-5 text-primary" />
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-500/10">
+                        <RefreshCw className="h-5 w-5 text-cyan-500" />
                       </div>
                       <div>
                         <h4 className="font-medium">Rewards Loop</h4>
@@ -222,8 +224,8 @@ export default function Tokenomics() {
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                        <TrendingUp className="h-5 w-5 text-primary" />
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/10">
+                        <TrendingUp className="h-5 w-5 text-emerald-500" />
                       </div>
                       <div>
                         <h4 className="font-medium">Deflationary Model</h4>
@@ -310,8 +312,8 @@ export default function Tokenomics() {
                           <Bar dataKey="amount" fill="url(#colorGradient)" radius={[4, 4, 0, 0]} />
                           <defs>
                             <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="0%" stopColor="rgb(124, 58, 237)" stopOpacity={1} />
-                              <stop offset="100%" stopColor="rgb(124, 58, 237)" stopOpacity={0.2} />
+                              <stop offset="0%" stopColor="rgb(20, 184, 166)" stopOpacity={1} />
+                              <stop offset="100%" stopColor="rgb(20, 184, 166)" stopOpacity={0.2} />
                             </linearGradient>
                           </defs>
                         </BarChart>
@@ -342,7 +344,7 @@ export default function Tokenomics() {
                           <Line
                             type="monotone"
                             dataKey="price"
-                            stroke="#7c3aed"
+                            stroke="#0891b2"
                             strokeWidth={2}
                             dot={{ r: 4, strokeWidth: 2 }}
                             activeDot={{ r: 6, strokeWidth: 2 }}
@@ -365,10 +367,10 @@ export default function Tokenomics() {
             transition={{ duration: 0.5 }}
           >
             <div className="mb-4 flex items-center gap-2">
-              <Rocket className="h-6 w-6 text-primary" />
+              <Rocket className="h-6 w-6 text-teal-500" />
               <h2 className="text-2xl font-bold">Token Utility</h2>
             </div>
-            <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+            <Card className="border-teal-500/20 bg-card/50 backdrop-blur-sm">
               <CardContent className="p-6">
                 <div className="mb-6">
                   <h3 className="mb-2 text-xl font-medium">$MOON Use Cases</h3>
@@ -386,7 +388,7 @@ export default function Tokenomics() {
                       animate={utilityInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                     >
-                      <Card className="h-full border-primary/10 bg-card/30 backdrop-blur-sm">
+                      <Card className="h-full border-teal-500/10 bg-card/30 backdrop-blur-sm">
                         <CardContent className="flex h-full flex-col p-6">
                           <div
                             className={`mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r ${item.color}`}
@@ -401,7 +403,7 @@ export default function Tokenomics() {
                   ))}
                 </div>
 
-                <div className="mt-8 rounded-lg border border-primary/20 bg-primary/5 p-6">
+                <div className="mt-8 rounded-lg border border-teal-500/20 bg-teal-500/5 p-6">
                   <h3 className="mb-4 text-xl font-medium">Staking Benefits</h3>
                   <p className="mb-6 text-muted-foreground">
                     Staking $MOON tokens provides various benefits based on the amount staked and the staking duration.
@@ -452,10 +454,10 @@ export default function Tokenomics() {
             transition={{ duration: 0.5 }}
           >
             <div className="mb-4 flex items-center gap-2">
-              <Lock className="h-6 w-6 text-primary" />
+              <Lock className="h-6 w-6 text-teal-500" />
               <h2 className="text-2xl font-bold">Vesting & Governance</h2>
             </div>
-            <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+            <Card className="border-teal-500/20 bg-card/50 backdrop-blur-sm">
               <CardContent className="p-6">
                 <div className="grid gap-8 md:grid-cols-2">
                   <div>
@@ -468,7 +470,7 @@ export default function Tokenomics() {
                       <div>
                         <div className="mb-2 flex items-center justify-between">
                           <h4 className="font-medium">Team & Advisors (20%)</h4>
-                          <Badge variant="outline" className="border-primary/50 bg-primary/10">
+                          <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10">
                             24 months
                           </Badge>
                         </div>
@@ -478,13 +480,13 @@ export default function Tokenomics() {
                         <Progress
                           value={75}
                           className="h-2"
-                          indicatorClassName="bg-gradient-to-r from-primary/50 to-primary"
+                          indicatorClassName="bg-gradient-to-r from-teal-500/50 to-teal-500"
                         />
                       </div>
                       <div>
                         <div className="mb-2 flex items-center justify-between">
                           <h4 className="font-medium">Ecosystem Growth (15%)</h4>
-                          <Badge variant="outline" className="border-primary/50 bg-primary/10">
+                          <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10">
                             36 months
                           </Badge>
                         </div>
@@ -494,21 +496,23 @@ export default function Tokenomics() {
                         <Progress
                           value={50}
                           className="h-2"
-                          indicatorClassName="bg-gradient-to-r from-primary/50 to-primary"
+                          indicatorClassName="bg-gradient-to-r from-teal-500/50 to-teal-500"
                         />
                       </div>
                       <div>
                         <div className="mb-2 flex items-center justify-between">
-                          <h4 className="font-medium">Marketing (10%)</h4>
-                          <Badge variant="outline" className="border-primary/50 bg-primary/10">
+                          <h4 className="font-medium">Strategic Partners (10%)</h4>
+                          <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10">
                             18 months
                           </Badge>
                         </div>
-                        <p className="mb-2 text-sm text-muted-foreground">No cliff, linear vesting over 18 months</p>
+                        <p className="mb-2 text-sm text-muted-foreground">
+                          Linear vesting over 18 months with no cliff
+                        </p>
                         <Progress
                           value={65}
                           className="h-2"
-                          indicatorClassName="bg-gradient-to-r from-primary/50 to-primary"
+                          indicatorClassName="bg-gradient-to-r from-teal-500/50 to-teal-500"
                         />
                       </div>
                     </div>
@@ -516,73 +520,51 @@ export default function Tokenomics() {
                   <div>
                     <h3 className="mb-4 text-xl font-medium">Governance</h3>
                     <p className="mb-6 text-muted-foreground">
-                      $MOON token holders can participate in the governance of the MoonForge platform through the
-                      MoonForge DAO.
+                      $MOON token holders have the ability to participate in governance decisions through the MoonForge
+                      DAO.
                     </p>
-                    <div className="rounded-lg border border-primary/10 bg-card/30 p-4">
-                      <h4 className="mb-3 font-medium">Voting Power</h4>
+                    <div className="rounded-lg border border-teal-500/10 bg-card/30 p-4">
+                      <h4 className="mb-3 font-medium">Governance Mechanism</h4>
                       <p className="mb-4 text-sm text-muted-foreground">
-                        Voting power is determined by the amount of $MOON tokens staked in the governance contract. 1
-                        $MOON = 1 vote.
+                        Proposals are submitted, discussed, and voted on by token holders. 1 $MOON = 1 vote.
                       </p>
-                      <div className="space-y-3">
-                        <div>
-                          <div className="mb-1 flex items-center justify-between">
-                            <span className="text-sm">Proposal Threshold</span>
-                            <span className="text-sm font-medium">10,000 $MOON</span>
+                      <div className="mb-4 space-y-4">
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2">
+                            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-teal-500/10 text-xs font-bold text-teal-500">
+                              1
+                            </div>
+                            <h5 className="text-sm font-medium">Proposal Submission</h5>
                           </div>
-                          <p className="text-xs text-muted-foreground">Minimum amount required to submit a proposal</p>
-                        </div>
-                        <div>
-                          <div className="mb-1 flex items-center justify-between">
-                            <span className="text-sm">Quorum</span>
-                            <span className="text-sm font-medium">5% of staked $MOON</span>
+                          <div className="flex items-center gap-2">
+                            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-teal-500/10 text-xs font-bold text-teal-500">
+                              2
+                            </div>
+                            <h5 className="text-sm font-medium">Discussion Period (7 days)</h5>
                           </div>
-                          <p className="text-xs text-muted-foreground">
-                            Minimum participation required for a vote to be valid
-                          </p>
-                        </div>
-                        <div>
-                          <div className="mb-1 flex items-center justify-between">
-                            <span className="text-sm">Voting Period</span>
-                            <span className="text-sm font-medium">7 days</span>
+                          <div className="flex items-center gap-2">
+                            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-teal-500/10 text-xs font-bold text-teal-500">
+                              3
+                            </div>
+                            <h5 className="text-sm font-medium">Voting Period (5 days)</h5>
                           </div>
-                          <p className="text-xs text-muted-foreground">
-                            Duration of the voting period for each proposal
-                          </p>
+                          <div className="flex items-center gap-2">
+                            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-teal-500/10 text-xs font-bold text-teal-500">
+                              4
+                            </div>
+                            <h5 className="text-sm font-medium">Implementation</h5>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className="mt-6 rounded-lg border border-primary/10 bg-card/30 p-4">
-                      <h4 className="mb-3 font-medium">Governance Scope</h4>
-                      <p className="mb-4 text-sm text-muted-foreground">
-                        The MoonForge DAO can vote on the following aspects of the platform:
-                      </p>
-                      <ul className="space-y-2 text-sm">
-                        <li className="flex items-center gap-2">
-                          <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                            •
-                          </div>
-                          <span>Platform fee adjustments</span>
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                            •
-                          </div>
-                          <span>New feature implementations</span>
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                            •
-                          </div>
-                          <span>Treasury fund allocations</span>
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                            •
-                          </div>
-                          <span>Protocol upgrades</span>
-                        </li>
+                    <div className="mt-6 rounded-lg border border-teal-500/10 bg-card/30 p-4">
+                      <h4 className="mb-3 font-medium">Proposal Types</h4>
+                      <ul className="list-disc space-y-2 pl-5 text-sm text-muted-foreground">
+                        <li>Platform feature updates and changes</li>
+                        <li>Protocol parameter adjustments</li>
+                        <li>Treasury fund allocation</li>
+                        <li>Partnership proposals</li>
+                        <li>Token economics adjustments</li>
                       </ul>
                     </div>
                   </div>
@@ -594,30 +576,32 @@ export default function Tokenomics() {
 
         {/* CTA Section */}
         <section className="mb-12">
-          <Card className="overflow-hidden border-primary/20 bg-gradient-to-r from-primary/5 to-primary/10 backdrop-blur-sm">
-            <CardContent className="p-0">
-              <div className="relative">
-                <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
-                <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
-                <div className="relative z-10 p-8 text-center md:p-12">
-                  <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
-                    Ready to Join the MoonForge Ecosystem?
-                  </h2>
-                  <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground">
-                    Get started with $MOON tokens and unlock the full potential of the MoonForge platform.
+          <Card className="overflow-hidden border-teal-500/20 bg-gradient-to-r from-teal-500/5 to-cyan-500/10 backdrop-blur-sm">
+            <CardContent className="p-6 sm:p-8">
+              <div className="grid gap-8 md:grid-cols-2">
+                <div>
+                  <h2 className="mb-4 text-2xl font-bold">Start Using $MOON Today</h2>
+                  <p className="mb-6 text-muted-foreground">
+                    Join the MoonForge ecosystem and experience the benefits of the $MOON token. Connect your wallet to
+                    get started.
                   </p>
-                  <div className="flex flex-wrap items-center justify-center gap-4">
-                    <Button size="lg" className="gap-2">
-                      Buy $MOON Tokens
-                      <ArrowRight className="h-5 w-5" />
-                    </Button>
+                  <Button className="gap-2">
+                    <Wallet className="h-5 w-5" />
+                    Connect Wallet
+                  </Button>
+                </div>
+                <div>
+                  <h3 className="mb-4 text-xl font-bold">Where to Buy $MOON</h3>
+                  <p className="mb-6 text-muted-foreground">
+                    $MOON is available on the following exchanges and DEXes:
+                  </p>
+                  <div className="space-y-4">
                     <Button
                       variant="outline"
-                      size="lg"
-                      className="gap-2 border-primary/20 bg-primary/5 hover:bg-primary/10"
+                      className="gap-2 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
                     >
-                      View on DEX
-                      <ExternalLink className="h-5 w-5" />
+                      <Image className="h-5 w-5" />
+                      PancakeSwap
                     </Button>
                   </div>
                 </div>

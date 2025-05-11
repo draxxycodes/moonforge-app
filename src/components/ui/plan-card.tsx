@@ -18,12 +18,12 @@ interface PlanProps {
 export function PlanCard({ plan }: { plan: PlanProps }) {
   return (
     <Card
-      className={`group relative overflow-hidden border-primary/10 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-primary/30 hover:shadow-glow ${
-        plan.popular ? "border-primary/30 shadow-glow" : ""
+      className={`group relative overflow-hidden border-teal-500/10 bg-teal-500/5 backdrop-blur-sm transition-all duration-300 hover:border-teal-500/30 hover:shadow-glow ${
+        plan.popular ? "border-teal-500/30 shadow-glow" : ""
       }`}
     >
       {plan.popular && (
-        <div className="absolute -right-12 top-6 z-10 rotate-45 bg-primary px-12 py-1 text-xs font-medium text-primary-foreground">
+        <div className="absolute -right-12 top-6 z-10 rotate-45 bg-gradient-to-r from-teal-500 to-cyan-500 px-12 py-1 text-xs font-medium text-white">
           Popular
         </div>
       )}
@@ -46,14 +46,14 @@ export function PlanCard({ plan }: { plan: PlanProps }) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <Check className="mt-0.5 h-4 w-4 text-green-500" />
+              <Check className="mt-0.5 h-4 w-4 text-teal-500" />
               <span className="text-sm">{feature}</span>
             </motion.li>
           ))}
         </ul>
       </CardContent>
       <CardFooter className="pb-6">
-        <Button className="w-full gap-2 group-hover:bg-primary/90">
+        <Button className="w-full gap-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:opacity-90">
           <Rocket className="h-4 w-4" />
           Select Plan
         </Button>

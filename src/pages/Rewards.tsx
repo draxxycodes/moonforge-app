@@ -8,6 +8,7 @@ import { Button } from "../components/ui/button"
 import { Badge } from "../components/ui/badge"
 import { Progress } from "../components/ui/progress"
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
+import Aurora from "../components/ui/aurora"
 
 // Mock data for leaderboard
 const mockLeaderboard = [
@@ -129,7 +130,36 @@ export default function Rewards() {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <div className="min-h-screen bg-background">
+      {/* Aurora effect container */}
+      <div className="relative h-[40vh] w-full overflow-hidden">
+        <div className="absolute inset-0">
+          <Aurora 
+            colorStops={["#14b8a6", "#06b6d4", "#0ea5e9"]} 
+            amplitude={1.2} 
+            blend={0.6}
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background" />
+        
+        {/* Header positioned over the Aurora effect */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center px-4 pt-16 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="max-w-4xl"
+          >
+            <h1 className="mb-2 text-4xl font-bold tracking-tight text-white drop-shadow-md">
+              Rewards & Leaderboard
+            </h1>
+            <p className="text-lg text-white/90 drop-shadow-sm">
+              Earn $MOON tokens through engagement and climb the ranks
+            </p>
+          </motion.div>
+        </div>
+      </div>
+
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <motion.div
@@ -138,10 +168,10 @@ export default function Rewards() {
             transition={{ duration: 0.3 }}
             className="lg:col-span-2"
           >
-            <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+            <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2">
-                  <Trophy className="h-5 w-5 text-yellow-500" />
+                  <Trophy className="h-5 w-5 text-teal-500" />
                   Your Ranking
                 </CardTitle>
               </CardHeader>
@@ -150,15 +180,15 @@ export default function Rewards() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm text-muted-foreground">Current Rank</p>
-                      <p className="text-2xl font-bold text-primary">#{mockUserStats.rank}</p>
+                      <p className="text-2xl font-bold text-teal-500">#{mockUserStats.rank}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Total Points</p>
-                      <p className="text-2xl font-bold text-primary">{mockUserStats.points}</p>
+                      <p className="text-2xl font-bold text-teal-500">{mockUserStats.points}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">$MOON Earned</p>
-                      <p className="text-2xl font-bold text-primary">{mockUserStats.totalEarned}</p>
+                      <p className="text-2xl font-bold text-teal-500">{mockUserStats.totalEarned}</p>
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -171,7 +201,7 @@ export default function Rewards() {
                     <Progress
                       value={(mockUserStats.points / mockUserStats.nextRankPoints) * 100}
                       className="h-2"
-                      indicatorClassName="bg-gradient-to-r from-primary/50 to-primary"
+                      indicatorClassName="bg-gradient-to-r from-teal-500/50 to-cyan-500"
                     />
                   </div>
                 </div>
@@ -184,23 +214,23 @@ export default function Rewards() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.1 }}
           >
-            <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+            <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2">
-                  <Gift className="h-5 w-5 text-green-500" />
+                  <Gift className="h-5 w-5 text-teal-500" />
                   Available Rewards
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-col items-center justify-center gap-2 py-4">
-                  <span className="text-3xl font-bold text-primary">
+                  <span className="text-3xl font-bold text-teal-500">
                     {mockRewards.filter((r) => r.status === "available").length}
                   </span>
                   <span className="text-center text-sm text-muted-foreground">Rewards ready to claim</span>
                   <Button
                     variant="default"
                     size="sm"
-                    className="mt-2 w-full"
+                    className="mt-2 w-full bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:opacity-90"
                     onClick={() => handleClaimReward(mockRewards.find((r) => r.status === "available"))}
                   >
                     Claim Rewards
@@ -215,18 +245,22 @@ export default function Rewards() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.2 }}
           >
-            <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+            <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2">
-                  <Star className="h-5 w-5 text-yellow-500" />
+                  <Star className="h-5 w-5 text-cyan-500" />
                   Referral Program
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-col items-center justify-center gap-2 py-4">
-                  <span className="text-3xl font-bold text-primary">{mockUserStats.referrals}</span>
+                  <span className="text-3xl font-bold text-teal-500">{mockUserStats.referrals}</span>
                   <span className="text-center text-sm text-muted-foreground">Active referrals</span>
-                  <Button variant="outline" size="sm" className="mt-2 w-full">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="mt-2 w-full border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
+                  >
                     Invite Friends
                   </Button>
                 </div>
@@ -242,10 +276,10 @@ export default function Rewards() {
             transition={{ duration: 0.4 }}
             className="lg:col-span-2"
           >
-            <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+            <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Trophy className="h-5 w-5 text-yellow-500" />
+                  <Trophy className="h-5 w-5 text-teal-500" />
                   Community Leaderboard
                 </CardTitle>
               </CardHeader>
@@ -258,11 +292,11 @@ export default function Rewards() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.3, delay: index * 0.05 }}
                       className={`flex items-center justify-between rounded-lg p-3 ${
-                        index < 3 ? "bg-primary/10 shadow-glow-sm" : "bg-card/30"
+                        index < 3 ? "bg-teal-500/10 shadow-glow-sm" : "bg-teal-500/5"
                       }`}
                     >
                       <div className="flex items-center gap-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 text-sm font-bold">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500/20 text-sm font-bold">
                           {user.rank}
                         </div>
                         <Avatar>
@@ -275,12 +309,12 @@ export default function Rewards() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-primary">{user.points.toLocaleString()}</span>
+                        <span className="font-bold text-teal-500">{user.points.toLocaleString()}</span>
                         <span className="text-xs text-muted-foreground">points</span>
                         {index < 3 && (
                           <Sparkles
                             className={`h-4 w-4 ${
-                              index === 0 ? "text-yellow-500" : index === 1 ? "text-gray-300" : "text-amber-600"
+                              index === 0 ? "text-teal-500" : index === 1 ? "text-cyan-500" : "text-cyan-400"
                             }`}
                           />
                         )}
@@ -297,10 +331,10 @@ export default function Rewards() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
           >
-            <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+            <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Gift className="h-5 w-5 text-green-500" />
+                  <Gift className="h-5 w-5 text-teal-500" />
                   Available Rewards
                 </CardTitle>
               </CardHeader>
@@ -309,8 +343,8 @@ export default function Rewards() {
                   {mockRewards.map((reward) => (
                     <Card
                       key={reward.id}
-                      className={`border-primary/10 bg-card/30 backdrop-blur-sm ${
-                        reward.status === "available" ? "border-green-500/20" : "border-yellow-500/20"
+                      className={`border-teal-500/10 bg-teal-500/5 backdrop-blur-sm ${
+                        reward.status === "available" ? "border-teal-500/20" : "border-cyan-500/20"
                       }`}
                     >
                       <CardContent className="p-4">
@@ -325,8 +359,8 @@ export default function Rewards() {
                             variant="outline"
                             className={
                               reward.status === "available"
-                                ? "border-green-500/50 bg-green-500/10 text-green-500"
-                                : "border-yellow-500/50 bg-yellow-500/10 text-yellow-500"
+                                ? "border-teal-500/50 bg-teal-500/10 text-teal-500"
+                                : "border-cyan-500/50 bg-cyan-500/10 text-cyan-500"
                             }
                           >
                             {reward.status === "available" ? "Available" : "Pending"}
@@ -334,17 +368,17 @@ export default function Rewards() {
                         </div>
                         <div className="mt-4 flex items-center justify-between">
                           <div className="flex items-center gap-1">
-                            <span className="text-lg font-bold text-primary">{reward.amount}</span>
+                            <span className="text-lg font-bold text-teal-500">{reward.amount}</span>
                             <span className="text-xs text-muted-foreground">$MOON</span>
                           </div>
                           {reward.status === "available" && (
                             <Button
                               variant="outline"
                               size="sm"
+                              className="border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
                               onClick={() => handleClaimReward(reward)}
-                              className="border-primary/20 bg-primary/5 hover:bg-primary/10"
                             >
-                              Claim
+                              Claim Now
                             </Button>
                           )}
                         </div>

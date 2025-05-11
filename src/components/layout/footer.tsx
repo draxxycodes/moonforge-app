@@ -23,7 +23,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="border-t border-sky-500/10 bg-black/90 backdrop-blur-md">
+    <footer className="border-t border-teal-500/10 bg-black/90 backdrop-blur-md">
       <div className="container mx-auto px-4 py-12">
         <motion.div
           className="grid gap-8 md:grid-cols-4"
@@ -46,80 +46,27 @@ export function Footer() {
               }}
             >
               <motion.div
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-pink-500 text-white"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
+                className="flex h-9 w-9 items-center justify-center overflow-hidden"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Rocket className="h-4 w-4" />
+                <img src="/logo.png" alt="MoonForge Logo" className="w-full h-full object-contain" />
               </motion.div>
-              <span className="text-xl font-bold text-white">MoonForge</span>
+              <span className="text-xl font-bold text-white heading-font">MoonForge</span>
             </Link>
             <p className="mb-4 text-sm text-gray-400">
               The on-chain social growth protocol that's revolutionizing how creators promote their content.
             </p>
-            <div className="flex gap-2">
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label="Twitter"
-                  onMouseEnter={() => {
-                    setHovered(true)
-                    setType("button")
-                  }}
-                  onMouseLeave={() => {
-                    setHovered(false)
-                    setType("default")
-                  }}
-                >
-                  <Twitter className="h-4 w-4 text-sky-500" />
-                </Button>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label="GitHub"
-                  onMouseEnter={() => {
-                    setHovered(true)
-                    setType("button")
-                  }}
-                  onMouseLeave={() => {
-                    setHovered(false)
-                    setType("default")
-                  }}
-                >
-                  <Github className="h-4 w-4 text-pink-500" />
-                </Button>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label="Telegram"
-                  onMouseEnter={() => {
-                    setHovered(true)
-                    setType("button")
-                  }}
-                  onMouseLeave={() => {
-                    setHovered(false)
-                    setType("default")
-                  }}
-                >
-                  <MessageCircle className="h-4 w-4 text-sky-500" />
-                </Button>
-              </motion.div>
-            </div>
           </motion.div>
 
           <motion.div className="grid grid-cols-2 gap-8 md:col-span-3 md:grid-cols-3" variants={item}>
             <div>
-              <h3 className="mb-3 text-sm font-medium text-white">Platform</h3>
+              <h3 className="mb-3 text-sm font-medium text-white heading-font">Platform</h3>
               <ul className="space-y-2 text-sm">
                 <motion.li variants={item}>
                   <Link
                     to="/marketplace"
-                    className="text-gray-400 transition-colors hover:text-sky-500"
+                    className="text-gray-400 transition-colors hover:text-teal-500"
                     onMouseEnter={() => {
                       setHovered(true)
                       setType("link")
@@ -135,7 +82,7 @@ export function Footer() {
                 <motion.li variants={item}>
                   <Link
                     to="/dashboard"
-                    className="text-gray-400 transition-colors hover:text-sky-500"
+                    className="text-gray-400 transition-colors hover:text-teal-500"
                     onMouseEnter={() => {
                       setHovered(true)
                       setType("link")
@@ -151,7 +98,7 @@ export function Footer() {
                 <motion.li variants={item}>
                   <Link
                     to="/rewards"
-                    className="text-gray-400 transition-colors hover:text-sky-500"
+                    className="text-gray-400 transition-colors hover:text-teal-500"
                     onMouseEnter={() => {
                       setHovered(true)
                       setType("link")
@@ -167,7 +114,7 @@ export function Footer() {
                 <motion.li variants={item}>
                   <Link
                     to="/marketplace"
-                    className="text-gray-400 transition-colors hover:text-sky-500"
+                    className="text-gray-400 transition-colors hover:text-teal-500"
                     onMouseEnter={() => {
                       setHovered(true)
                       setType("link")
@@ -184,12 +131,12 @@ export function Footer() {
             </div>
 
             <div>
-              <h3 className="mb-3 text-sm font-medium text-white">Resources</h3>
+              <h3 className="mb-3 text-sm font-medium text-white heading-font">Resources</h3>
               <ul className="space-y-2 text-sm">
                 <motion.li variants={item}>
                   <Link
                     to="/documentation"
-                    className="text-gray-400 transition-colors hover:text-sky-500"
+                    className="text-gray-400 transition-colors hover:text-teal-500"
                     onMouseEnter={() => {
                       setHovered(true)
                       setType("link")
@@ -205,7 +152,7 @@ export function Footer() {
                 <motion.li variants={item}>
                   <Link
                     to="/tokenomics"
-                    className="text-gray-400 transition-colors hover:text-sky-500"
+                    className="text-gray-400 transition-colors hover:text-teal-500"
                     onMouseEnter={() => {
                       setHovered(true)
                       setType("link")
@@ -221,7 +168,7 @@ export function Footer() {
                 <motion.li variants={item}>
                   <Link
                     to="/documentation"
-                    className="text-gray-400 transition-colors hover:text-sky-500"
+                    className="text-gray-400 transition-colors hover:text-teal-500"
                     onMouseEnter={() => {
                       setHovered(true)
                       setType("link")
@@ -237,7 +184,7 @@ export function Footer() {
                 <motion.li variants={item}>
                   <Link
                     to="/documentation"
-                    className="text-gray-400 transition-colors hover:text-sky-500"
+                    className="text-gray-400 transition-colors hover:text-teal-500"
                     onMouseEnter={() => {
                       setHovered(true)
                       setType("link")
@@ -254,12 +201,12 @@ export function Footer() {
             </div>
 
             <div>
-              <h3 className="mb-3 text-sm font-medium text-white">Company</h3>
+              <h3 className="mb-3 text-sm font-medium text-white heading-font">Company</h3>
               <ul className="space-y-2 text-sm">
                 <motion.li variants={item}>
                   <Link
                     to="/documentation"
-                    className="text-gray-400 transition-colors hover:text-sky-500"
+                    className="text-gray-400 transition-colors hover:text-teal-500"
                     onMouseEnter={() => {
                       setHovered(true)
                       setType("link")
@@ -275,7 +222,7 @@ export function Footer() {
                 <motion.li variants={item}>
                   <Link
                     to="/documentation"
-                    className="text-gray-400 transition-colors hover:text-sky-500"
+                    className="text-gray-400 transition-colors hover:text-teal-500"
                     onMouseEnter={() => {
                       setHovered(true)
                       setType("link")
@@ -291,7 +238,7 @@ export function Footer() {
                 <motion.li variants={item}>
                   <Link
                     to="/documentation"
-                    className="text-gray-400 transition-colors hover:text-sky-500"
+                    className="text-gray-400 transition-colors hover:text-teal-500"
                     onMouseEnter={() => {
                       setHovered(true)
                       setType("link")
@@ -307,7 +254,7 @@ export function Footer() {
                 <motion.li variants={item}>
                   <Link
                     to="/documentation"
-                    className="text-gray-400 transition-colors hover:text-sky-500"
+                    className="text-gray-400 transition-colors hover:text-teal-500"
                     onMouseEnter={() => {
                       setHovered(true)
                       setType("link")
@@ -326,17 +273,17 @@ export function Footer() {
         </motion.div>
 
         <motion.div
-          className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-sky-500/10 pt-8 text-sm text-gray-400 md:flex-row"
+          className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-teal-500/10 pt-8 text-sm text-gray-400 md:flex-row"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
         >
-          <p>&copy; {new Date().getFullYear()} MoonForge. All rights reserved.</p>
+          <p className="heading-font">&copy; {new Date().getFullYear()} MoonForge. All rights reserved.</p>
           <div className="flex gap-4">
             <Link
-              to="/documentation"
-              className="transition-colors hover:text-sky-500"
+              to="/terms"
+              className="transition-colors hover:text-teal-500"
               onMouseEnter={() => {
                 setHovered(true)
                 setType("link")
@@ -349,8 +296,8 @@ export function Footer() {
               Terms of Service
             </Link>
             <Link
-              to="/documentation"
-              className="transition-colors hover:text-sky-500"
+              to="/privacy"
+              className="transition-colors hover:text-teal-500"
               onMouseEnter={() => {
                 setHovered(true)
                 setType("link")
@@ -363,8 +310,8 @@ export function Footer() {
               Privacy Policy
             </Link>
             <Link
-              to="/documentation"
-              className="transition-colors hover:text-sky-500"
+              to="/cookie"
+              className="transition-colors hover:text-teal-500"
               onMouseEnter={() => {
                 setHovered(true)
                 setType("link")

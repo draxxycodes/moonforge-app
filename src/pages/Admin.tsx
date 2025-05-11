@@ -178,15 +178,15 @@ export default function Admin() {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-            <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+            <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground">Total Users</p>
-                    <p className="text-2xl font-bold text-primary">{mockStats.totalUsers}</p>
+                    <p className="text-2xl font-bold text-teal-500">{mockStats.totalUsers}</p>
                   </div>
-                  <div className="rounded-full bg-primary/10 p-3">
-                    <Users className="h-5 w-5 text-primary" />
+                  <div className="rounded-full bg-teal-500/10 p-3">
+                    <Users className="h-5 w-5 text-teal-500" />
                   </div>
                 </div>
               </CardContent>
@@ -198,15 +198,15 @@ export default function Admin() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.1 }}
           >
-            <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+            <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground">Active Promotions</p>
-                    <p className="text-2xl font-bold text-primary">{mockStats.activePromotions}</p>
+                    <p className="text-2xl font-bold text-teal-500">{mockStats.activePromotions}</p>
                   </div>
-                  <div className="rounded-full bg-green-500/10 p-3">
-                    <CheckCircle className="h-5 w-5 text-green-500" />
+                  <div className="rounded-full bg-teal-500/10 p-3">
+                    <CheckCircle className="h-5 w-5 text-teal-500" />
                   </div>
                 </div>
               </CardContent>
@@ -218,15 +218,15 @@ export default function Admin() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.2 }}
           >
-            <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+            <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground">Total Revenue</p>
-                    <p className="text-2xl font-bold text-primary">{mockStats.totalRevenue} $MOON</p>
+                    <p className="text-2xl font-bold text-teal-500">{mockStats.totalRevenue} $MOON</p>
                   </div>
-                  <div className="rounded-full bg-primary/10 p-3">
-                    <Shield className="h-5 w-5 text-primary" />
+                  <div className="rounded-full bg-teal-500/10 p-3">
+                    <Shield className="h-5 w-5 text-teal-500" />
                   </div>
                 </div>
               </CardContent>
@@ -238,15 +238,15 @@ export default function Admin() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.3 }}
           >
-            <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+            <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground">Pending Reports</p>
-                    <p className="text-2xl font-bold text-primary">{mockStats.pendingReports}</p>
+                    <p className="text-2xl font-bold text-teal-500">{mockStats.pendingReports}</p>
                   </div>
-                  <div className="rounded-full bg-yellow-500/10 p-3">
-                    <AlertCircle className="h-5 w-5 text-yellow-500" />
+                  <div className="rounded-full bg-teal-500/10 p-3">
+                    <AlertCircle className="h-5 w-5 text-teal-500" />
                   </div>
                 </div>
               </CardContent>
@@ -255,7 +255,7 @@ export default function Admin() {
         </div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-          <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+          <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>Platform Management</CardTitle>
             </CardHeader>
@@ -314,10 +314,10 @@ export default function Admin() {
                                 variant="outline"
                                 className={`${
                                   user.status === "active"
-                                    ? "border-green-500/50 bg-green-500/10 text-green-500"
+                                    ? "border-teal-500/50 bg-teal-500/10 text-teal-500"
                                     : user.status === "inactive"
-                                      ? "border-yellow-500/50 bg-yellow-500/10 text-yellow-500"
-                                      : "border-red-500/50 bg-red-500/10 text-red-500"
+                                      ? "border-teal-500/50 bg-teal-500/10 text-teal-500"
+                                      : "border-teal-500/50 bg-teal-500/10 text-teal-500"
                                 }`}
                               >
                                 {user.status}
@@ -327,7 +327,7 @@ export default function Admin() {
                             <TableCell>{user.plans}</TableCell>
                             <TableCell>{user.balance} $MOON</TableCell>
                             <TableCell className="text-right">
-                              <Button variant="ghost" size="sm" className="h-8 px-2">
+                              <Button variant="ghost" size="sm" className="h-8 px-2 text-teal-500 hover:bg-teal-500/10 hover:text-teal-600">
                                 Edit
                               </Button>
                             </TableCell>
@@ -365,15 +365,19 @@ export default function Admin() {
                                 variant="outline"
                                 className={`${
                                   promo.status === "active"
-                                    ? "border-green-500/50 bg-green-500/10 text-green-500"
-                                    : "border-yellow-500/50 bg-yellow-500/10 text-yellow-500"
+                                    ? "border-teal-500/50 bg-teal-500/10 text-teal-500"
+                                    : "border-teal-500/50 bg-teal-500/10 text-teal-500"
                                 }`}
                               >
                                 {promo.status}
                               </Badge>
                             </TableCell>
                             <TableCell className="text-right">
-                              <Button variant="ghost" size="sm" className="h-8 px-2">
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="h-8 px-2 text-teal-500 hover:bg-teal-500/10 hover:text-teal-600"
+                              >
                                 View
                               </Button>
                             </TableCell>
@@ -409,10 +413,10 @@ export default function Admin() {
                                 variant="outline"
                                 className={`${
                                   report.status === "pending"
-                                    ? "border-yellow-500/50 bg-yellow-500/10 text-yellow-500"
+                                    ? "border-teal-500/50 bg-teal-500/10 text-teal-500"
                                     : report.status === "resolved"
-                                      ? "border-green-500/50 bg-green-500/10 text-green-500"
-                                      : "border-red-500/50 bg-red-500/10 text-red-500"
+                                      ? "border-teal-500/50 bg-teal-500/10 text-teal-500"
+                                      : "border-teal-500/50 bg-teal-500/10 text-teal-500"
                                 }`}
                               >
                                 {report.status}
@@ -423,17 +427,15 @@ export default function Admin() {
                                 {report.status === "pending" && (
                                   <>
                                     <Button
-                                      variant="ghost"
-                                      size="sm"
-                                      className="h-8 px-2 text-green-500 hover:text-green-600"
+                                      variant="outline"
+                                      className="border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
                                     >
                                       <CheckCircle className="mr-1 h-4 w-4" />
                                       Approve
                                     </Button>
                                     <Button
-                                      variant="ghost"
-                                      size="sm"
-                                      className="h-8 px-2 text-red-500 hover:text-red-600"
+                                      variant="outline"
+                                      className="border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
                                     >
                                       <XCircle className="mr-1 h-4 w-4" />
                                       Reject
@@ -441,7 +443,11 @@ export default function Admin() {
                                   </>
                                 )}
                                 {report.status !== "pending" && (
-                                  <Button variant="ghost" size="sm" className="h-8 px-2">
+                                  <Button 
+                                    variant="ghost" 
+                                    size="sm" 
+                                    className="h-8 px-2 text-teal-500 hover:bg-teal-500/10 hover:text-teal-600"
+                                  >
                                     View
                                   </Button>
                                 )}

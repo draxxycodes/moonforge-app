@@ -188,8 +188,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         <p className="mb-1 font-medium">{label}</p>
         <div className="space-y-1">
           <p className="flex items-center gap-2 text-sm">
-            <span className="h-2 w-2 rounded-full bg-primary"></span>
-            Current: <span className="font-medium text-primary">{payload[0].value}</span>
+            <span className="h-2 w-2 rounded-full bg-teal-500"></span>
+            Current: <span className="font-medium text-teal-500">{payload[0].value}</span>
           </p>
           {payload[1] && (
             <p className="flex items-center gap-2 text-sm">
@@ -215,13 +215,13 @@ function NotificationItem({
   const getIcon = () => {
     switch (notification.type) {
       case "success":
-        return <Check className="h-5 w-5 text-green-500" />
+        return <Check className="h-5 w-5 text-teal-500" />
       case "warning":
-        return <AlertTriangle className="h-5 w-5 text-amber-500" />
+        return <AlertTriangle className="h-5 w-5 text-cyan-500" />
       case "reward":
-        return <Award className="h-5 w-5 text-primary" />
+        return <Award className="h-5 w-5 text-teal-500" />
       default:
-        return <Info className="h-5 w-5 text-blue-500" />
+        return <Info className="h-5 w-5 text-teal-500" />
     }
   }
 
@@ -231,7 +231,7 @@ function NotificationItem({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, x: -100 }}
       className={`mb-2 rounded-lg border p-3 ${
-        notification.read ? "border-border/50 bg-card/50" : "border-primary/20 bg-primary/5"
+        notification.read ? "border-border/50 bg-card/50" : "border-teal-500/20 bg-teal-500/5"
       }`}
     >
       <div className="flex items-start justify-between">
@@ -239,10 +239,10 @@ function NotificationItem({
           <div
             className={`mt-0.5 rounded-full p-1.5 ${
               notification.type === "success"
-                ? "bg-green-500/10"
+                ? "bg-teal-500/10"
                 : notification.type === "warning"
                   ? "bg-amber-500/10"
-                  : "bg-primary/10"
+                  : "bg-teal-500/10"
             }`}
           >
             {getIcon()}
@@ -339,28 +339,29 @@ export default function Dashboard() {
   }
 
   // COLORS for charts
-  const COLORS = ["#7c3aed", "#9333ea", "#c026d3", "#db2777"]
+  const COLORS = ["#14b8a6", "#06b6d4", "#0ea5e9", "#22d3ee"]
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="min-h-screen bg-background pb-20 pt-20">
       {/* Scroll Progress Indicator */}
-      <ScrollProgress />
+      <ScrollProgress color="rgba(20, 184, 166, 0.7)" height={3} />
 
       <AnimatedHeading
         title="Dashboard"
         subtitle="Monitor your visibility and $MOON performance on Sui blockchain"
-        className="container mx-auto mb-8 mt-20 px-4"
+        className="container mx-auto mb-8 mt-16 px-4"
+        glowColor="rgba(20, 184, 166, 0.4)"
       />
 
       <div className="container mx-auto px-4">
         {/* Top Action Bar */}
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className="border-primary/30 bg-primary/5 px-3 py-1.5">
+            <Badge variant="outline" className="border-teal-500/30 bg-teal-500/5 px-3 py-1.5">
               <Wallet className="mr-1.5 h-3.5 w-3.5" />
               Sui Network
             </Badge>
-            <Badge variant="outline" className="border-green-500/30 bg-green-500/5 px-3 py-1.5 text-green-500">
+            <Badge variant="outline" className="border-teal-500/30 bg-teal-500/5 px-3 py-1.5 text-teal-500">
               <Check className="mr-1.5 h-3.5 w-3.5" />
               Connected
             </Badge>
@@ -370,19 +371,25 @@ export default function Dashboard() {
             <Button
               variant="outline"
               size="sm"
-              className="relative gap-2"
+              className="relative gap-2 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
               onClick={() => setShowNotifications(!showNotifications)}
             >
               <Bell className="h-4 w-4" />
               Notifications
               {unreadCount > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground">
+                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-teal-500 text-[10px] text-white">
                   {unreadCount}
                 </span>
               )}
             </Button>
 
-            <Button variant="outline" size="sm" className="gap-2" onClick={handleRefresh} disabled={isRefreshing}>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-2 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10" 
+              onClick={handleRefresh} 
+              disabled={isRefreshing}
+            >
               <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`} />
               {isRefreshing ? "Refreshing..." : "Refresh Data"}
             </Button>
@@ -405,7 +412,12 @@ export default function Dashboard() {
                     <CardDescription>Stay updated with your account activity</CardDescription>
                   </div>
                   {unreadCount > 0 && (
-                    <Button variant="ghost" size="sm" onClick={markAllAsRead}>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={markAllAsRead}
+                      className="text-teal-500 hover:bg-teal-500/10 hover:text-teal-600"
+                    >
                       Mark all as read
                     </Button>
                   )}
@@ -477,7 +489,7 @@ export default function Dashboard() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.1}>
-            <Card3D glowColor="rgba(124, 58, 237, 0.7)">
+            <Card3D glowColor="rgba(20, 184, 166, 0.7)">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium">$MOON Balance</CardTitle>
               </CardHeader>
@@ -485,7 +497,7 @@ export default function Dashboard() {
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center justify-between">
                     <motion.span
-                      className="text-2xl font-bold text-primary"
+                      className="text-2xl font-bold text-teal-500"
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.5, delay: 0.3 }}
@@ -499,7 +511,7 @@ export default function Dashboard() {
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">24h Change</span>
                     <span
-                      className={`flex items-center text-sm font-medium ${mockWallet.positive ? "text-green-500" : "text-red-500"}`}
+                      className={`flex items-center text-sm font-medium ${mockWallet.positive ? "text-teal-500" : "text-red-500"}`}
                     >
                       {mockWallet.positive ? (
                         <ArrowUpRight className="mr-1 h-3 w-3" />
@@ -514,14 +526,14 @@ export default function Dashboard() {
                       <AreaChart data={mockWallet.history.map((value, index) => ({ name: index, value }))}>
                         <defs>
                           <linearGradient id="balanceGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="rgb(124, 58, 237)" stopOpacity={0.3} />
-                            <stop offset="100%" stopColor="rgb(124, 58, 237)" stopOpacity={0} />
+                            <stop offset="0%" stopColor="rgb(20, 184, 166)" stopOpacity={0.3} />
+                            <stop offset="100%" stopColor="rgb(20, 184, 166)" stopOpacity={0} />
                           </linearGradient>
                         </defs>
                         <Area
                           type="monotone"
                           dataKey="value"
-                          stroke="#7c3aed"
+                          stroke="#14b8a6"
                           strokeWidth={2}
                           fill="url(#balanceGradient)"
                         />
@@ -534,7 +546,7 @@ export default function Dashboard() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.2}>
-            <Card3D glowColor="rgba(34, 197, 94, 0.5)">
+            <Card3D glowColor="rgba(20, 184, 166, 0.7)">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium">Active Plans</CardTitle>
               </CardHeader>
@@ -542,14 +554,14 @@ export default function Dashboard() {
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center justify-between">
                     <motion.span
-                      className="text-2xl font-bold text-primary"
+                      className="text-2xl font-bold text-teal-500"
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.5, delay: 0.3 }}
                     >
                       {mockActivePlans.length}
                     </motion.span>
-                    <Badge variant="outline" className="border-green-500/50 bg-green-500/10 text-green-500">
+                    <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10 text-teal-500">
                       Running
                     </Badge>
                   </div>
@@ -563,9 +575,9 @@ export default function Dashboard() {
                     {mockActivePlans.map((plan, i) => (
                       <div
                         key={i}
-                        className="h-1.5 flex-1 rounded-full bg-primary/20"
+                        className="h-1.5 flex-1 rounded-full bg-teal-500/20"
                         style={{
-                          background: `linear-gradient(90deg, #7c3aed ${plan.progress}%, rgba(124, 58, 237, 0.2) ${plan.progress}%)`,
+                          background: `linear-gradient(90deg, #14b8a6 ${plan.progress}%, rgba(20, 184, 166, 0.2) ${plan.progress}%)`,
                         }}
                       />
                     ))}
@@ -576,7 +588,7 @@ export default function Dashboard() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.3}>
-            <Card3D glowColor="rgba(234, 88, 12, 0.5)">
+            <Card3D glowColor="rgba(20, 184, 166, 0.7)">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium">Rewards Earned</CardTitle>
               </CardHeader>
@@ -584,7 +596,7 @@ export default function Dashboard() {
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center justify-between">
                     <motion.span
-                      className="text-2xl font-bold text-primary"
+                      className="text-2xl font-bold text-teal-500"
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.5, delay: 0.3 }}
@@ -598,7 +610,7 @@ export default function Dashboard() {
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">Distribution</span>
                     <span className="text-sm font-medium">
-                      <Sparkles className="mr-1 inline-block h-3 w-3 text-amber-500" />4 Sources
+                      <Sparkles className="mr-1 inline-block h-3 w-3 text-cyan-500" />4 Sources
                     </span>
                   </div>
                   <div className="mt-1 h-[40px]">
@@ -631,7 +643,7 @@ export default function Dashboard() {
           <div className="mb-8">
             <div className="mb-4 flex items-center gap-2">
               <AnimatedIcon pulse>
-                <Twitter className="h-5 w-5 text-[#1DA1F2]" />
+                <Twitter className="h-5 w-5 text-teal-500" />
               </AnimatedIcon>
               <h2 className="text-xl font-bold">Connected Social Accounts</h2>
             </div>
@@ -655,12 +667,16 @@ export default function Dashboard() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="flex items-center gap-2">
-                    <BarChart3 className="h-5 w-5 text-primary" />
+                    <BarChart3 className="h-5 w-5 text-teal-500" />
                     Performance Overview
                   </CardTitle>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="outline" size="sm" className="gap-1">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="gap-1 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
+                      >
                         Last 7 Days <ChevronDown className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
@@ -697,8 +713,8 @@ export default function Dashboard() {
                         <Bar dataKey="avg" fill="rgba(255,255,255,0.1)" radius={[4, 4, 0, 0]} />
                         <defs>
                           <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="rgb(124, 58, 237)" stopOpacity={1} />
-                            <stop offset="100%" stopColor="rgb(124, 58, 237)" stopOpacity={0.2} />
+                            <stop offset="0%" stopColor="rgb(20, 184, 166)" stopOpacity={1} />
+                            <stop offset="100%" stopColor="rgb(20, 184, 166)" stopOpacity={0.2} />
                           </linearGradient>
                         </defs>
                       </BarChart>
@@ -714,7 +730,7 @@ export default function Dashboard() {
                         <Line
                           type="monotone"
                           dataKey="value"
-                          stroke="#7c3aed"
+                          stroke="#14b8a6"
                           strokeWidth={2}
                           dot={{ r: 4, strokeWidth: 2 }}
                           activeDot={{ r: 6, strokeWidth: 2 }}
@@ -735,7 +751,7 @@ export default function Dashboard() {
               <CardFooter className="border-t border-border/40 pt-4">
                 <div className="flex w-full items-center justify-between text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-primary"></span>
+                    <span className="h-2 w-2 rounded-full bg-teal-500"></span>
                     Your Performance
                   </div>
                   <div className="flex items-center gap-2">
@@ -748,10 +764,10 @@ export default function Dashboard() {
           </ScrollReveal>
 
           <ScrollReveal>
-            <Card>
+            <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-primary" />
+                  <Users className="h-5 w-5 text-teal-500" />
                   Platform Growth
                 </CardTitle>
                 <CardDescription>Track your social media growth across platforms</CardDescription>
@@ -773,7 +789,7 @@ export default function Dashboard() {
                           </AnimatedIcon>
                           <span className="text-sm font-medium">{platform.platform}</span>
                         </div>
-                        <Badge variant="outline" className="border-green-500/50 bg-green-500/10 text-green-500">
+                        <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10 text-teal-500">
                           +{platform.growth}%
                         </Badge>
                       </div>
@@ -797,7 +813,11 @@ export default function Dashboard() {
                 </div>
               </CardContent>
               <CardFooter className="border-t border-border/40 pt-4">
-                <Button variant="outline" size="sm" className="w-full gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full gap-2 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
+                >
                   <Rocket className="h-4 w-4" />
                   Boost Growth
                 </Button>
@@ -812,7 +832,7 @@ export default function Dashboard() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Rocket className="h-5 w-5 text-primary" />
+                  <Rocket className="h-5 w-5 text-teal-500" />
                   Active Promotion Plans
                 </CardTitle>
                 <CardDescription>Monitor your ongoing promotion campaigns and their performance</CardDescription>
@@ -820,11 +840,11 @@ export default function Dashboard() {
               <CardContent>
                 <div className="grid gap-6 md:grid-cols-2">
                   {mockActivePlans.map((plan, index) => (
-                    <Card3D key={plan.id} glowColor="rgba(124, 58, 237, 0.4)">
+                    <Card3D key={plan.id} glowColor="rgba(20, 184, 166, 0.4)">
                       <CardHeader className="pb-2">
                         <div className="flex items-center justify-between">
                           <CardTitle className="text-lg">{plan.name}</CardTitle>
-                          <Badge variant="outline" className="border-green-500/50 bg-green-500/10 text-green-500">
+                          <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10 text-teal-500">
                             {plan.status}
                           </Badge>
                         </div>
@@ -883,7 +903,9 @@ export default function Dashboard() {
                 </div>
               </CardContent>
               <CardFooter className="flex justify-center border-t border-border/40 pt-4">
-                <Button className="gap-2">
+                <Button 
+                  className="gap-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:opacity-90"
+                >
                   <Rocket className="h-4 w-4" />
                   Create New Plan
                 </Button>

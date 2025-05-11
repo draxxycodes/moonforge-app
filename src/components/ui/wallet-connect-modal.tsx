@@ -4,7 +4,7 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./dialog"
 import { Button } from "./button"
-import { Wallet, X } from "lucide-react"
+import { Wallet, X, ChevronRight } from "lucide-react"
 
 interface WalletConnectModalProps {
   isOpen: boolean
@@ -50,10 +50,10 @@ export function WalletConnectModal({ isOpen, onClose, onConnect }: WalletConnect
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="border-primary/20 bg-card/95 backdrop-blur-sm sm:max-w-md">
+      <DialogContent className="border-teal-500/20 bg-card/95 backdrop-blur-sm sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl">
-            <Wallet className="h-5 w-5" />
+          <DialogTitle className="flex items-center gap-2 text-xl text-white">
+            <Wallet className="h-5 w-5 text-teal-500" />
             Connect Wallet
           </DialogTitle>
         </DialogHeader>
@@ -71,14 +71,14 @@ export function WalletConnectModal({ isOpen, onClose, onConnect }: WalletConnect
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="flex flex-col items-center justify-center rounded-lg border border-primary/20 bg-primary/5 p-8"
+                  className="flex flex-col items-center justify-center rounded-lg border border-teal-500/20 bg-teal-500/5 p-8"
                 >
-                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-teal-500/10">
                     <motion.div
                       animate={{ rotate: 360 }}
                       transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
                     >
-                      <Wallet className="h-8 w-8 text-primary" />
+                      <Wallet className="h-8 w-8 text-teal-500" />
                     </motion.div>
                   </div>
                   <h3 className="mb-2 text-lg font-medium">
@@ -102,12 +102,12 @@ export function WalletConnectModal({ isOpen, onClose, onConnect }: WalletConnect
                     <motion.div key={wallet.id} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                       <Button
                         variant="outline"
-                        className="flex h-auto w-full items-center justify-between border-primary/10 bg-card p-4 hover:border-primary/30 hover:bg-primary/5"
+                        className="flex h-auto w-full items-center justify-between border-teal-500/10 bg-card p-4 hover:border-teal-500/30 hover:bg-teal-500/5"
                         onClick={() => handleConnect(wallet.id)}
                       >
                         <div className="flex items-center gap-3">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                            <Wallet className="h-5 w-5 text-primary" />
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-500/10">
+                            <Wallet className="h-5 w-5 text-teal-500" />
                           </div>
                           <div className="text-left">
                             <h3 className="font-medium">{wallet.name}</h3>
@@ -127,5 +127,3 @@ export function WalletConnectModal({ isOpen, onClose, onConnect }: WalletConnect
     </Dialog>
   )
 }
-
-import { ChevronRight } from "lucide-react"

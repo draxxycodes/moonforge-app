@@ -8,9 +8,11 @@ const progressVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary",
+        default: "bg-gradient-to-r from-teal-500 to-cyan-500",
         success: "bg-success",
         destructive: "bg-destructive",
+        teal: "bg-teal-500",
+        cyan: "bg-cyan-500",
       },
     },
     defaultVariants: {
@@ -32,7 +34,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
     <div
       ref={ref}
       className={cn(
-        "relative h-3 w-full overflow-hidden rounded-full bg-primary/10",
+        "relative h-3 w-full overflow-hidden rounded-full bg-teal-500/10",
         className
       )}
       {...props}

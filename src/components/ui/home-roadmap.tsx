@@ -20,31 +20,31 @@ const roadmapItems = [
     title: "Platform Concept",
     description: "Initial idea development and market research for MoonForge platform",
     quarter: "Q4",
-    year: "2023",
+    year: "2025",
     status: "completed",
     icon: Rocket,
   },
   {
     title: "Community Building",
     description: "Initial community formation and social media presence establishment",
-    quarter: "Q1",
-    year: "2024",
-    status: "completed",
+    quarter: "Q2",
+    year: "2025",
+    status: "current",
     icon: Users,
   },
   {
     title: "Sui Integration",
     description: "Full integration with Sui blockchain for all platform features",
     quarter: "Q2",
-    year: "2024",
+    year: "2025",
     status: "current",
     icon: Code,
   },
   {
     title: "Token Launch",
     description: "$MOON token launch on DEXs with initial liquidity pools",
-    quarter: "Q3",
-    year: "2024",
+    quarter: "Q4",
+    year: "2025",
     status: "upcoming",
     icon: Coin,
   },
@@ -52,14 +52,14 @@ const roadmapItems = [
     title: "Platform Expansion",
     description: "Adding more social media platforms and promotion features",
     quarter: "Q4",
-    year: "2024",
+    year: "2025",
     status: "upcoming",
     icon: Zap,
   },
   {
     title: "Data Analytics",
     description: "Advanced analytics and performance metrics for promotions",
-    quarter: "Q1",
+    quarter: "Q4",
     year: "2025",
     status: "upcoming",
     icon: BarChart,
@@ -137,7 +137,7 @@ export function HomeRoadmap() {
           </Badge>
           <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">MoonForge Roadmap</h2>
           <p className="mx-auto max-w-2xl text-muted-foreground">
-            Our strategic plan for developing and expanding the MoonForge platform on Sui blockchain
+            Our strategic plan for developing and expanding the MoonForge platform on SUI blockchain
           </p>
         </div>
       </ScrollReveal>

@@ -256,7 +256,7 @@ export default function DexIntegration() {
               animate={swapInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.5 }}
             >
-              <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+              <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <CardTitle>Swap Tokens</CardTitle>
@@ -264,13 +264,13 @@ export default function DexIntegration() {
                       variant="ghost"
                       size="icon"
                       onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-                      className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                      className="h-8 w-8 text-teal-500 hover:text-teal-500"
                     >
                       <Settings className="h-4 w-4" />
                     </Button>
                   </div>
                   {isSettingsOpen && (
-                    <div className="mt-4 rounded-lg border border-border bg-card/50 p-4">
+                    <div className="mt-4 rounded-lg border border-border bg-teal-500/5 p-4">
                       <h4 className="mb-3 text-sm font-medium">Transaction Settings</h4>
                       <div className="mb-4">
                         <div className="mb-2 flex items-center justify-between">
@@ -288,7 +288,7 @@ export default function DexIntegration() {
                           onValueChange={(value) => setSlippage(value[0])}
                           className="py-2"
                         />
-                        <div className="flex justify-between text-xs text-muted-foreground">
+                        <div className="flex justify-between text-xs text-teal-500">
                           <span>0.1%</span>
                           <span>5%</span>
                         </div>
@@ -305,11 +305,11 @@ export default function DexIntegration() {
                 <CardContent>
                   <div className="space-y-4">
                     {/* From Token */}
-                    <div className="rounded-lg border border-border bg-card/50 p-4">
+                    <div className="rounded-lg border border-border bg-teal-500/5 p-4">
                       <div className="mb-2 flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">From</span>
+                        <span className="text-sm text-teal-500">From</span>
                         {isConnected && (
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-xs text-teal-500">
                             Balance: {tokenList.find((t) => t.id === fromToken)?.balance.toFixed(4) || "0"}
                           </span>
                         )}
@@ -323,7 +323,7 @@ export default function DexIntegration() {
                           className="border-0 bg-transparent text-lg shadow-none focus-visible:ring-0"
                         />
                         <Select value={fromToken} onValueChange={setFromToken}>
-                          <SelectTrigger className="w-[140px] border-0 bg-muted/50 focus:ring-0">
+                          <SelectTrigger className="w-[140px] border-0 bg-teal-500/10 focus:ring-0">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -352,18 +352,18 @@ export default function DexIntegration() {
                         variant="ghost"
                         size="icon"
                         onClick={handleSwapTokens}
-                        className="h-8 w-8 rounded-full bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
+                        className="h-8 w-8 rounded-full bg-teal-500/10 text-teal-500 hover:bg-teal-500 hover:text-teal-500"
                       >
                         <ArrowDown className="h-4 w-4" />
                       </Button>
                     </div>
 
                     {/* To Token */}
-                    <div className="rounded-lg border border-border bg-card/50 p-4">
+                    <div className="rounded-lg border border-border bg-teal-500/5 p-4">
                       <div className="mb-2 flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">To</span>
+                        <span className="text-sm text-teal-500">To</span>
                         {isConnected && (
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-xs text-teal-500">
                             Balance: {tokenList.find((t) => t.id === toToken)?.balance.toFixed(4) || "0"}
                           </span>
                         )}
@@ -377,7 +377,7 @@ export default function DexIntegration() {
                           className="border-0 bg-transparent text-lg shadow-none focus-visible:ring-0"
                         />
                         <Select value={toToken} onValueChange={setToToken}>
-                          <SelectTrigger className="w-[140px] border-0 bg-muted/50 focus:ring-0">
+                          <SelectTrigger className="w-[140px] border-0 bg-teal-500/10 focus:ring-0">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -402,9 +402,9 @@ export default function DexIntegration() {
 
                     {/* Swap Rate */}
                     {fromAmount && toAmount && (
-                      <div className="rounded-lg bg-muted/30 p-3 text-sm">
+                      <div className="rounded-lg bg-teal-500/10 p-3 text-sm">
                         <div className="flex items-center justify-between">
-                          <span className="text-muted-foreground">Rate</span>
+                          <span className="text-teal-500">Rate</span>
                           <div className="flex items-center gap-1">
                             <span>
                               1 {tokenList.find((t) => t.id === fromToken)?.symbol} = {calculateSwapRate().toFixed(6)}{" "}
@@ -413,14 +413,14 @@ export default function DexIntegration() {
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-5 w-5 text-muted-foreground hover:text-foreground"
+                              className="h-5 w-5 text-teal-500 hover:text-teal-500"
                             >
                               <RefreshCw className="h-3 w-3" />
                             </Button>
                           </div>
                         </div>
                         <div className="mt-2 flex items-center justify-between">
-                          <span className="text-muted-foreground">Slippage Tolerance</span>
+                          <span className="text-teal-500">Slippage Tolerance</span>
                           <span>{slippage}%</span>
                         </div>
                       </div>
@@ -429,11 +429,18 @@ export default function DexIntegration() {
                 </CardContent>
                 <CardFooter>
                   {isConnected ? (
-                    <Button className="w-full" disabled={!fromAmount || !toAmount} onClick={handleSwapConfirm}>
+                    <Button 
+                      className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:opacity-90" 
+                      disabled={!fromAmount || !toAmount} 
+                      onClick={handleSwapConfirm}
+                    >
                       Swap
                     </Button>
                   ) : (
-                    <Button className="w-full" onClick={handleConnectWallet}>
+                    <Button 
+                      className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:opacity-90" 
+                      onClick={handleConnectWallet}
+                    >
                       Connect Wallet
                     </Button>
                   )}
@@ -441,19 +448,19 @@ export default function DexIntegration() {
               </Card>
 
               {/* Network Info */}
-              <Card className="mt-4 border-primary/20 bg-card/50 backdrop-blur-sm">
+              <Card className="mt-4 border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500/10">
                         <img src="/placeholder.svg?height=20&width=20" alt="Base" className="h-5 w-5 rounded-full" />
                       </div>
                       <div>
                         <h3 className="text-sm font-medium">Base Mainnet</h3>
-                        <p className="text-xs text-muted-foreground">Ethereum L2 Solution</p>
+                        <p className="text-xs text-teal-500">Ethereum L2 Solution</p>
                       </div>
                     </div>
-                    <Badge variant="outline" className="border-green-500/50 bg-green-500/10 text-green-500">
+                    <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10 text-teal-500">
                       Connected
                     </Badge>
                   </div>
@@ -469,16 +476,16 @@ export default function DexIntegration() {
               animate={chartInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.5 }}
             >
-              <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+              <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <CardTitle>$MOON Price Chart</CardTitle>
                     <div className="flex items-center gap-2">
-                      <Badge variant="outline" className="border-green-500/50 bg-green-500/10 text-green-500">
+                      <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10 text-teal-500">
                         +5.7%
                       </Badge>
                       <Select defaultValue="24h">
-                        <SelectTrigger className="h-8 w-[70px] border-0 bg-muted/50 focus:ring-0">
+                        <SelectTrigger className="h-8 w-[70px] border-0 bg-teal-500/10 focus:ring-0">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -526,20 +533,20 @@ export default function DexIntegration() {
                   </div>
 
                   <div className="mt-6 grid gap-4 md:grid-cols-4">
-                    <div className="rounded-lg border border-border bg-card/30 p-3">
-                      <p className="text-xs text-muted-foreground">Current Price</p>
-                      <p className="text-lg font-bold text-primary">$0.35</p>
+                    <div className="rounded-lg border border-border bg-teal-500/5 p-3">
+                      <p className="text-xs text-teal-500">Current Price</p>
+                      <p className="text-lg font-bold text-teal-500">$0.35</p>
                     </div>
-                    <div className="rounded-lg border border-border bg-card/30 p-3">
-                      <p className="text-xs text-muted-foreground">24h Volume</p>
+                    <div className="rounded-lg border border-border bg-teal-500/5 p-3">
+                      <p className="text-xs text-teal-500">24h Volume</p>
                       <p className="text-lg font-bold">$1.2M</p>
                     </div>
-                    <div className="rounded-lg border border-border bg-card/30 p-3">
-                      <p className="text-xs text-muted-foreground">Market Cap</p>
+                    <div className="rounded-lg border border-border bg-teal-500/5 p-3">
+                      <p className="text-xs text-teal-500">Market Cap</p>
                       <p className="text-lg font-bold">$12.5M</p>
                     </div>
-                    <div className="rounded-lg border border-border bg-card/30 p-3">
-                      <p className="text-xs text-muted-foreground">Circulating Supply</p>
+                    <div className="rounded-lg border border-border bg-teal-500/5 p-3">
+                      <p className="text-xs text-teal-500">Circulating Supply</p>
                       <p className="text-lg font-bold">35M</p>
                     </div>
                   </div>
@@ -547,7 +554,7 @@ export default function DexIntegration() {
               </Card>
 
               {/* Transaction History */}
-              <Card className="mt-4 border-primary/20 bg-card/50 backdrop-blur-sm">
+              <Card className="mt-4 border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle>Transaction History</CardTitle>
                 </CardHeader>
@@ -555,37 +562,37 @@ export default function DexIntegration() {
                   {isConnected ? (
                     <div className="space-y-3">
                       {transactionHistory.map((tx) => (
-                        <div key={tx.id} className="rounded-lg border border-border bg-card/30 p-3">
+                        <div key={tx.id} className="rounded-lg border border-border bg-teal-500/10 p-3">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
+                              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500/10">
                                 {tx.type === "Swap" ? (
-                                  <RefreshCw className="h-4 w-4 text-primary" />
+                                  <RefreshCw className="h-4 w-4 text-teal-500" />
                                 ) : (
-                                  <Zap className="h-4 w-4 text-primary" />
+                                  <Zap className="h-4 w-4 text-teal-500" />
                                 )}
                               </div>
                               <div>
                                 <p className="text-sm font-medium">{tx.type}</p>
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-xs text-teal-500">
                                   {tx.fromAmount} {tx.fromToken} → {tx.toAmount} {tx.toToken}
                                 </p>
                               </div>
                             </div>
                             <div className="text-right">
                               <div className="flex items-center gap-1">
-                                <Badge variant="outline" className="border-green-500/50 bg-green-500/10 text-green-500">
+                                <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10 text-teal-500">
                                   {tx.status}
                                 </Badge>
                                 <Button
                                   variant="ghost"
                                   size="icon"
-                                  className="h-6 w-6 text-muted-foreground hover:text-foreground"
+                                  className="h-6 w-6 text-teal-500 hover:text-teal-500"
                                 >
                                   <ExternalLink className="h-3 w-3" />
                                 </Button>
                               </div>
-                              <p className="text-xs text-muted-foreground">{tx.timestamp}</p>
+                              <p className="text-xs text-teal-500">{tx.timestamp}</p>
                             </div>
                           </div>
                         </div>
@@ -593,14 +600,19 @@ export default function DexIntegration() {
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center py-8 text-center">
-                      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted/50">
-                        <Wallet className="h-8 w-8 text-muted-foreground" />
+                      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-teal-500/10">
+                        <Wallet className="h-8 w-8 text-teal-500" />
                       </div>
                       <h3 className="mb-2 text-lg font-medium">Connect Your Wallet</h3>
-                      <p className="mb-4 text-sm text-muted-foreground">
+                      <p className="mb-4 text-sm text-teal-500">
                         Connect your wallet to view your transaction history
                       </p>
-                      <Button onClick={handleConnectWallet}>Connect Wallet</Button>
+                      <Button 
+                        className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:opacity-90" 
+                        onClick={handleConnectWallet}
+                      >
+                        Connect Wallet
+                      </Button>
                     </div>
                   )}
                 </CardContent>
@@ -618,15 +630,15 @@ export default function DexIntegration() {
           >
             <div className="mb-4 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <BarChart3 className="h-6 w-6 text-primary" />
+                <BarChart3 className="h-6 w-6 text-teal-500" />
                 <h2 className="text-2xl font-bold">Liquidity Pools</h2>
               </div>
-              <Button variant="outline" className="gap-2 border-primary/20 bg-primary/5 hover:bg-primary/10">
+              <Button variant="outline" className="gap-2 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10">
                 Add Liquidity
                 <Zap className="h-4 w-4" />
               </Button>
             </div>
-            <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+            <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
               <CardContent className="p-6">
                 <Tabs defaultValue="pools">
                   <TabsList className="mb-6 w-full justify-start">
@@ -636,7 +648,7 @@ export default function DexIntegration() {
 
                   <TabsContent value="pools">
                     <div className="overflow-hidden rounded-lg border border-border">
-                      <div className="grid grid-cols-6 border-b border-border bg-muted/50">
+                      <div className="grid grid-cols-6 border-b border-border bg-teal-500/10">
                         <div className="p-3 text-sm font-medium">Pool</div>
                         <div className="p-3 text-sm font-medium">APR</div>
                         <div className="p-3 text-sm font-medium">Total Liquidity</div>
@@ -664,7 +676,7 @@ export default function DexIntegration() {
                             </div>
                           </div>
                           <div className="flex items-center p-3">
-                            <Badge variant="outline" className="border-green-500/50 bg-green-500/10 text-green-500">
+                            <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10 text-teal-500">
                               {pool.apr}%
                             </Badge>
                           </div>
@@ -677,14 +689,14 @@ export default function DexIntegration() {
                                 <Button
                                   variant="outline"
                                   size="sm"
-                                  className="h-8 border-primary/20 bg-primary/5 hover:bg-primary/10"
+                                  className="h-8 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
                                 >
                                   Remove
                                 </Button>
                                 <Button
                                   variant="outline"
                                   size="sm"
-                                  className="h-8 border-primary/20 bg-primary/5 hover:bg-primary/10"
+                                  className="h-8 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
                                 >
                                   Add
                                 </Button>
@@ -703,7 +715,7 @@ export default function DexIntegration() {
                   <TabsContent value="my-pools">
                     {isConnected ? (
                       <div className="overflow-hidden rounded-lg border border-border">
-                        <div className="grid grid-cols-6 border-b border-border bg-muted/50">
+                        <div className="grid grid-cols-6 border-b border-border bg-teal-500/10">
                           <div className="p-3 text-sm font-medium">Pool</div>
                           <div className="p-3 text-sm font-medium">APR</div>
                           <div className="p-3 text-sm font-medium">Total Liquidity</div>
@@ -733,7 +745,7 @@ export default function DexIntegration() {
                                 </div>
                               </div>
                               <div className="flex items-center p-3">
-                                <Badge variant="outline" className="border-green-500/50 bg-green-500/10 text-green-500">
+                                <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10 text-teal-500">
                                   {pool.apr}%
                                 </Badge>
                               </div>
@@ -744,14 +756,14 @@ export default function DexIntegration() {
                                 <Button
                                   variant="outline"
                                   size="sm"
-                                  className="h-8 border-primary/20 bg-primary/5 hover:bg-primary/10"
+                                  className="h-8 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
                                 >
                                   Remove
                                 </Button>
                                 <Button
                                   variant="outline"
                                   size="sm"
-                                  className="h-8 border-primary/20 bg-primary/5 hover:bg-primary/10"
+                                  className="h-8 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
                                 >
                                   Add
                                 </Button>
@@ -761,14 +773,19 @@ export default function DexIntegration() {
                       </div>
                     ) : (
                       <div className="flex flex-col items-center justify-center py-8 text-center">
-                        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted/50">
-                          <Wallet className="h-8 w-8 text-muted-foreground" />
+                        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-teal-500/10">
+                          <Wallet className="h-8 w-8 text-teal-500" />
                         </div>
                         <h3 className="mb-2 text-lg font-medium">Connect Your Wallet</h3>
-                        <p className="mb-4 text-sm text-muted-foreground">
+                        <p className="mb-4 text-sm text-teal-500">
                           Connect your wallet to view your liquidity positions
                         </p>
-                        <Button onClick={handleConnectWallet}>Connect Wallet</Button>
+                        <Button 
+                          className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:opacity-90" 
+                          onClick={handleConnectWallet}
+                        >
+                          Connect Wallet
+                        </Button>
                       </div>
                     )}
                   </TabsContent>
@@ -780,62 +797,62 @@ export default function DexIntegration() {
 
         {/* Integration Guide */}
         <section className="mt-8">
-          <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+          <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Info className="h-5 w-5 text-primary" />
+                <Info className="h-5 w-5 text-teal-500" />
                 Integration Guide
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                <div className="rounded-lg border border-primary/10 bg-card/30 p-4">
+                <div className="rounded-lg border border-teal-500/10 bg-teal-500/5 p-4">
                   <h3 className="mb-2 font-medium">How to Integrate with MoonForge DEX</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-teal-500">
                     MoonForge DEX is built on Base, an Ethereum Layer 2 solution that provides fast and low-cost
                     transactions. Follow these steps to integrate with our DEX:
                   </p>
                   <div className="mt-4 space-y-3">
                     <div className="flex items-start gap-3">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-500/10 text-xs font-bold text-teal-500">
                         1
                       </div>
                       <div>
                         <h4 className="text-sm font-medium">Add Base Network to Your Wallet</h4>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-teal-500">
                           Configure your wallet to connect to the Base Mainnet with the following parameters:
                         </p>
-                        <div className="mt-2 rounded-md bg-muted/30 p-2 text-xs">
+                        <div className="mt-2 rounded-md bg-teal-500/5 p-2 text-xs">
                           <div className="grid grid-cols-2 gap-1">
-                            <span className="text-muted-foreground">Network Name:</span>
+                            <span className="text-teal-500">Network Name:</span>
                             <span>Base Mainnet</span>
-                            <span className="text-muted-foreground">RPC URL:</span>
+                            <span className="text-teal-500">RPC URL:</span>
                             <span>https://mainnet.base.org</span>
-                            <span className="text-muted-foreground">Chain ID:</span>
+                            <span className="text-teal-500">Chain ID:</span>
                             <span>8453</span>
-                            <span className="text-muted-foreground">Currency Symbol:</span>
+                            <span className="text-teal-500">Currency Symbol:</span>
                             <span>ETH</span>
-                            <span className="text-muted-foreground">Block Explorer:</span>
+                            <span className="text-teal-500">Block Explorer:</span>
                             <span>https://basescan.org</span>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-500/10 text-xs font-bold text-teal-500">
                         2
                       </div>
                       <div>
                         <h4 className="text-sm font-medium">Import $MOON Token</h4>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-teal-500">
                           Add the $MOON token to your wallet using the contract address:
                         </p>
-                        <div className="mt-2 flex items-center gap-2 rounded-md bg-muted/30 p-2 text-xs">
+                        <div className="mt-2 flex items-center gap-2 rounded-md bg-teal-500/5 p-2 text-xs">
                           <code>0x71C7656EC7ab88b098defB751B7401B5f6d8976F</code>
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-5 w-5 text-muted-foreground hover:text-foreground"
+                            className="h-5 w-5 text-teal-500 hover:text-teal-500"
                           >
                             <Copy className="h-3 w-3" />
                           </Button>
@@ -843,19 +860,19 @@ export default function DexIntegration() {
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-500/10 text-xs font-bold text-teal-500">
                         3
                       </div>
                       <div>
                         <h4 className="text-sm font-medium">Bridge Assets to Base</h4>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-teal-500">
                           Use the Base Bridge or other cross-chain bridges to move your assets from Ethereum to Base.
                         </p>
                         <div className="mt-2">
                           <Button
                             variant="outline"
                             size="sm"
-                            className="h-7 gap-1 border-primary/20 bg-primary/5 text-xs hover:bg-primary/10"
+                            className="h-7 gap-2 border-teal-500/20 bg-teal-500/5 text-xs hover:bg-teal-500/10"
                           >
                             <ExternalLink className="h-3 w-3" />
                             Base Bridge
@@ -864,12 +881,12 @@ export default function DexIntegration() {
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-500/10 text-xs font-bold text-teal-500">
                         4
                       </div>
                       <div>
                         <h4 className="text-sm font-medium">Start Trading</h4>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-teal-500">
                           Once you have assets on Base, you can start trading $MOON tokens on our DEX.
                         </p>
                       </div>
@@ -877,43 +894,43 @@ export default function DexIntegration() {
                   </div>
                 </div>
 
-                <div className="rounded-lg border border-primary/10 bg-card/30 p-4">
+                <div className="rounded-lg border border-teal-500/10 bg-teal-500/5 p-4">
                   <h3 className="mb-2 font-medium">Developer Resources</h3>
-                  <p className="mb-4 text-sm text-muted-foreground">
+                  <p className="mb-4 text-sm text-teal-500">
                     Integrate with our DEX programmatically using our SDK and smart contracts.
                   </p>
                   <div className="grid gap-4 md:grid-cols-2">
-                    <div className="rounded-lg bg-muted/30 p-3">
+                    <div className="rounded-lg bg-teal-500/10 p-3">
                       <div className="flex items-center gap-2">
-                        <Code className="h-5 w-5 text-primary" />
+                        <Code className="h-5 w-5 text-teal-500" />
                         <h4 className="font-medium">MoonForge DEX SDK</h4>
                       </div>
-                      <p className="mt-1 text-xs text-muted-foreground">
+                      <p className="mt-1 text-xs text-teal-500">
                         Our JavaScript SDK provides easy integration with the MoonForge DEX for your dApps.
                       </p>
                       <Button
                         variant="outline"
                         size="sm"
-                        className="mt-3 h-7 gap-1 border-primary/20 bg-primary/5 text-xs hover:bg-primary/10"
+                        className="gap-2 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
                       >
-                        <ExternalLink className="h-3 w-3" />
+                        <ExternalLink className="h-4 w-4" />
                         View Documentation
                       </Button>
                     </div>
-                    <div className="rounded-lg bg-muted/30 p-3">
+                    <div className="rounded-lg bg-teal-500/10 p-3">
                       <div className="flex items-center gap-2">
-                        <FileText className="h-5 w-5 text-primary" />
+                        <FileText className="h-5 w-5 text-teal-500" />
                         <h4 className="font-medium">Smart Contracts</h4>
                       </div>
-                      <p className="mt-1 text-xs text-muted-foreground">
+                      <p className="mt-1 text-xs text-teal-500">
                         Explore our verified smart contracts on Basescan for direct integration.
                       </p>
                       <Button
                         variant="outline"
                         size="sm"
-                        className="mt-3 h-7 gap-1 border-primary/20 bg-primary/5 text-xs hover:bg-primary/10"
+                        className="gap-2 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
                       >
-                        <ExternalLink className="h-3 w-3" />
+                        <ExternalLink className="h-4 w-4" />
                         View on Basescan
                       </Button>
                     </div>
@@ -926,25 +943,28 @@ export default function DexIntegration() {
 
         {/* CTA Section */}
         <section className="mt-8">
-          <Card className="overflow-hidden border-primary/20 bg-gradient-to-r from-primary/5 to-primary/10 backdrop-blur-sm">
+          <Card className="overflow-hidden border-teal-500/20 bg-gradient-to-r from-teal-500/5 to-cyan-500/10 backdrop-blur-sm">
             <CardContent className="p-0">
               <div className="relative">
-                <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
-                <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
+                <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-teal-500/20 blur-3xl" />
+                <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-cyan-500/20 blur-3xl" />
                 <div className="relative z-10 p-8 text-center md:p-12">
                   <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Ready to Trade $MOON?</h2>
-                  <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground">
+                  <p className="mx-auto mb-8 max-w-2xl text-lg text-teal-500">
                     Get started with MoonForge DEX and join the growing community of traders and liquidity providers.
                   </p>
                   <div className="flex flex-wrap items-center justify-center gap-4">
-                    <Button size="lg" className="gap-2" onClick={handleConnectWallet}>
-                      Connect Wallet
-                      <Wallet className="h-5 w-5" />
+                    <Button 
+                      size="lg" 
+                      className="gap-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:opacity-90" 
+                      onClick={handleConnectWallet}
+                    >
+                      Connect Wallet <Wallet className="h-5 w-5" />
                     </Button>
                     <Button
                       variant="outline"
                       size="lg"
-                      className="gap-2 border-primary/20 bg-primary/5 hover:bg-primary/10"
+                      className="gap-2 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
                     >
                       Learn More
                       <ChevronRight className="h-5 w-5" />

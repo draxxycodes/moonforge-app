@@ -15,7 +15,7 @@ export function AnimatedHeading({
   title,
   subtitle,
   className = "",
-  glowColor = "rgba(124, 58, 237, 0.3)",
+  glowColor = "rgba(20, 184, 166, 0.3)",
   delay = 0,
 }: AnimatedHeadingProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -58,7 +58,7 @@ export function AnimatedHeading({
         this.size = Math.random() * 3 + 1
         this.speedX = Math.random() * 1 - 0.5
         this.speedY = Math.random() * 1 - 0.5
-        this.color = `rgba(124, 58, 237, ${Math.random() * 0.5 + 0.2})`
+        this.color = `rgba(20, 184, 166, ${Math.random() * 0.5 + 0.2})`
       }
 
       update() {
@@ -125,7 +125,7 @@ export function AnimatedHeading({
 
           if (distance < 100) {
             ctx.beginPath()
-            ctx.strokeStyle = `rgba(124, 58, 237, ${0.2 - distance / 500})`
+            ctx.strokeStyle = `rgba(20, 184, 166, ${0.2 - distance / 500})`
             ctx.lineWidth = 0.5
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(particles[j].x, particles[j].y)
@@ -176,14 +176,14 @@ export function AnimatedHeading({
       ref={containerRef}
       className={`relative overflow-hidden rounded-xl p-8 ${className}`}
       style={{
-        background: `radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, rgba(0, 0, 0, 0) 70%)`,
+        background: `radial-gradient(circle, rgba(20, 184, 166, 0.1) 0%, rgba(0, 0, 0, 0) 70%)`,
         boxShadow: `0 0 30px ${glowColor}`,
       }}
     >
       <canvas ref={canvasRef} className="absolute inset-0 z-0" />
       <div className="relative z-10">
         <motion.h1
-          className="mb-2 text-3xl font-bold tracking-tight sm:text-4xl"
+          className="mb-2 text-3xl font-bold tracking-tight text-white sm:text-4xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: delay }}

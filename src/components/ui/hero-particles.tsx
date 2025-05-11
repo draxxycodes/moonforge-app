@@ -15,8 +15,10 @@ export function HeroParticles({ opacity = 0.12 }: { opacity?: number }) {
 
     // Set canvas dimensions
     const setCanvasDimensions = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      if (canvas) {
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+      }
     }
 
     setCanvasDimensions()
@@ -36,12 +38,16 @@ export function HeroParticles({ opacity = 0.12 }: { opacity?: number }) {
       hasTrail: boolean
 
       constructor() {
-        this.x = Math.random() * canvas.width
-        this.y = Math.random() * canvas.height
+        this.x = Math.random() * (canvas ? canvas.width : window.innerWidth)
+        this.y = Math.random() * (canvas ? canvas.height : window.innerHeight)
         this.size = Math.random() * 3 + 0.5
         this.speedX = (Math.random() - 0.5) * 0.5
         this.speedY = (Math.random() - 0.5) * 0.5
-        this.color = "#7c3aed" // Primary color
+        
+        // Change to teal/cyan colors
+        const colors = ["#14b8a6", "#06b6d4", "#0ea5e9", "#22d3ee"];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        
         this.alpha = Math.random() * 0.5 + 0.1
         this.alphaSpeed = Math.random() * 0.01
         this.trail = []
@@ -49,6 +55,8 @@ export function HeroParticles({ opacity = 0.12 }: { opacity?: number }) {
       }
 
       update() {
+        if (!canvas) return;
+        
         if (this.hasTrail) {
           // Add current position to trail
           this.trail.push({
@@ -82,7 +90,7 @@ export function HeroParticles({ opacity = 0.12 }: { opacity?: number }) {
       }
 
       draw() {
-        if (!ctx) return
+        if (!ctx || !canvas) return
 
         // Draw trail
         if (this.hasTrail) {
@@ -108,9 +116,9 @@ export function HeroParticles({ opacity = 0.12 }: { opacity?: number }) {
       }
     }
 
-    // Create particles
+    // Create particles - INCREASED COUNT
     const particles: Particle[] = []
-    const particleCount = Math.min(180, Math.floor((canvas.width * canvas.height) / 8000)) // Increased from 100 to 180
+    const particleCount = Math.min(250, Math.floor((canvas.width * canvas.height) / 5000)) // Increased significantly
 
     for (let i = 0; i < particleCount; i++) {
       particles.push(new Particle())
@@ -118,10 +126,11 @@ export function HeroParticles({ opacity = 0.12 }: { opacity?: number }) {
 
     // Animation loop
     const animate = () => {
+      if (!ctx || !canvas) return;
+      
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       // Draw connections
-      ctx.strokeStyle = "#7c3aed"
       ctx.lineWidth = 0.3
 
       for (let i = 0; i < particles.length; i++) {
@@ -131,6 +140,17 @@ export function HeroParticles({ opacity = 0.12 }: { opacity?: number }) {
           const distance = Math.sqrt(dx * dx + dy * dy)
 
           if (distance < 150) {
+            // Create gradient between the two particles
+            const gradient = ctx.createLinearGradient(
+              particles[i].x, 
+              particles[i].y, 
+              particles[j].x, 
+              particles[j].y
+            );
+            gradient.addColorStop(0, particles[i].color.replace(')', ', 0.2)').replace('rgb', 'rgba'));
+            gradient.addColorStop(1, particles[j].color.replace(')', ', 0.2)').replace('rgb', 'rgba'));
+            
+            ctx.strokeStyle = gradient;
             ctx.globalAlpha = (1 - distance / 150) * 0.2
             ctx.beginPath()
             ctx.moveTo(particles[i].x, particles[i].y)
