@@ -4,7 +4,8 @@ import { useTheme } from "./theme-provider"
 type ToasterProps = React.ComponentProps<typeof Sonner>
 
 export function Toaster({ ...props }: ToasterProps) {
-  const { theme } = useTheme()
+  // Always use dark theme
+  const theme = "dark"
 
   return (
     <Sonner

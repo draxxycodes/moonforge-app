@@ -20,7 +20,7 @@ const roadmapItems = [
     title: "Platform Concept",
     description: "Initial idea development and market research for MoonForge platform",
     quarter: "Q4",
-    year: "2025",
+    year: "2024",
     status: "completed",
     icon: Rocket,
   },
@@ -33,8 +33,8 @@ const roadmapItems = [
     icon: Users,
   },
   {
-    title: "Sui Integration",
-    description: "Full integration with Sui blockchain for all platform features",
+    title: "Base Integration",
+    description: "Full integration with Base blockchain for all platform features",
     quarter: "Q2",
     year: "2025",
     status: "current",
@@ -104,7 +104,7 @@ function RoadmapItem({ title, description, quarter, year, status, icon: Icon, in
                 <div className={`flex h-10 w-10 items-center justify-center rounded-full bg-primary/10`}>
                   <Icon className="h-5 w-5 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold">{title}</h3>
+                <h3 className="text-xl mokoto-font">{title}</h3>
               </div>
               <Badge variant="outline" className={`${getStatusColor()} px-2 py-1 flex items-center gap-1`}>
                 {getStatusIcon()}
@@ -135,9 +135,9 @@ export function HomeRoadmap() {
           <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/10 px-3 py-1 text-sm">
             Project Timeline
           </Badge>
-          <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">MoonForge Roadmap</h2>
+          <h2 className="mb-4 text-3xl mokoto-font tracking-tight sm:text-4xl">MoonForge Roadmap</h2>
           <p className="mx-auto max-w-2xl text-muted-foreground">
-            Our strategic plan for developing and expanding the MoonForge platform on SUI blockchain
+            Our strategic plan for developing and expanding the MoonForge platform on Base blockchain
           </p>
         </div>
       </ScrollReveal>

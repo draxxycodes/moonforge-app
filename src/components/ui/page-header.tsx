@@ -16,7 +16,7 @@ export function PageHeader({ title, subtitle }: PageHeaderProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-4 text-4xl font-extrabold tracking-tight sm:text-5xl"
+          className="mb-4 text-4xl mokoto-font tracking-tight sm:text-5xl"
         >
           {title}
         </motion.h1>

@@ -9,10 +9,14 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-4">
           <div className="md:col-span-1">
             <Link to="/" className="mb-4 flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center overflow-hidden">
-                <img src="/logo.png" alt="MoonForge Logo" className="w-full h-full object-contain" />
+              <div className="w-11 h-11 shrink-0 mr-2">
+                <img 
+                  src="/logo.png" 
+                  alt="MoonForge Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
-              <span className="text-xl font-bold heading-font">MoonForge</span>
+              <span className="text-xl mokoto-font">MoonForge</span>
             </Link>
             <p className="mb-4 text-sm text-muted-foreground">
               The on-chain social growth protocol that's revolutionizing how creators promote their content.

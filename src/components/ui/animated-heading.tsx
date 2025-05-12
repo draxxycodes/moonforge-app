@@ -183,7 +183,7 @@ export function AnimatedHeading({
       <canvas ref={canvasRef} className="absolute inset-0 z-0" />
       <div className="relative z-10">
         <motion.h1
-          className="mb-2 text-3xl font-bold tracking-tight text-white sm:text-4xl"
+          className="mb-2 text-3xl mokoto-font tracking-tight text-white sm:text-4xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: delay }}

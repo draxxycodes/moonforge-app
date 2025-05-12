@@ -348,7 +348,7 @@ export default function Dashboard() {
 
       <AnimatedHeading
         title="Dashboard"
-        subtitle="Monitor your visibility and $MOON performance on Sui blockchain"
+        subtitle="Monitor your visibility and $MOON performance on Base blockchain"
         className="container mx-auto mb-8 mt-16 px-4"
         glowColor="rgba(20, 184, 166, 0.4)"
       />
@@ -359,7 +359,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="border-teal-500/30 bg-teal-500/5 px-3 py-1.5">
               <Wallet className="mr-1.5 h-3.5 w-3.5" />
-              Sui Network
+              Base Network
             </Badge>
             <Badge variant="outline" className="border-teal-500/30 bg-teal-500/5 px-3 py-1.5 text-teal-500">
               <Check className="mr-1.5 h-3.5 w-3.5" />
@@ -458,7 +458,7 @@ export default function Dashboard() {
           <ScrollReveal>
             <Card3D>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Sui Wallet</CardTitle>
+                <CardTitle className="text-sm font-medium">Base Wallet</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-col gap-2">
@@ -480,7 +480,7 @@ export default function Dashboard() {
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">Network</span>
                     <Badge variant="outline" className="border-primary/50">
-                      Sui Mainnet
+                      Base Mainnet
                     </Badge>
                   </div>
                 </div>

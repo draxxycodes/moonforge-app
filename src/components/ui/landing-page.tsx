@@ -18,7 +18,6 @@ import {
   RefreshCw,
   ArrowDown,
 } from "lucide-react"
-import { HeroParticles } from "./hero-particles"
 import { ScrollReveal } from "./scroll-reveal"
 import { HomeRoadmap } from "./home-roadmap"
 import { BeamsBackground } from "./beams-background"
@@ -86,8 +85,8 @@ export default function LandingPage() {
   // Steps data
   const steps = [
     {
-      title: "Connect Sui Wallet",
-      description: "Link your Sui-compatible wallet to access the MoonForge platform.",
+      title: "Connect Base Wallet",
+      description: "Link your Base-compatible wallet to access the MoonForge platform.",
       icon: Wallet,
       color: "from-teal-500 to-cyan-500",
     },
@@ -110,7 +109,7 @@ export default function LandingPage() {
     {
       title: "Total Supply",
       value: "100,000,000",
-      description: "Fixed supply of $MOON tokens on Sui",
+      description: "Fixed supply of $MOON tokens on Base",
       icon: Zap,
       color: "bg-teal-500/10 text-teal-500",
     },
@@ -135,9 +134,6 @@ export default function LandingPage() {
       {/* Hero Section */}
       <BeamsBackground intensity="strong" colorScheme="cyan">
         <section className="relative flex min-h-[100vh] flex-col items-center justify-center overflow-hidden px-4 py-20 text-center">
-          <div className="absolute inset-0 z-0">
-            <HeroParticles />
-          </div>
           <motion.div
             className="relative z-10 max-w-4xl"
             style={{ y, opacity }}
@@ -146,14 +142,14 @@ export default function LandingPage() {
             transition={{ duration: 0.8 }}
           >
             <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/10 px-3 py-1 text-sm">
-              The Future of Social Media Promotion on SUI
+              The Future of Social Media Promotion on Base
             </Badge>
-            <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl heading-font">
+            <h1 className="mb-6 text-4xl mokoto-font tracking-tight text-white sm:text-5xl md:text-6xl">
               Welcome to MoonForge
               
             </h1>
             <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground">
-              MoonForge is the first SocialFi platform on SUI that lets you boost your social media
+              MoonForge is the first SocialFi platform on Base that lets you boost your social media
               presence using the power of blockchain technology and the $MOON token.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
@@ -205,7 +201,7 @@ export default function LandingPage() {
             <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/10 px-3 py-1 text-sm">
               Platform Showcase
             </Badge>
-            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Boost Your Social Media Presence</h2>
+            <h2 className="mb-4 text-3xl mokoto-font tracking-tight sm:text-4xl">Boost Your Social Media Presence</h2>
             <p className="mx-auto max-w-2xl text-muted-foreground">
               MoonForge helps you grow your audience across multiple platforms with targeted promotion plans.
             </p>
@@ -223,7 +219,7 @@ export default function LandingPage() {
                   >
                     <platform.icon className="h-6 w-6" style={{ color: platform.color }} />
                   </div>
-                  <h3 className="mb-2 text-xl font-bold">{platform.name}</h3>
+                  <h3 className="mb-2 text-xl mokoto-font">{platform.name}</h3>
                   <p className="mb-6 flex-1 text-muted-foreground">{platform.description}</p>
                   <Link to="/documentation">
                     <Button variant="ghost" className="group w-fit gap-2 p-0 text-primary">
@@ -245,7 +241,7 @@ export default function LandingPage() {
             <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/10 px-3 py-1 text-sm">
               How It Works
             </Badge>
-            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
+            <h2 className="mb-4 text-3xl mokoto-font tracking-tight sm:text-4xl">
               Three Simple Steps to Boost Your Reach
             </h2>
             <p className="mx-auto max-w-2xl text-muted-foreground">
@@ -270,7 +266,7 @@ export default function LandingPage() {
                       {index + 1}
                     </div>
                   </div>
-                  <h3 className="mb-2 text-xl font-bold">{step.title}</h3>
+                  <h3 className="mb-2 text-xl mokoto-font">{step.title}</h3>
                   <p className="text-muted-foreground">{step.description}</p>
                 </CardContent>
               </Card>
@@ -304,9 +300,9 @@ export default function LandingPage() {
             <Badge variant="outline" className="mb-4 border-teal-500/30 bg-teal-500/10 px-3 py-1 text-sm">
               Tokenomics
             </Badge>
-            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">$MOON Token Economics on Sui</h2>
+            <h2 className="mb-4 text-3xl mokoto-font tracking-tight sm:text-4xl">$MOON Token Economics on Base</h2>
             <p className="mx-auto max-w-2xl text-muted-foreground">
-              The $MOON token powers the entire MoonForge ecosystem on Sui blockchain, providing utility and value to
+              The $MOON token powers the entire MoonForge ecosystem on Base blockchain, providing utility and value to
               all participants.
             </p>
           </div>
@@ -322,7 +318,7 @@ export default function LandingPage() {
                   >
                     <item.icon className="h-8 w-8" />
                   </div>
-                  <h3 className="mb-2 text-xl font-bold">{item.title}</h3>
+                  <h3 className="mb-2 text-xl mokoto-font">{item.title}</h3>
                   <p className="mb-2 text-3xl font-bold text-teal-500">{item.value}</p>
                   <p className="text-muted-foreground">{item.description}</p>
                 </CardContent>
@@ -355,9 +351,9 @@ export default function LandingPage() {
             <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-cyan-500/20 blur-3xl" />
 
             <div className="relative z-10 mx-auto max-w-3xl text-center">
-              <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Ready to Deploy $MOON for Reach?</h2>
+              <h2 className="mb-4 text-3xl mokoto-font tracking-tight sm:text-4xl">Ready to Deploy $MOON for Reach?</h2>
               <p className="mb-8 text-lg text-muted-foreground">
-                Join the on-chain social growth protocol on Sui blockchain that's revolutionizing how creators promote
+                Join the on-chain social growth protocol on Base blockchain that's revolutionizing how creators promote
                 their content and engage with their audience.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4">
