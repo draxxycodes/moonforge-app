@@ -99,8 +99,8 @@ export default function AnimatedDock() {
             onMouseLeave={() => setIsLogoHovered(false)}
           >
             <div 
-              className={`flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-teal-500/20 to-purple-500/20 border border-teal-500/30 shadow-md transition-all duration-300 overflow-hidden ${
-                isLogoHovered ? "scale-110 border-teal-400/50 shadow-[0_0_15px_rgba(20,184,166,0.5)]" : ""
+              className={`flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 overflow-hidden ${
+                isLogoHovered ? "scale-110" : ""
               }`}
             >
               <img 
@@ -111,13 +111,10 @@ export default function AnimatedDock() {
             </div>
             
             <div className="flex flex-col">
-              <span className={`text-xl mokoto-font bg-gradient-to-r from-teal-400 to-purple-400 bg-clip-text text-transparent transition-all duration-300 ${
+              <span className={`text-2xl mokoto-font text-white transition-all duration-300 ${
                 isLogoHovered ? "translate-x-1" : ""
               }`}>
               MoonForge
-              </span>
-              <span className="text-xs text-gray-400 tracking-wide">
-                Engage.Earn.Grow
               </span>
             </div>
           </Link>
@@ -212,7 +209,7 @@ export default function AnimatedDock() {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
                 <div 
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-teal-500/20 to-purple-500/20 border border-teal-500/30 shadow-md"
+                  className="flex h-10 w-10 items-center justify-center rounded-full"
                 >
                   <img 
                     src="/logo.png" 
@@ -221,11 +218,8 @@ export default function AnimatedDock() {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xl mokoto-font bg-gradient-to-r from-teal-400 to-purple-400 bg-clip-text text-transparent">
+                  <span className="text-2xl mokoto-font text-white">
                     MoonForge
-                  </span>
-                  <span className="text-xs text-gray-400">
-                    SocialFi Platform
                   </span>
                 </div>
               </div>

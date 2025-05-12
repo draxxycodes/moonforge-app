@@ -169,7 +169,7 @@ export default function LandingPage() {
           {/* Scroll indicator */}
           <motion.div
             ref={scrollIndicatorRef}
-            className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10"
+            className="absolute bottom-10 left-[47%] transform -translate-x-1/2 z-10"
             initial={{ opacity: 1, y: 0 }}
             animate={{
               opacity: hasScrolled || !scrollIndicatorInView ? 0 : 1,
@@ -185,8 +185,10 @@ export default function LandingPage() {
             }}
           >
             <div className="flex flex-col items-center gap-2">
-              <p className="text-sm font-medium text-muted-foreground">Scroll to explore</p>
-              <ArrowDown className="h-5 w-5 text-primary animate-pulse" />
+              <p className="text-sm font-medium text-teal-500">Scroll to explore</p>
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500/10">
+                <ArrowDown className="h-5 w-5 text-teal-500 animate-pulse" />
+              </div>
             </div>
           </motion.div>
 

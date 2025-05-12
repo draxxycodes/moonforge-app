@@ -68,7 +68,7 @@ export function Navbar() {
                 key={item.path}
                 to={item.path}
                 className={`relative rounded-md px-3 py-2 text-sm transition-colors ${
-                  pathname === item.path ? "text-white" : "text-white hover:text-white" 
+                  pathname === item.path ? "text-white" : "text-white hover:text-white"  
                 }`}
               >
                 {pathname === item.path && (

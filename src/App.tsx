@@ -25,9 +25,9 @@ function App() {
 
   return (
     <ThemeProvider>
-      <div className="flex min-h-screen flex-col bg-background">
+      <div className="flex min-h-screen w-screen max-w-[100vw] overflow-hidden flex-col bg-background">
           <AnimatedDock />
-          <main className="flex-1 pt-0">
+          <main className="flex-1 pt-0 w-full">
           <ScrollProgress color="rgba(20, 184, 166, 0.7)" height={3} showPercentage={false} />
               <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Home />} />
