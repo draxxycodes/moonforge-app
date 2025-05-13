@@ -23,11 +23,23 @@ export function ThemeProvider({
   // Always use dark theme
   const theme: Theme = 'dark'
 
-  // Set dark theme on document element
+  // Set dark theme on document element - improved implementation
   React.useEffect(() => {
     const root = window.document.documentElement
-    root.classList.remove('light')
+    
+    // Remove all possible theme classes first
+    root.classList.remove('light', 'dark')
+    
+    // Add dark theme
     root.classList.add('dark')
+    
+    // Set a data attribute for CSS targeting
+    root.setAttribute('data-theme', 'dark')
+    
+    // Force a repaint to avoid any flash of unstyled content
+    window.requestAnimationFrame(() => {
+      document.body.style.transition = 'background-color 0.3s ease'
+    })
   }, [])
 
   const value = {

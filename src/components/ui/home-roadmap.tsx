@@ -96,13 +96,13 @@ function RoadmapItem({ title, description, quarter, year, status, icon: Icon, in
     <ScrollReveal delay={delay} once={false} direction={isEven ? "left" : "right"}>
       <div className={`flex w-full ${isEven ? "justify-start" : "justify-end"} mb-16 relative`}>
         <Card
-          className={`w-full max-w-md border-primary/10 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-primary/30 hover:shadow-glow`}
+          className={`w-full max-w-md border-teal-500/10 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-teal-500/30 hover:shadow-glow`}
         >
           <CardContent className="p-6">
             <div className="mb-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className={`flex h-10 w-10 items-center justify-center rounded-full bg-primary/10`}>
-                  <Icon className="h-5 w-5 text-primary" />
+                <div className={`flex h-10 w-10 items-center justify-center rounded-full bg-teal-500/10`}>
+                  <Icon className="h-5 w-5 text-teal-500" />
                 </div>
                 <h3 className="text-xl mokoto-font">{title}</h3>
               </div>
@@ -113,7 +113,7 @@ function RoadmapItem({ title, description, quarter, year, status, icon: Icon, in
             </div>
             <p className="mb-4 text-muted-foreground">{description}</p>
             <div className="flex items-center justify-between">
-              <Badge variant="outline" className="border-primary/30 bg-primary/10">
+              <Badge variant="outline" className="border-teal-500/30 bg-teal-500/10">
                 {quarter} {year}
               </Badge>
             </div>
@@ -132,7 +132,7 @@ export function HomeRoadmap() {
     <section ref={sectionRef} className="container mx-auto px-4 py-20 md:py-28">
       <ScrollReveal>
         <div className="mb-16 text-center">
-          <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/10 px-3 py-1 text-sm">
+          <Badge variant="outline" className="mb-4 border-teal-500/30 bg-teal-500/10 px-3 py-1 text-sm">
             Project Timeline
           </Badge>
           <h2 className="mb-4 text-3xl mokoto-font tracking-tight sm:text-4xl">MoonForge Roadmap</h2>
@@ -144,7 +144,7 @@ export function HomeRoadmap() {
 
       <div className="relative">
         {/* Center line */}
-        <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/5 via-primary/20 to-primary/5 transform -translate-x-1/2"></div>
+        <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-teal-500/5 via-teal-500/20 to-teal-500/5 transform -translate-x-1/2"></div>
 
         {/* Roadmap items */}
         <div className="relative z-10">

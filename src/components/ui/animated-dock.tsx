@@ -67,7 +67,7 @@ export default function AnimatedDock() {
     },
     {
       icon: Repeat,
-      label: "DEX",
+      label: "MOONDEX",
       path: "/dex-integration",
       onClick: () => navigate("/dex-integration"),
     },
@@ -90,23 +90,23 @@ export default function AnimatedDock() {
       <div className={`fixed left-0 right-0 top-0 z-50 flex justify-center transition-colors ${
         isScrolled ? "bg-black/50 backdrop-blur-sm" : "bg-transparent"
       }`}>
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+        <div className="container mx-auto flex h-16 items-center px-4 relative">
           {/* Logo with MoonForge branding */}
           <Link 
             to="/"
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-3 group absolute left-4"
             onMouseEnter={() => setIsLogoHovered(true)}
             onMouseLeave={() => setIsLogoHovered(false)}
           >
             <div 
-              className={`flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 overflow-hidden ${
+              className={`flex h-12 w-12 -mt-1 items-center justify-center rounded-full transition-all duration-300 overflow-hidden ${
                 isLogoHovered ? "scale-110" : ""
               }`}
             >
               <img 
                 src="/logo.png" 
                 alt="MoonForge Logo" 
-                className="w-8 h-8 object-contain"
+                className="w-10 h-10 object-contain"
               />
             </div>
             
@@ -119,8 +119,8 @@ export default function AnimatedDock() {
             </div>
           </Link>
 
-          {/* Navigation Dock - Hidden on mobile */}
-          <div className="hidden md:flex items-center">
+          {/* Navigation Dock - Centered on page */}
+          <div className="hidden md:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div className="dock-panel flex flex-row items-center relative static border-0 bg-black/40 backdrop-blur-md px-3 py-2 rounded-full gap-2 shadow-lg border border-white/5">
               {navigationItems.map((item, index) => (
                 <div
@@ -158,41 +158,39 @@ export default function AnimatedDock() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            {/* Connect Wallet Button - simplified */}
-            <div className="hidden md:block">
-              {isConnected ? (
-                  <Button
-                    variant="outline"
-                    size="sm"
+          {/* Connect Wallet Button - absolute positioned for proper alignment */}
+          <div className="hidden md:block absolute right-4">
+            {isConnected ? (
+                <Button
+                  variant="outline"
+                  size="sm"
                   className="border-teal-500/20 bg-teal-500/5 text-white hover:bg-teal-500/10 transition-colors"
-                  >
-                    <span className="mr-2 h-2 w-2 rounded-full bg-teal-500" />
-                    0x71C7...976F
-                  </Button>
-              ) : (
-                  <Button
-                    variant="outline"
-                    size="sm"
+                >
+                  <span className="mr-2 h-2 w-2 rounded-full bg-teal-500" />
+                  0x71C7...976F
+                </Button>
+            ) : (
+                <Button
+                  variant="outline"
+                  size="sm"
                   className="gap-2 border-teal-500/20 bg-teal-500/5 text-white hover:bg-teal-500/10 transition-colors"
-                    onClick={handleConnectWallet}
-                  >
-                    <Wallet className="h-4 w-4" />
-                    Connect Wallet
-                  </Button>
-              )}
-            </div>
-            
-            {/* Mobile menu trigger */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden text-white"
-              onClick={() => setIsMobileMenuOpen(true)}
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
+                  onClick={handleConnectWallet}
+                >
+                  <Wallet className="h-4 w-4" />
+                  Connect Wallet
+                </Button>
+            )}
           </div>
+            
+          {/* Mobile menu trigger */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden text-white absolute right-4"
+            onClick={() => setIsMobileMenuOpen(true)}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
         </div>
       </div>
 

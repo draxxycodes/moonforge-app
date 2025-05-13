@@ -57,8 +57,22 @@ export default function LandingPage() {
     offset: ["start start", "end start"],
   })
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "40%"])
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+  // Adjust values for mobile responsiveness
+  const [isMobile, setIsMobile] = useState(false)
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+  
+  const yOffset = isMobile ? "20%" : "40%"
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", yOffset])
+  const opacity = useTransform(scrollYProgress, [0, isMobile ? 0.3 : 0.5], [1, 0])
 
   // Platform showcase data
   const platforms = [
@@ -129,24 +143,41 @@ export default function LandingPage() {
     },
   ]
 
+  // Scroll to features section smoothly
+  const scrollToFeatures = () => {
+    if (featuresRef.current) {
+      const yOffset = isMobile ? -20 : -50; // Offset to account for headers/navigation
+      const y = featuresRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
+      
+      window.scrollTo({
+        top: y,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
-    <div ref={targetRef} className="relative overflow-hidden">
+    <div ref={targetRef} className="relative overflow-hidden bg-[#030711]">
       {/* Hero Section */}
       <BeamsBackground intensity="strong" colorScheme="cyan">
-        <section className="relative flex min-h-[100vh] flex-col items-center justify-center overflow-hidden px-4 py-20 text-center">
+        <section className="relative flex min-h-[100vh] flex-col items-center justify-center overflow-hidden px-4 pt-0 pb-24 md:pt-0 md:pb-28 text-center">
           <motion.div
-            className="relative z-10 max-w-4xl"
-            style={{ y, opacity }}
+            className="relative z-10 max-w-4xl mt-[-110px] md:mt-0" /* Added negative margin top on mobile only */
+            style={{ 
+              y, 
+              opacity
+            }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            viewport={{ once: false, amount: 0.1 }}
+            whileInView={{ opacity: 1, y: 0 }}
           >
-            <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/10 px-3 py-1 text-sm">
+            <Badge variant="outline" className="mb-4 border-teal-500/30 bg-teal-500/10 px-3 py-1 text-sm">
               The Future of Social Media Promotion on Base
             </Badge>
             <h1 className="mb-6 text-4xl mokoto-font tracking-tight text-white sm:text-5xl md:text-6xl">
               Welcome to MoonForge
-              
             </h1>
             <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground">
               MoonForge is the first SocialFi platform on Base that lets you boost your social media
@@ -157,7 +188,7 @@ export default function LandingPage() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="gap-2 border-primary/20 bg-primary/5 text-lg hover:bg-primary/10"
+                  className="gap-2 border-teal-500/20 bg-teal-500/5 text-lg hover:bg-teal-500/10"
                 >
                   Learn More
                   <ChevronRight className="h-5 w-5" />
@@ -166,33 +197,28 @@ export default function LandingPage() {
             </div>
           </motion.div>
 
-          {/* Scroll indicator */}
-          <motion.div
-            ref={scrollIndicatorRef}
-            className="absolute bottom-10 left-[47%] transform -translate-x-1/2 z-10"
-            initial={{ opacity: 1, y: 0 }}
-            animate={{
-              opacity: hasScrolled || !scrollIndicatorInView ? 0 : 1,
-              y: hasScrolled ? 10 : [0, 10, 0],
-            }}
-            transition={{
-              y: {
-                repeat: Number.POSITIVE_INFINITY,
-                duration: 1.5,
-                ease: "easeInOut",
-              },
-              opacity: { duration: 0.3 },
+          {/* Scroll indicator - placed at the bottom of hero section only */}
+          <div 
+            ref={scrollIndicatorRef} 
+            className={`absolute left-1/2 transform -translate-x-1/2 z-20 transition-opacity duration-300 ${hasScrolled ? 'opacity-0' : 'opacity-100'}`}
+            style={{ 
+              bottom: isMobile ? '240px' : '40px', // Adjusted position even higher on mobile to match hero text movement
+              position: 'absolute'
             }}
           >
-            <div className="flex flex-col items-center gap-2">
-              <p className="text-sm font-medium text-teal-500">Scroll to explore</p>
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500/10">
-                <ArrowDown className="h-5 w-5 text-teal-500 animate-pulse" />
+            <button 
+              onClick={scrollToFeatures}
+              className="flex flex-col items-center gap-3"
+              aria-label="Scroll to explore content"
+            >
+              <span className="text-sm font-medium text-white drop-shadow-md">Scroll to explore</span>
+              <div className="p-2 rounded-full hover:bg-teal-500/20 transition-colors">
+                <ArrowDown className="h-5 w-5 text-white animate-bounce mt-1 drop-shadow-md" />
               </div>
-            </div>
-          </motion.div>
+            </button>
+          </div>
 
-          <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+          <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-10" />
         </section>
       </BeamsBackground>
 
@@ -200,7 +226,7 @@ export default function LandingPage() {
       <section ref={featuresRef} className="container mx-auto px-4 py-20 md:py-28">
         <ScrollReveal>
           <div className="mb-12 text-center">
-            <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/10 px-3 py-1 text-sm">
+            <Badge variant="outline" className="mb-4 border-teal-500/30 bg-teal-500/10 px-3 py-1 text-sm">
               Platform Showcase
             </Badge>
             <h2 className="mb-4 text-3xl mokoto-font tracking-tight sm:text-4xl">Boost Your Social Media Presence</h2>
@@ -213,7 +239,7 @@ export default function LandingPage() {
         <div className="grid gap-8 md:grid-cols-3">
           {platforms.map((platform, index) => (
             <ScrollReveal key={platform.name} delay={index * 0.1} once={false}>
-              <Card className="group h-full overflow-hidden border-primary/10 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-primary/30 hover:shadow-glow hover:scale-[1.02]">
+              <Card className="group h-full overflow-hidden border-teal-500/10 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-teal-500/30 hover:shadow-glow hover:scale-[1.02]">
                 <CardContent className="flex h-full flex-col p-6">
                   <div
                     className="mb-4 flex h-12 w-12 items-center justify-center rounded-full transition-transform group-hover:scale-110 group-hover:shadow-md"
@@ -224,7 +250,7 @@ export default function LandingPage() {
                   <h3 className="mb-2 text-xl mokoto-font">{platform.name}</h3>
                   <p className="mb-6 flex-1 text-muted-foreground">{platform.description}</p>
                   <Link to="/documentation">
-                    <Button variant="ghost" className="group w-fit gap-2 p-0 text-primary">
+                    <Button variant="ghost" className="group w-fit gap-2 p-0 text-teal-500">
                       Learn more
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Button>
@@ -240,7 +266,7 @@ export default function LandingPage() {
       <section ref={stepsRef} className="container mx-auto px-4 py-20 md:py-28">
         <ScrollReveal>
           <div className="mb-12 text-center">
-            <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/10 px-3 py-1 text-sm">
+            <Badge variant="outline" className="mb-4 border-teal-500/30 bg-teal-500/10 px-3 py-1 text-sm">
               How It Works
             </Badge>
             <h2 className="mb-4 text-3xl mokoto-font tracking-tight sm:text-4xl">

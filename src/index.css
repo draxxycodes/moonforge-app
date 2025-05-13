@@ -58,6 +58,8 @@
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
   }
   
   html, body {
@@ -66,6 +68,8 @@
     width: 100%;
     margin: 0;
     padding: 0;
+    background-color: #030711; /* Explicit background color */
+    color: white;
   }
   
   html {
@@ -80,6 +84,22 @@
     height: calc(var(--vh, 1vh) * 100);
     min-height: 100%;
     text-rendering: optimizeSpeed;
+    background-color: #030711; /* Ensuring background color is set */
+    color: white;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Ensure visibility */
+  body.visible {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Remove any margins/padding from main containers */
+  #root, main, div {
+    margin-top: 0;
+    padding-top: 0;
   }
   
   h1, h2, h3, h4, h5, h6, .heading-font {
@@ -135,4 +155,37 @@
   body {
     -ms-overflow-style: none;
   }
+}
+
+/* Ensure proper scrolling behavior */
+html {
+  scroll-behavior: auto !important; /* Force normal scrolling, don't use smooth scrolling which can cause issues */
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+  scroll-behavior: auto !important;
+}
+
+/* Force content to the top when loading */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 0 !important;
+  left: 0 !important;
+}
+
+/* Prevent pages from remembering scroll position */
+* {
+  scroll-margin-top: 0 !important;
+  scroll-snap-margin-top: 0 !important;
+  scroll-snap-align: none !important;
 }

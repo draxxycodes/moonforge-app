@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect, useLayoutEffect } from "react"
 import { motion, useInView } from "framer-motion"
 import { PageHeader } from "../components/ui/page-header"
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "../components/ui/card"
@@ -29,6 +29,7 @@ import {
 } from "lucide-react"
 import { WalletConnectModal } from "../components/ui/wallet-connect-modal"
 import { SwapConfirmationModal } from "../components/ui/swap-confirmation-modal"
+import { useLocation } from "react-router-dom"
 
 // Mock data for price chart
 const priceData = [
@@ -155,6 +156,9 @@ const liquidityPools = [
 ]
 
 export default function DexIntegration() {
+  // Get location for navigation tracking
+  const location = useLocation();
+  
   // State for swap form
   const [fromToken, setFromToken] = useState("eth")
   const [toToken, setToToken] = useState("moon")
@@ -165,6 +169,57 @@ export default function DexIntegration() {
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
+
+  // Force scroll to top BEFORE the component renders (high priority)
+  useLayoutEffect(() => {
+    // First method: immediate scroll before paint
+    window.scrollTo(0, 0);
+    
+    // Second method: handle Safari and mobile browsers
+    requestAnimationFrame(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'auto' // Use 'auto' for immediate scrolling without animation
+      });
+    });
+    
+    // Third method: direct DOM manipulation
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [location.pathname]);
+  
+  // Force scroll to top AFTER the component renders (backup)
+  useEffect(() => {
+    // First attempt: immediate
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    
+    // Second attempt: after a tiny delay
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 0);
+    
+    // Third attempt: after paint with force reflow
+    requestAnimationFrame(() => {
+      document.body.style.display = 'none';
+      document.body.offsetHeight; // Trigger reflow
+      document.body.style.display = '';
+      window.scrollTo(0, 0);
+    });
+    
+    // Fourth attempt: after a longer delay (for problematic browsers)
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant'
+      });
+    }, 100);
+  }, []);
 
   // Refs for scroll animations
   const swapRef = useRef<HTMLDivElement>(null)
@@ -245,7 +300,11 @@ export default function DexIntegration() {
 
   return (
     <div className="min-h-screen bg-background">
-      <PageHeader title="DEX Integration" subtitle="Swap, provide liquidity, and trade $MOON tokens" />
+      <PageHeader 
+        title="MOONDEX" 
+        subtitle="Swap, provide liquidity, and trade $MOON tokens" 
+        titleClassName="mt-3 md:mt-4"
+      />
 
       <div className="container mx-auto px-4 py-8">
         <div className="grid gap-8 lg:grid-cols-3">
@@ -628,12 +687,15 @@ export default function DexIntegration() {
             animate={poolsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <BarChart3 className="h-6 w-6 text-teal-500" />
                 <h2 className="text-2xl font-bold">Liquidity Pools</h2>
               </div>
-              <Button variant="outline" className="gap-2 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10">
+              <Button 
+                variant="outline" 
+                className="gap-2 border-teal-500/20 bg-teal-500/5 text-teal-500 hover:bg-teal-500/10 transition-colors"
+              >
                 Add Liquidity
                 <Zap className="h-4 w-4" />
               </Button>
@@ -641,13 +703,14 @@ export default function DexIntegration() {
             <Card className="border-teal-500/20 bg-teal-500/5 backdrop-blur-sm">
               <CardContent className="p-6">
                 <Tabs defaultValue="pools">
-                  <TabsList className="mb-6 w-full justify-start">
+                  <TabsList className="mb-6 w-full justify-start overflow-x-auto">
                     <TabsTrigger value="pools">All Pools</TabsTrigger>
                     <TabsTrigger value="my-pools">My Pools</TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="pools">
-                    <div className="overflow-hidden rounded-lg border border-border">
+                    {/* Desktop View - Hidden on Mobile */}
+                    <div className="hidden md:block overflow-hidden rounded-lg border border-border">
                       <div className="grid grid-cols-6 border-b border-border bg-teal-500/10">
                         <div className="p-3 text-sm font-medium">Pool</div>
                         <div className="p-3 text-sm font-medium">APR</div>
@@ -702,7 +765,10 @@ export default function DexIntegration() {
                                 </Button>
                               </>
                             ) : (
-                              <Button size="sm" className="h-8">
+                              <Button 
+                                size="sm" 
+                                className="h-8 bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:opacity-90"
+                              >
                                 Add Liquidity
                               </Button>
                             )}
@@ -710,67 +776,210 @@ export default function DexIntegration() {
                         </div>
                       ))}
                     </div>
+
+                    {/* Mobile View - Card Layout for each pool */}
+                    <div className="md:hidden space-y-4">
+                      {liquidityPools.map((pool) => (
+                        <Card key={pool.id} className="overflow-hidden border-teal-500/10">
+                          <CardContent className="p-4">
+                            <div className="flex items-center justify-between mb-3">
+                              <div className="flex items-center gap-2">
+                                <div className="relative">
+                                  <img
+                                    src="/placeholder.svg?height=24&width=24"
+                                    alt={pool.token0}
+                                    className="h-6 w-6 rounded-full"
+                                  />
+                                  <img
+                                    src="/placeholder.svg?height=24&width=24"
+                                    alt={pool.token1}
+                                    className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full ring-2 ring-background"
+                                  />
+                                </div>
+                                <span className="font-medium">{pool.pair}</span>
+                              </div>
+                              <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10 text-teal-500">
+                                {pool.apr}% APR
+                              </Badge>
+                            </div>
+                            
+                            <div className="grid grid-cols-2 gap-2 mb-4 text-sm">
+                              <div>
+                                <p className="text-xs text-teal-500">Total Liquidity</p>
+                                <p>{pool.totalLiquidity}</p>
+                              </div>
+                              <div>
+                                <p className="text-xs text-teal-500">My Liquidity</p>
+                                <p>{pool.myLiquidity}</p>
+                              </div>
+                              <div>
+                                <p className="text-xs text-teal-500">My Share</p>
+                                <p>{pool.myShare}%</p>
+                              </div>
+                            </div>
+                            
+                            <div className="flex justify-end gap-2">
+                              {pool.myShare > 0 ? (
+                                <>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="h-8 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
+                                  >
+                                    Remove
+                                  </Button>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="h-8 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
+                                  >
+                                    Add
+                                  </Button>
+                                </>
+                              ) : (
+                                <Button 
+                                  size="sm" 
+                                  className="h-8 bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:opacity-90"
+                                >
+                                  Add Liquidity
+                                </Button>
+                              )}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
                   </TabsContent>
 
                   <TabsContent value="my-pools">
                     {isConnected ? (
-                      <div className="overflow-hidden rounded-lg border border-border">
-                        <div className="grid grid-cols-6 border-b border-border bg-teal-500/10">
-                          <div className="p-3 text-sm font-medium">Pool</div>
-                          <div className="p-3 text-sm font-medium">APR</div>
-                          <div className="p-3 text-sm font-medium">Total Liquidity</div>
-                          <div className="p-3 text-sm font-medium">My Liquidity</div>
-                          <div className="p-3 text-sm font-medium">My Share</div>
-                          <div className="p-3 text-sm font-medium text-right">Actions</div>
-                        </div>
-                        {liquidityPools
-                          .filter((pool) => pool.myShare > 0)
-                          .map((pool) => (
-                            <div key={pool.id} className="grid grid-cols-6 border-b border-border">
-                              <div className="p-3">
-                                <div className="flex items-center gap-2">
-                                  <div className="relative">
-                                    <img
-                                      src="/placeholder.svg?height=24&width=24"
-                                      alt={pool.token0}
-                                      className="h-6 w-6 rounded-full"
-                                    />
-                                    <img
-                                      src="/placeholder.svg?height=24&width=24"
-                                      alt={pool.token1}
-                                      className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full ring-2 ring-background"
-                                    />
+                      <>
+                        {/* Desktop View - Hidden on Mobile */}
+                        <div className="hidden md:block overflow-hidden rounded-lg border border-border">
+                          <div className="grid grid-cols-6 border-b border-border bg-teal-500/10">
+                            <div className="p-3 text-sm font-medium">Pool</div>
+                            <div className="p-3 text-sm font-medium">APR</div>
+                            <div className="p-3 text-sm font-medium">Total Liquidity</div>
+                            <div className="p-3 text-sm font-medium">My Liquidity</div>
+                            <div className="p-3 text-sm font-medium">My Share</div>
+                            <div className="p-3 text-sm font-medium text-right">Actions</div>
+                          </div>
+                          {liquidityPools
+                            .filter((pool) => pool.myShare > 0)
+                            .map((pool) => (
+                              <div key={pool.id} className="grid grid-cols-6 border-b border-border">
+                                <div className="p-3">
+                                  <div className="flex items-center gap-2">
+                                    <div className="relative">
+                                      <img
+                                        src="/placeholder.svg?height=24&width=24"
+                                        alt={pool.token0}
+                                        className="h-6 w-6 rounded-full"
+                                      />
+                                      <img
+                                        src="/placeholder.svg?height=24&width=24"
+                                        alt={pool.token1}
+                                        className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full ring-2 ring-background"
+                                      />
+                                    </div>
+                                    <span className="font-medium">{pool.pair}</span>
                                   </div>
-                                  <span className="font-medium">{pool.pair}</span>
+                                </div>
+                                <div className="flex items-center p-3">
+                                  <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10 text-teal-500">
+                                    {pool.apr}%
+                                  </Badge>
+                                </div>
+                                <div className="p-3">{pool.totalLiquidity}</div>
+                                <div className="p-3">{pool.myLiquidity}</div>
+                                <div className="p-3">{pool.myShare}%</div>
+                                <div className="flex items-center justify-end gap-2 p-3">
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="h-8 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
+                                  >
+                                    Remove
+                                  </Button>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="h-8 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
+                                  >
+                                    Add
+                                  </Button>
                                 </div>
                               </div>
-                              <div className="flex items-center p-3">
-                                <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10 text-teal-500">
-                                  {pool.apr}%
-                                </Badge>
-                              </div>
-                              <div className="p-3">{pool.totalLiquidity}</div>
-                              <div className="p-3">{pool.myLiquidity}</div>
-                              <div className="p-3">{pool.myShare}%</div>
-                              <div className="flex items-center justify-end gap-2 p-3">
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  className="h-8 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
-                                >
-                                  Remove
-                                </Button>
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  className="h-8 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
-                                >
-                                  Add
-                                </Button>
-                              </div>
-                            </div>
-                          ))}
-                      </div>
+                            ))}
+                        </div>
+
+                        {/* Mobile View - Card Layout for each pool */}
+                        <div className="md:hidden space-y-4">
+                          {liquidityPools
+                            .filter((pool) => pool.myShare > 0)
+                            .map((pool) => (
+                              <Card key={pool.id} className="overflow-hidden border-teal-500/10">
+                                <CardContent className="p-4">
+                                  <div className="flex items-center justify-between mb-3">
+                                    <div className="flex items-center gap-2">
+                                      <div className="relative">
+                                        <img
+                                          src="/placeholder.svg?height=24&width=24"
+                                          alt={pool.token0}
+                                          className="h-6 w-6 rounded-full"
+                                        />
+                                        <img
+                                          src="/placeholder.svg?height=24&width=24"
+                                          alt={pool.token1}
+                                          className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full ring-2 ring-background"
+                                        />
+                                      </div>
+                                      <span className="font-medium">{pool.pair}</span>
+                                    </div>
+                                    <Badge variant="outline" className="border-teal-500/50 bg-teal-500/10 text-teal-500">
+                                      {pool.apr}% APR
+                                    </Badge>
+                                  </div>
+                                  
+                                  <div className="grid grid-cols-2 gap-2 mb-4 text-sm">
+                                    <div>
+                                      <p className="text-xs text-teal-500">Total Liquidity</p>
+                                      <p>{pool.totalLiquidity}</p>
+                                    </div>
+                                    <div>
+                                      <p className="text-xs text-teal-500">My Liquidity</p>
+                                      <p>{pool.myLiquidity}</p>
+                                    </div>
+                                    <div>
+                                      <p className="text-xs text-teal-500">My Share</p>
+                                      <p>{pool.myShare}%</p>
+                                    </div>
+                                  </div>
+                                  
+                                  <div className="flex justify-end gap-2">
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      className="h-8 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
+                                    >
+                                      Remove
+                                    </Button>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      className="h-8 border-teal-500/20 bg-teal-500/5 hover:bg-teal-500/10"
+                                    >
+                                      Add
+                                    </Button>
+                                  </div>
+                                </CardContent>
+                              </Card>
+                            ))}
+                          {liquidityPools.filter(pool => pool.myShare > 0).length === 0 && (
+                            <p className="text-center text-muted-foreground py-4">You don't have any active liquidity positions.</p>
+                          )}
+                        </div>
+                      </>
                     ) : (
                       <div className="flex flex-col items-center justify-center py-8 text-center">
                         <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-teal-500/10">

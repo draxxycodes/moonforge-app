@@ -5,9 +5,10 @@ import { motion } from "framer-motion"
 interface PageHeaderProps {
   title: string
   subtitle: string
+  titleClassName?: string
 }
 
-export function PageHeader({ title, subtitle }: PageHeaderProps) {
+export function PageHeader({ title, subtitle, titleClassName = "" }: PageHeaderProps) {
   return (
     <div className="relative bg-background pt-0">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-500/20 via-cyan-500/10 to-background" />
@@ -16,7 +17,7 @@ export function PageHeader({ title, subtitle }: PageHeaderProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-4 text-4xl mokoto-font tracking-tight sm:text-5xl"
+          className={`mb-4 text-4xl mokoto-font tracking-tight sm:text-5xl ${titleClassName}`}
         >
           {title}
         </motion.h1>

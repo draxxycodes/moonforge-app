@@ -83,7 +83,7 @@ console.log(stats);`
     {
       question: "How do I earn $MOON tokens?",
       answer:
-        "You can earn $MOON tokens through the platform's reward system by participating in community activities, referring new users, or completing specific tasks. You can also purchase $MOON tokens through our DEX integration.",
+        "You can earn $MOON tokens through the platform's reward system by participating in community activities, referring new users, or completing specific tasks. You can also purchase $MOON tokens through our MOONDEX.",
     },
     {
       question: "What social media platforms are supported?",
@@ -234,7 +234,7 @@ console.log(stats);`
                           <p className="text-sm text-muted-foreground">
                             You'll need $MOON tokens to purchase promotion plans. You can acquire them through our{" "}
                             <Link to="/dex-integration" className="text-primary hover:underline">
-                              DEX integration
+                              MOONDEX
                             </Link>{" "}
                             or earn them through the platform's reward system.
                           </p>

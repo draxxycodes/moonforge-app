@@ -23,12 +23,24 @@ export function ScrollReveal({
   className = "",
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once, amount: threshold })
+  const isInView = useInView(ref, { once, amount: threshold, margin: "0px 0px -50px 0px" })
   const [hasBeenVisible, setHasBeenVisible] = useState(false)
   const [scrollingDirection, setScrollingDirection] = useState<"up" | "down">("down")
   const [shouldAnimate, setShouldAnimate] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   const { scrollY } = useScroll()
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Track scrolling direction
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -51,7 +63,8 @@ export function ScrollReveal({
 
   // Set initial and animate values based on direction
   const getInitialAndAnimate = () => {
-    const initialOffset = 50
+    // Reduce offset on mobile
+    const initialOffset = isMobile ? 30 : 50
 
     switch (direction) {
       case "up":
@@ -90,10 +103,12 @@ export function ScrollReveal({
         initial={initial}
         animate={animate}
         transition={{
-          duration,
-          delay,
+          duration: isMobile ? duration * 0.8 : duration,
+          delay: isMobile ? delay * 0.8 : delay,
           ease: [0.22, 1, 0.36, 1],
         }}
+        viewport={{ once, margin: "0px 0px -50px 0px" }}
+        whileInView={{ opacity: 1, y: 0, x: 0 }}
       >
         {children}
       </motion.div>

@@ -11,7 +11,7 @@ const navItems = [
   { name: "Marketplace", path: "/marketplace" },
   { name: "Dashboard", path: "/dashboard" },
   { name: "Rewards", path: "/rewards" },
-  { name: "DEX", path: "/dex-integration" },
+  { name: "MOONDEX", path: "/dex-integration" },
   { name: "Documentation", path: "/documentation" },
   { name: "Tokenomics", path: "/tokenomics" },
 ]
